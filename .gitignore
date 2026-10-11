@@ -1,0 +1,17 @@
+# Files listed here stay on this computer and are NOT uploaded to GitHub.
+
+# private: the resume shows a home address and phone number
+images/SantosKarl_Resume.pdf
+
+# backups and tool folders, not part of the website
+backup-*/
+.vs/
+.claude/
+.hallmark/
+
+# pictures the website does not use
+images/Portfolio.png
+images/Santos.jpg
+images/TSHardware.jpg
+images/tungkod.png
+images/Untitled design.jpg

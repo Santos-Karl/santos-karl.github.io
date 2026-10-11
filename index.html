@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0a0b0d">
+    <title>Karl D. Santos | Web Developer and IT Support</title>
+    <meta name="description" content="Portfolio of Karl D. Santos, a beginner web developer and IT support technician open to internships and junior roles.">
+    <!-- what apps like Messenger and LinkedIn show when you share the link -->
+    <link rel="canonical" href="https://santos-karl.github.io/">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://santos-karl.github.io/">
+    <meta property="og:title" content="Karl D. Santos | Web Developer and IT Support">
+    <meta property="og:description" content="Portfolio of Karl D. Santos, a beginner web developer and IT support technician open to internships and junior roles.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <a class="skip" href="#about">Skip to content</a>
+
+    <!-- LIVE NETWORK: the moving background of the top section (drawn by network.js).
+         The links below are the six named dots. Change a name or where it jumps to here. -->
+    <canvas class="net" id="net" aria-hidden="true"></canvas>
+    <div class="net-nodes" aria-hidden="true">
+        <a href="#about" tabindex="-1"><i></i>About</a>
+        <a href="#skills" tabindex="-1"><i></i>Skills</a>
+        <a href="#projects" tabindex="-1"><i></i>Projects</a>
+        <a href="#achievements" tabindex="-1"><i></i>Badges</a>
+        <a href="#services" tabindex="-1"><i></i>Services</a>
+        <a href="#contact" tabindex="-1"><i></i>Contact</a>
+    </div>
+
+    <header class="nav" id="nav">
+        <a href="#home" class="logo">Karl D. Santos</a>
+        <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><i></i><i></i></button>
+        <nav id="menu" aria-label="Main">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#education">Education</a>
+            <a href="#skills">Skills</a>
+            <a href="#services">Services</a>
+            <a href="#projects">Projects</a>
+            <a href="#journey">Journey</a>
+            <a href="#achievements">Badges</a>
+            <a href="#contact" class="nav-cta">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- HERO -->
+        <section class="hero" id="home" aria-label="Introduction">
+            <div class="hero-text">
+                <p class="status"><span class="dot" aria-hidden="true"></span>Open to internships and junior roles</p>
+                <h1>Karl D. Santos <span class="role">Web developer and IT support</span></h1>
+                <!-- typing line: change the words at "HERO TYPING" in script.js -->
+                <p class="headline"><span id="typed"></span><span class="caret" aria-hidden="true"></span></p>
+                <p class="lead">I build responsive websites and troubleshoot real computer problems. BSIT graduate with eight Cisco Networking Academy badges.</p>
+                <div class="actions">
+                    <a class="btn primary" href="#projects">View projects</a>
+                    <!-- the resume file is not on the public site: this button takes visitors to the contact form to ask for it -->
+                    <a class="btn ghost" href="#contact" data-request="resume">Request resume</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAPE: the white strip of words that keeps moving sideways.
+             Edit the words here. script.js repeats them so the strip never runs out.
+             To add another tape somewhere else, copy this whole <div class="tape"> block. -->
+        <div class="tape" aria-hidden="true">
+            <div class="tape-track">
+                <span>HTML</span><span>CSS</span><span>JavaScript</span><span>Networking</span><span>Troubleshooting</span><span>CCTV setup</span><span>PC building</span>
+            </div>
+        </div>
+
+        <!-- ABOUT -->
+        <section id="about">
+            <div class="head"><h2>About me</h2></div>
+            <div class="about">
+                <!-- Left side: your picture, then quick facts (edit the values) -->
+                <div class="facts">
+                    <!-- PHOTO: a square picture works best (images/Santoss.png). Its edges fade into the background. -->
+                    <figure class="photo"><img src="images/Santoss.png" alt="Portrait of Karl D. Santos" width="374" height="372"></figure>
+                    <h3>Quick facts</h3>
+                    <ul>
+                        <li><span>Role</span><b>Web Developer and IT Support</b></li>
+                        <li><span>Level</span><b>Beginner / early career</b></li>
+                        <li><span>Location</span><b>Mabalacat City, Philippines</b></li>
+                        <li><span>Focus</span><b>HTML, CSS, Java, troubleshooting</b></li>
+                        <li><span>Learning</span><b>JavaScript, networking</b></li>
+                        <li><span>Status</span><b>Open to internships and junior roles</b></li>
+                    </ul>
+                </div>
+                <div class="prose">
+                    <p><strong>Who I am.</strong> I’m Karl, a beginner web developer and IT support technician starting my career in tech.</p>
+                    <p><strong>Background.</strong> BSIT graduate from Mabalacat City College with hands-on experience in basic networking, technical support, and PC building. I have practical skills in troubleshooting hardware and software issues and continuously improve my technical knowledge through hands-on practice and learning new technologies.</p>
+                    <p><strong>Why I enjoy web development.</strong> I enjoy creating websites and turning ideas into functional and user-friendly designs. I like exploring new tools and improving my skills in web development.</p>
+                    <p><strong>Why I enjoy IT troubleshooting.</strong> I like troubleshooting hardware, software, and basic networking issues. Finding the cause of a problem and helping resolve it is rewarding and helps me better understand how technology works.</p>
+                    <p><strong>Currently learning.</strong> I’m improving my skills in HTML, CSS, Python, and Laravel while practicing troubleshooting and learning how Active Directory works to prepare for Help Desk and IT Support roles.</p>
+                    <p><strong>Looking for.</strong> An internship or junior role in web development or IT support where I can learn from experienced people.</p>
+                </div>
+            </div>
+            <aside class="mission" aria-label="Career goals">
+                <h3>My mission and career goals</h3>
+                <ul>
+                    <li>Grow into a confident web developer who builds fast, accessible sites.</li>
+                    <li>Build strong IT support skills in troubleshooting, networking and security cameras.</li>
+                    <li>Contribute to a team, learn from mentors, and keep improving every month.</li>
+                </ul>
+            </aside>
+        </section>
+
+        <!-- EDUCATION -->
+        <section id="education">
+            <div class="head"><h2>Education</h2></div>
+            <div class="timeline">
+                <article class="tl-item">
+                    <h3>Mabalacat City College</h3>
+                    <p class="sub">Bachelor of Science in Information Technology</p>
+                    <p class="tag">2022 - 2026</p>
+                    <p><strong>Relevant subjects:</strong> Programming, Networking, Computer Systems, Web Development, and Application Development.</p>
+                    <p><strong>Achievements:</strong> Multiple Cisco Networking Academy certificates covering networking, cybersecurity, and IT fundamentals.</p>
+                </article>
+                <article class="tl-item">
+                    <h3>Self-learning and technical practice</h3>
+                    <p class="sub">Web development, troubleshooting</p>
+                    <p class="tag">Ongoing</p>
+                    <!-- TODO: name the courses or platforms you use, for example "freeCodeCamp" or "Cisco NetAcad" -->
+                    <p>Learning through practice projects, hands-on troubleshooting and online tutorials.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- SKILLS: move a skill to a different level by cutting it from one line and pasting it into another -->
+        <section id="skills">
+            <div class="head">
+                <h2>Skills</h2>
+                <p class="note">Grouped by how confident I am with each skill today. These are self-assessed levels, not professional certifications.</p>
+            </div>
+            <div class="skill-groups">
+                <div class="group">
+                    <h3>Web development</h3>
+                    <dl>
+                        <div class="level"><dt>Comfortable</dt><dd>HTML, CSS, responsive web design</dd></div>
+                        <div class="level"><dt>Learning</dt><dd>JavaScript, Java, basic UI/UX</dd></div>
+                    </dl>
+                </div>
+                <div class="group">
+                    <h3>IT support</h3>
+                    <dl>
+                        <div class="level"><dt>Comfortable</dt><dd>Hardware troubleshooting, software troubleshooting, Windows installation, computer maintenance</dd></div>
+                        <div class="level"><dt>Basic</dt><dd>Basic networking, CCTV setup, basic system configuration</dd></div>
+                    </dl>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES -->
+        <section id="services">
+            <div class="head"><h2>What I can help with</h2></div>
+            <div class="services">
+                <div class="svc-group">
+                    <h3>Websites</h3>
+                    <dl>
+                        <div><dt>Website development</dt><dd>Clean, simple websites built with HTML, CSS and JavaScript.</dd></div>
+                        <div><dt>Responsive design</dt><dd>Layouts that look good on phones, tablets and desktops.</dd></div>
+                    </dl>
+                </div>
+                <div class="svc-group">
+                    <h3>Computers and networks</h3>
+                    <dl>
+                        <div><dt>Computer troubleshooting</dt><dd>Finding and fixing common hardware and software problems.</dd></div>
+                        <div><dt>Software installation</dt><dd>Installing Windows, drivers and everyday programs.</dd></div>
+                        <div><dt>Basic networking</dt><dd>Setting up and checking simple home or office connections.</dd></div>
+                        <div><dt>CCTV setup</dt><dd>Installing and configuring a basic camera system.</dd></div>
+                        <div><dt>PC maintenance</dt><dd>Cleaning, updating and keeping computers running smoothly.</dd></div>
+                    </dl>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTS: interactive book (pages are built by script.js from the list at the top of that file) -->
+        <section id="projects">
+            <div class="head">
+                <h2>Project portfolio book</h2>
+                <p class="note">Open the book and flip through my practice projects, or pick one from the list on the cover. Click any picture to enlarge it. Turn pages with the buttons, the page corners, the arrow keys, or a swipe on your phone.</p>
+            </div>
+            <div class="book" id="book" role="group" aria-roledescription="carousel" aria-label="Project portfolio book">
+                <div class="stack" id="stack"></div>
+                <div class="controls">
+                    <button class="btn ghost" id="prev" type="button">← Previous</button>
+                    <span class="pager" id="pager" aria-live="polite">1 / 7</span>
+                    <button class="btn primary" id="next" type="button">Next →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- JOURNEY -->
+        <section id="journey">
+            <div class="head">
+                <h2>Learning &amp; Experience</h2>
+                <p class="note">I’m at the start of my career, so this is my practice and self-learning, not paid employment.</p>
+            </div>
+            <div class="journey">
+                <article><h3>Personal website projects</h3><p>Building and redesigning my own portfolio and practice sites.</p></article>
+                <article><h3>Java programming exercises</h3><p>Small programs like a grade calculator and a student record system.</p></article>
+                <article><h3>Computer troubleshooting practice</h3><p>Diagnosing hardware and software problems and keeping notes on fixes.</p></article>
+                <article><h3>CCTV setup practice</h3><p>Installing and configuring a basic camera system.</p></article>
+                <article><h3>Networking practice</h3><p>Learning IP basics, cabling and simple network checks.</p></article>
+                <!-- TODO: name the courses or workshops you took -->
+                <article><h3>Self-learning and technical training</h3><p>Studying tutorials and documentation.</p></article>
+            </div>
+        </section>
+
+        <!-- CERTIFICATION BADGES
+             1. Save each badge image in the images folder (badge-1.png, badge-2.png ...)
+             2. Edit the title, issuer and year on each badge
+             3. Put your Credly / credential link in the "Verify badge" href (or delete that line)
+             4. Copy a whole <article> block to add more badges -->
+        <section id="achievements">
+            <div class="head">
+                <h2>Certifications &amp; badges</h2>
+                <p class="note">Digital badges and certificates I have earned. Drag the carousel or use the arrows to turn it, then click “Verify badge” to check one at the source.</p>
+            </div>
+            <div class="badges">
+                <article class="badge">
+                    <img src="images/badge-1.png" alt="CCNA: Switching, Routing, and Wireless Essentials badge" width="112" height="112" loading="lazy">
+                    <h3>CCNA: Switching, Routing, and Wireless Essentials</h3>
+                    <p>Cisco Networking Academy<br>2025</p>
+                    <a class="verify" href="https://www.credly.com/badges/8a40f7e9-6da2-4c41-b36a-98b29c96c67d/public_url" target="_blank" rel="noopener">Verify badge ↗</a>
+                </article>
+                <article class="badge">
+                    <img src="images/badge-2.png" alt="Network Support and Security badge" width="112" height="112" loading="lazy">
+                    <h3>Network Support and Security</h3>
+                    <p>Cisco Networking Academy<br>2025</p>
+                    <a class="verify" href="https://www.credly.com/badges/40513586-20ba-44ff-bb7a-6bcc3b6ccaed/public_url" target="_blank" rel="noopener">Verify badge ↗</a>
+                </article>
+                <article class="badge">
+                    <img src="images/badge-3.png" alt="Creating Compelling Reports badge" width="112" height="112" loading="lazy">
+                    <h3>Creating Compelling Reports</h3>
+                    <p>Cisco Networking Academy<br>2024</p>
+                    <a class="verify" href="https://www.credly.com/badges/74a637e9-62eb-4f68-ba79-5d851bd5bb29/public_url" target="_blank" rel="noopener">Verify badge ↗</a>
+                </article>
+                <article class="badge">
+                    <img src="images/badge-4.png" alt="Python Essentials 2 badge" width="112" height="112" loading="lazy">
+                    <h3>Python Essentials 2</h3>
+                    <p>Cisco Networking Academy<br>2024</p>
+                    <a class="verify" href="https://www.credly.com/badges/bed97379-5e56-4ffa-9a32-e7ffa36bfc2e/public_url" target="_blank" rel="noopener">Verify badge ↗</a>
+                </article>
+                <article class="badge">
+                    <img src="images/badge-5.png" alt="Cyber Threat Management badge" width="112" height="112" loading="lazy">
+                    <h3>Cyber Threat Management</h3>
+                    <p>Cisco Networking Academy<br>2024</p>
+                    <a class="verify" href="https://www.credly.com/badges/cba73bb2-dc5c-4b16-865c-9334e8d627e0/public_url" target="_blank" rel="noopener">Verify badge ↗</a>
+                </article>
+                <article class="badge">
+                    <img src="images/badge-6.png" alt="Computer Network badge" width="112" height="112" loading="lazy">
+                    <h3>Computer Network</h3>
+                    <p>Cisco Networking Academy<br>2025</p>
+                    <a class="verify" href="https://www.credly.com/badges/2f7bd76d-39b0-42e0-bc29-79c09b03eeb7/public_url" target="_blank" rel="noopener">Verify badge ↗</a>
+                </article>
+                <article class="badge">
+                    <img src="images/badge-7.png" alt="Endpoint Security badge" width="112" height="112" loading="lazy">
+                    <h3>Endpoint Security</h3>
+                    <p>Cisco Networking Academy<br>2025</p>
+                    <a class="verify" href="https://www.credly.com/badges/c43107a4-f65c-4d78-ab7f-12bdc1a52a34/public_url" target="_blank" rel="noopener">Verify badge ↗</a>
+                </article>
+                <article class="badge">
+                    <img src="images/badge-8.png" alt="IT Essentials badge" width="112" height="112" loading="lazy">
+                    <h3>IT Essentials</h3>
+                    <p>Cisco Networking Academy<br>2024</p>
+                    <a class="verify" href="https://www.credly.com/badges/da987ea9-e681-45a1-b69f-1ee7d77a12d1/public_url" target="_blank" rel="noopener">Verify badge ↗</a>
+                </article>
+            </div>
+        </section>
+
+        <!-- RESUME -->
+        <section id="resume">
+            <div class="head"><h2>Resume</h2></div>
+            <div class="resume">
+                <div>
+                    <h3>Professional summary</h3>
+                    <p>Beginner web developer and IT support technician with hands-on practice in HTML, CSS, Java, computer troubleshooting and basic CCTV setup. Eager to learn and contribute.</p>
+                    <h3>Career objective</h3>
+                    <p>To join a team as an intern or junior developer or technician, grow my skills, and deliver reliable work.</p>
+                    <a class="btn primary" href="#contact" data-request="resume">Request resume</a>
+                </div>
+                <div>
+                    <h3>Education</h3><p>Mabalacat City College, Bachelor of Science in Information Technology, 2022 - 2026</p>
+                    <h3>Skills</h3><p>HTML, CSS, Java, JavaScript (learning), hardware and software troubleshooting, Windows installation, basic networking, CCTV setup.</p>
+                    <h3>Projects</h3><p>Portfolio website, pfSense firewall installation and configuration, I-Tungkod smart assistive cane, operating system installation and setup, Laravel online shopping cart, PC troubleshooting log.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact">
+            <div class="head"><h2>Let’s connect</h2></div>
+            <div class="contact">
+                <div>
+                    <p class="prose-lead">I’m open to internships, junior roles and small freelance tasks. Message me and I’ll reply as soon as I can. Want my resume? Ask here and I’ll email it to you.</p>
+                    <ul class="links">
+                        <li><span>Email</span><a href="mailto:karldsantos2004@gmail.com">karldsantos2004@gmail.com</a></li>
+                        <li><span>GitHub</span><a href="https://github.com/Santos-Karl" target="_blank" rel="noopener">github.com/Santos-Karl</a></li>
+                        <li><span>Portfolio</span><a href="https://santos-karl.github.io/" target="_blank" rel="noopener">santos-karl.github.io</a></li>
+                        <!-- TODO: when you have a LinkedIn profile, put its address below and move the line out of this comment
+                        <li><span>LinkedIn</span><a href="https://www.linkedin.com/in/YOUR-PROFILE" target="_blank" rel="noopener">linkedin.com/in/YOUR-PROFILE</a></li>
+                        -->
+                        <li><span>Location</span><b>Mabalacat City, Philippines</b></li>
+                        <li><span>Availability</span><b>Open to internships and junior roles</b></li>
+                        <li><span>Looking for</span><b>Web development, IT support, helpdesk, technician roles</b></li>
+                    </ul>
+                </div>
+                <form id="form" novalidate>
+                    <label>Name<input name="name" id="f-name" autocomplete="name" required><small class="err"></small></label>
+                    <label>Email<input name="email" id="f-email" type="email" autocomplete="email" required><small class="err"></small></label>
+                    <label>Message<textarea name="msg" id="f-msg" rows="5" required></textarea><small class="err"></small></label>
+                    <button class="btn primary" type="submit">Send message</button>
+                    <p class="form-status" id="status" role="status" aria-live="polite"></p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="foot">
+            <p>© <span id="year"></span> Karl D. Santos. All rights reserved.</p>
+            <nav aria-label="Footer">
+                <a href="mailto:karldsantos2004@gmail.com">Email</a>
+                <a href="https://github.com/Santos-Karl" target="_blank" rel="noopener">GitHub</a>
+                <!-- TODO: add this once you have a LinkedIn profile
+                <a href="https://www.linkedin.com/in/YOUR-PROFILE" target="_blank" rel="noopener">LinkedIn</a>
+                -->
+                <a href="#home">Back to top</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="network.js"></script>
+</body>
+</html>

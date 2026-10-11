@@ -1,0 +1,1826 @@
+/* Hallmark · redesign (preserve) · genre: modern-minimal · macrostructure: Long Document · nav: N1b · footer: Ft2
+ * theme: custom monochrome (existing brand kept) · paper oklch(14.5% 0.004 260) · ink oklch(96% 0.003 260)
+ * fonts: Plus Jakarta Sans + JetBrains Mono · axes: dark / grotesk-sans / neutral
+ * pre-emit critique: P4 H4 E4 S4 R5 V4
+ * contrast: pass (40-41) · slop: pass (42-45) · honest: pass (46) · chrome: pass (47) · tokens: pass (48) · mobile: pass (34, 49-56)
+ */
+
+/* ===== TOKENS: change colours, fonts and spacing here, nowhere else ===== */
+:root {
+    color-scheme: dark;
+
+    /* one cool-tinted gray ramp, no accent colour. Green and red only mean "available" and "error". */
+    --color-paper: oklch(14.5% 0.004 260);
+    --color-paper-2: oklch(18.5% 0.005 260);
+    --color-paper-3: oklch(23% 0.006 260);
+    --color-paper-veil: oklch(14.5% 0.004 260 / .86);
+    --color-rule: oklch(27% 0.006 260);
+    --color-rule-strong: oklch(40% 0.006 260);
+    --color-field: oklch(52% 0.006 260);
+    --color-ink: oklch(96% 0.003 260);
+    --color-ink-2: oklch(74% 0.006 260);
+    --color-ink-3: oklch(62% 0.006 260);
+    --color-ink-press: oklch(86% 0.004 260);
+    --color-ok: oklch(77% 0.17 150);
+    --color-error: oklch(74% 0.16 18);
+    --color-scrim: oklch(8% 0.004 260 / .92);
+    --color-shade: oklch(6% 0.004 260 / .55);
+
+    --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+
+    --text-xs: .78rem;
+    --text-sm: .9rem;
+    --text-base: 1rem;
+    --text-md: 1.125rem;
+    --text-lg: 1.3rem;
+    --text-h2: clamp(1.7rem, 1.2rem + 2vw, 2.4rem);
+    --text-display: clamp(2.5rem, 1.4rem + 4.6vw, 4.5rem);
+
+    --space-2xs: .25rem;
+    --space-xs: .5rem;
+    --space-sm: .75rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4.5rem;
+    --space-4xl: 6rem;
+
+    /* shape rule: buttons and tags are pills, panels are 12px, inputs and images are 8px */
+    --radius-pill: 999px;
+    --radius-panel: 12px;
+    --radius-input: 8px;
+
+    --ease-out: cubic-bezier(.16, 1, .3, 1);
+    --ease-in-out: cubic-bezier(.6, .05, .25, 1);
+    --ease-reveal: cubic-bezier(.2, .7, .2, 1); /* scroll animations */
+    --ease-pop: cubic-bezier(.34, 1.56, .64, 1); /* small bounce on badges */
+    --dur-fast: 150ms;
+    --dur: 240ms;
+    --dur-page: 950ms; /* book page flip. script.js waits the same 950ms */
+
+    --z-nav: 50;
+    --z-overlay: 100;
+    --z-skip: 200;
+
+    --max: 1120px;
+    --gutter: clamp(20px, 5vw, 56px);
+    --nav-h: 72px;
+    --tap: 44px; /* shared height of buttons and form fields */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-padding-top: 84px;
+    overflow-x: clip;
+}
+
+body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font: 400 var(--text-base)/1.65 var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+h1, h2, h3 {
+    line-height: 1.15;
+    letter-spacing: -.02em;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+}
+
+h3 {
+    font-size: var(--text-md);
+    font-weight: 600;
+    letter-spacing: -.01em;
+}
+
+:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+}
+
+::selection {
+    background: var(--color-ink);
+    color: var(--color-paper);
+}
+
+.muted {
+    color: var(--color-ink-2);
+}
+
+.skip {
+    position: absolute;
+    left: -999px;
+    top: 8px;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-input);
+    z-index: var(--z-skip);
+}
+
+    .skip:focus {
+        left: 8px;
+    }
+
+/* navigation (phone layout first, desktop layout is in the media query at the bottom) */
+.nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: var(--z-nav);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: var(--nav-h);
+    padding: var(--space-sm) var(--gutter);
+    border-bottom: 1px solid transparent;
+    transition: background-color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
+}
+
+    .nav.scrolled {
+        background: var(--color-paper-veil);
+        backdrop-filter: blur(12px);
+        border-color: var(--color-rule);
+    }
+
+.logo {
+    position: relative;
+    z-index: 2;
+    font: 700 1.05rem var(--font-body);
+    letter-spacing: -.01em;
+}
+
+.burger {
+    position: relative;
+    z-index: 2;
+    background: none;
+    border: 0;
+    width: var(--tap);
+    height: var(--tap);
+    cursor: pointer;
+}
+
+    .burger:active {
+        opacity: .7;
+    }
+
+    /* the two bars of the menu icon */
+    .burger i {
+        position: absolute;
+        left: 11px;
+        right: 11px;
+        height: 2px;
+        background: var(--color-ink);
+        transition: transform var(--dur) var(--ease-out);
+    }
+
+        .burger i:first-child {
+            top: 17px;
+        }
+
+        .burger i:last-child {
+            top: 25px;
+        }
+
+    .burger[aria-expanded="true"] i:first-child {
+        transform: translateY(4px) rotate(45deg);
+    }
+
+    .burger[aria-expanded="true"] i:last-child {
+        transform: translateY(-4px) rotate(-45deg);
+    }
+
+#menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-lg);
+    background: var(--color-paper);
+    transform: translateY(-100%);
+    visibility: hidden;
+    transition: transform var(--dur) var(--ease-out), visibility 0s var(--dur);
+}
+
+    #menu.open {
+        transform: none;
+        visibility: visible;
+        transition: transform var(--dur) var(--ease-out), visibility 0s;
+    }
+
+    #menu a {
+        color: var(--color-ink-2);
+        font-size: 1.3rem;
+        white-space: nowrap;
+        transition: color var(--dur-fast) var(--ease-out);
+    }
+
+        #menu a:hover, #menu a.active {
+            color: var(--color-ink);
+        }
+
+        #menu a:active {
+            color: var(--color-ink-press);
+        }
+
+        #menu a:not(.nav-cta).active {
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 4px;
+        }
+
+    #menu .nav-cta {
+        color: var(--color-ink);
+        border: 1px solid var(--color-rule-strong);
+        padding: var(--space-xs) var(--space-md);
+        border-radius: var(--radius-pill);
+        transition: border-color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out);
+    }
+
+        #menu .nav-cta:hover, #menu .nav-cta.active {
+            border-color: var(--color-ink-3);
+            background: var(--color-paper-3);
+        }
+
+/* shared */
+section {
+    max-width: var(--max);
+    margin: auto;
+    padding: var(--space-4xl) var(--gutter) 0;
+}
+
+/* every section starts with a thin rule and its title */
+.head {
+    position: relative;
+    padding-top: var(--space-lg);
+    margin-bottom: var(--space-xl);
+}
+
+    .head::before {
+        content: "";
+        position: absolute;
+        inset: 0 0 auto 0;
+        height: 1px;
+        background: var(--color-rule);
+    }
+
+h2 {
+    font-size: var(--text-h2);
+    font-weight: 700;
+}
+
+.note {
+    color: var(--color-ink-2);
+    max-width: 62ch;
+    margin-top: var(--space-sm);
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--tap);
+    padding: 0 var(--space-lg);
+    border-radius: var(--radius-pill);
+    font: 600 var(--text-sm)/1 var(--font-body);
+    white-space: nowrap;
+    border: 1px solid var(--color-rule-strong);
+    background: transparent;
+    color: var(--color-ink);
+    cursor: pointer;
+    transition: background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+
+    .btn:hover {
+        background: var(--color-paper-3);
+        border-color: var(--color-ink-3);
+        transform: translateY(-2px);
+    }
+
+    .btn:active {
+        transform: translateY(1px);
+    }
+
+    .btn.primary {
+        background: var(--color-ink);
+        color: var(--color-paper);
+        border-color: var(--color-ink);
+    }
+
+        .btn.primary:hover {
+            background: var(--color-ink-press);
+            border-color: var(--color-ink-press);
+        }
+
+    .btn:disabled {
+        opacity: .4;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+/* hero */
+.hero {
+    display: grid;
+    gap: var(--space-2xl);
+    align-items: center;
+    padding-top: calc(var(--nav-h) + var(--space-2xl));
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--color-ink-2);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-lg);
+}
+
+.dot {
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-ok);
+}
+
+h1 {
+    font-size: var(--text-display);
+    font-weight: 800;
+    letter-spacing: -.04em;
+    line-height: 1.02;
+}
+
+    h1 .role {
+        display: block;
+        margin-top: var(--space-sm);
+        font-size: clamp(1.15rem, .95rem + .9vw, 1.5rem);
+        font-weight: 500;
+        letter-spacing: -.01em;
+        line-height: 1.3;
+    }
+
+/* typing line (the words are in script.js) */
+.headline {
+    min-height: 1.65em;
+    margin-top: var(--space-md);
+    font-size: var(--text-md);
+    font-weight: 500;
+}
+
+.caret {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--color-ink);
+    margin-left: var(--space-2xs);
+    vertical-align: -.12em;
+    animation: blink 1s steps(2) infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+.lead {
+    color: var(--color-ink-2);
+    font-size: var(--text-md);
+    max-width: 46ch;
+    margin: var(--space-sm) 0 var(--space-xl);
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+}
+
+/* LIVE NETWORK: moving lines and dots behind the top section (drawn by network.js) */
+.net {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(#000 78%, transparent);
+    mask-image: linear-gradient(#000 78%, transparent);
+}
+
+/* the six named dots are links that jump to a section. network.js moves them.
+   They only show on wide screens (see the desktop block near the bottom). */
+.net-nodes {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+    .net-nodes a {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
+        margin: calc(var(--space-lg) / -2) 0 0 calc(var(--space-lg) / -2);
+        color: var(--color-ink-2);
+        font: 500 var(--text-sm)/1 var(--font-body);
+        white-space: nowrap;
+        transition: color var(--dur-fast) var(--ease-out);
+    }
+
+        .net-nodes a:hover {
+            color: var(--color-ink);
+        }
+
+        /* near the right edge the name sits on the left of its dot */
+        .net-nodes a.flip {
+            flex-direction: row-reverse;
+            margin-left: calc(var(--space-lg) / 2);
+            translate: -100% 0;
+        }
+
+    /* the dot, with a ring that pulses outward */
+    .net-nodes i {
+        position: relative;
+        flex: none;
+        width: var(--space-lg);
+        height: var(--space-lg);
+    }
+
+        .net-nodes i::before {
+            content: "";
+            position: absolute;
+            inset: 7px;
+            border-radius: 50%;
+            background: var(--color-ink);
+            transition: transform var(--dur) var(--ease-pop);
+        }
+
+        .net-nodes i::after {
+            content: "";
+            position: absolute;
+            inset: 1px;
+            border: 1px solid var(--color-ink-2);
+            border-radius: 50%;
+            animation: ping 2.4s var(--ease-out) infinite;
+        }
+
+    .net-nodes a:hover i::before {
+        transform: scale(1.5);
+    }
+
+@keyframes ping {
+    from {
+        transform: scale(.5);
+        opacity: .8;
+    }
+
+    to {
+        transform: scale(1.3);
+        opacity: 0;
+    }
+}
+
+/* MOVING TAPE: a straight white strip of words that scrolls sideways (the words are in index.html).
+   It always runs from the left edge of the screen to the right edge, wherever it is placed. */
+.tape {
+    width: 100vw;
+    margin: var(--space-3xl) 0 0 calc(50% - 50vw);
+    padding: var(--space-sm) 0;
+    overflow: hidden;
+    background: var(--color-ink);
+    color: var(--color-paper);
+}
+
+/* a tape inside a section sits between the title and the content */
+section .tape {
+    margin-top: 0;
+    margin-bottom: var(--space-xl);
+}
+
+/* add the word "reverse" to a tape to make it run the other way */
+.tape.reverse .tape-track {
+    animation-direction: reverse;
+}
+
+.tape-track {
+    display: flex;
+    width: max-content;
+    font: 700 var(--text-md)/1 var(--font-body);
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    animation: tape 30s linear infinite;      /* script.js sets the real time so the speed stays the same on any screen */
+}
+
+    /* the star between two words */
+    .tape-track span::after {
+        content: "✶";
+        margin: 0 var(--space-lg);
+        font-weight: 400;
+    }
+
+/* hold the mouse over the tape to stop it */
+.tape:hover .tape-track {
+    animation-play-state: paused;
+}
+
+@keyframes tape {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* square photo above Quick facts that fades into the background (the #000 here is the mask, not a colour on screen) */
+.photo {
+    width: min(100%, 250px);
+    margin-bottom: var(--space-lg);
+    aspect-ratio: 1/1;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 24%, #000 76%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 22%, #000 72%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to right, transparent 0, #000 24%, #000 76%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 22%, #000 72%, transparent 100%);
+    mask-composite: intersect;
+}
+
+    .photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: contrast(1.05) saturate(.92);
+    }
+
+/* about */
+.about {
+    display: grid;
+    gap: var(--space-2xl);
+    align-items: start;
+}
+
+.facts h3 {
+    margin-bottom: var(--space-md);
+}
+
+.facts li, .links li {
+    display: grid;
+    gap: var(--space-2xs) var(--space-sm);
+    align-items: baseline;
+    padding: var(--space-sm) 0;
+    border-top: 1px solid var(--color-rule);
+}
+
+.facts span, .links span {
+    color: var(--color-ink-3);
+    font-size: var(--text-sm);
+}
+
+.facts b, .links b, .links a {
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+.prose p {
+    color: var(--color-ink-2);
+    margin-bottom: var(--space-md);
+    max-width: 62ch;
+}
+
+.prose strong {
+    color: var(--color-ink);
+    font-weight: 600;
+}
+
+.mission {
+    display: grid;
+    gap: var(--space-md) var(--space-2xl);
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-rule);
+}
+
+    .mission ul {
+        list-style: disc;
+        padding-left: 1.1em;
+    }
+
+    .mission li {
+        color: var(--color-ink-2);
+        max-width: 62ch;
+        margin-bottom: var(--space-2xs);
+    }
+
+        .mission li::marker {
+            color: var(--color-ink-3);
+        }
+
+/* education: the degree gets the wide column, self-learning sits beside it */
+.timeline {
+    display: grid;
+    gap: var(--space-xl);
+}
+
+    .tl-item + .tl-item {
+        border-top: 1px solid var(--color-rule);
+        padding-top: var(--space-xl);
+    }
+
+.tl-item .sub {
+    font-weight: 500;
+    margin-top: var(--space-2xs);
+}
+
+.tag {
+    font: 400 var(--text-sm) var(--font-mono);
+    color: var(--color-ink-3);
+    margin: var(--space-2xs) 0 var(--space-md);
+}
+
+.tl-item p:not(.tag):not(.sub) {
+    color: var(--color-ink-2);
+    max-width: 62ch;
+}
+
+    .tl-item p:not(.tag):not(.sub) + p {
+        margin-top: var(--space-xs);
+    }
+
+.tl-item strong {
+    color: var(--color-ink);
+    font-weight: 600;
+}
+
+/* skills: level label above, skills in large type below */
+.skill-groups {
+    display: grid;
+    gap: var(--space-2xl);
+}
+
+.group h3 {
+    margin-bottom: var(--space-lg);
+}
+
+.level + .level {
+    margin-top: var(--space-lg);
+}
+
+.level dt {
+    color: var(--color-ink-3);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-2xs);
+}
+
+.level dd {
+    font-size: var(--text-lg);
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -.01em;
+}
+
+/* services: group name, then one row per service */
+.svc-group {
+    display: grid;
+    gap: var(--space-md) var(--space-2xl);
+}
+
+    .svc-group + .svc-group {
+        margin-top: var(--space-xl);
+        padding-top: var(--space-xl);
+        border-top: 1px solid var(--color-rule);
+    }
+
+    .svc-group h3 {
+        color: var(--color-ink-3);
+        font-size: var(--text-sm);
+        font-weight: 500;
+        letter-spacing: 0;
+        line-height: 1.9;
+    }
+
+    .svc-group dl {
+        display: grid;
+        gap: var(--space-md);
+    }
+
+        .svc-group dl > div {
+            display: grid;
+            gap: var(--space-2xs) var(--space-xl);
+        }
+
+    .svc-group dt {
+        font-weight: 600;
+    }
+
+    .svc-group dd {
+        color: var(--color-ink-2);
+    }
+
+/* PROJECT BOOK
+   Phone: one page at a time (this block). Wide screen: an open book with two pages (desktop block near the bottom).
+   A .leaf is one sheet of paper: .front is its right-hand side, .back its left-hand side. */
+.book {
+    max-width: 960px;
+    margin: auto;
+}
+
+.stack {
+    display: grid;
+    perspective: 2400px;
+    position: relative;
+}
+
+/* --wait is set by script.js so that several pages turning at once follow each other.
+   The z-index change waits until the page is half way, so a turning page never slips under its neighbours. */
+.leaf {
+    grid-area: 1/1;
+    position: relative;
+    transform-origin: left center;
+    transform-style: preserve-3d;
+    transition: transform var(--dur-page) var(--ease-in-out) var(--wait, 0ms), z-index 0s calc(var(--wait, 0ms) + var(--dur-page) / 2), visibility 0s;
+}
+
+    .leaf.flipped {
+        transform: rotateY(-180deg);
+        visibility: hidden;
+        transition: transform var(--dur-page) var(--ease-in-out) var(--wait, 0ms), z-index 0s calc(var(--wait, 0ms) + var(--dur-page) / 2), visibility 0s calc(var(--wait, 0ms) + var(--dur-page));
+    }
+
+/* the spine side of a page keeps a tight 4px corner so it reads as a book */
+.front, .back {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border: 1px solid var(--color-rule);
+    border-radius: 4px var(--radius-panel) var(--radius-panel) 4px;
+}
+
+.front {
+    display: grid;
+    background: linear-gradient(90deg, var(--color-shade), transparent 5%), var(--color-paper-2);
+    height: 100%;
+    padding: var(--space-lg) var(--space-lg) var(--space-xl) var(--space-xl);
+    position: relative;
+}
+
+.back {
+    position: absolute;
+    inset: 0;
+    transform: rotateY(180deg);
+    background: linear-gradient(270deg, var(--color-shade), transparent 8%), var(--color-paper);
+}
+
+/* a page darkens toward the spine while it is turning */
+.leaf.flipping .front {
+    box-shadow: inset -40px 0 60px -40px var(--color-shade);
+}
+
+.leaf.flipping .back {
+    box-shadow: inset 40px 0 60px -40px var(--color-shade);
+}
+
+.page {
+    display: grid;
+    gap: var(--space-lg);
+    align-items: center;
+    align-content: center;
+}
+
+/* the place a project's picture is moved into. It takes no room while it is empty. */
+.slot:empty {
+    display: none;
+}
+
+/* page numbers, page edges and clickable corners only exist in the open book on wide screens */
+.folio, .edge, .corner {
+    display: none;
+}
+
+/* the list of projects on the cover: click one to jump straight to it */
+.contents {
+    display: grid;
+    gap: var(--space-2xs);
+    width: fit-content;
+    max-width: 100%;
+    margin: var(--space-lg) auto 0;
+    padding-left: 1.5em;
+    list-style: decimal;
+    text-align: left;
+    color: var(--color-ink-3);
+    font-size: var(--text-sm);
+}
+
+    .contents button {
+        padding: var(--space-2xs) 0;
+        border: 0;
+        background: none;
+        color: var(--color-ink-2);
+        font: 500 var(--text-sm)/1.4 var(--font-body);
+        text-align: left;
+        text-decoration: underline transparent;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 4px;
+        cursor: pointer;
+        transition: color var(--dur-fast) var(--ease-out), text-decoration-color var(--dur-fast) var(--ease-out);
+    }
+
+        .contents button:hover {
+            color: var(--color-ink);
+            text-decoration-color: var(--color-ink-3);
+        }
+
+        .contents button:active {
+            color: var(--color-ink-press);
+        }
+
+/* project picture: fills the whole frame, click it to see the full image */
+.shot {
+    aspect-ratio: 16/10;
+    border-radius: var(--radius-input);
+    overflow: hidden;
+    background: var(--color-paper);
+    border: 1px solid var(--color-rule);
+    cursor: zoom-in;
+    transition: border-color var(--dur-fast) var(--ease-out);
+}
+
+    .shot:hover {
+        border-color: var(--color-rule-strong);
+    }
+
+    .shot:active {
+        border-color: var(--color-ink-3);
+    }
+
+    .shot img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform .4s var(--ease-reveal);
+    }
+
+    .shot:hover img {
+        transform: scale(1.04);
+    }
+
+/* 3D MODEL VIEWER (I-Tungkod page): a switch, the model, and one button per part */
+.media {
+    min-width: 0;
+}
+
+.media-switch {
+    display: inline-flex;
+    gap: var(--space-2xs);
+    padding: var(--space-2xs);
+    margin-bottom: var(--space-sm);
+    border: 1px solid var(--color-rule-strong);
+    border-radius: var(--radius-pill);
+}
+
+.media-switch button, .viewer-parts button {
+    min-height: var(--space-xl);
+    padding: 0 var(--space-sm);
+    border: 1px solid transparent;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--color-ink-2);
+    font: 500 var(--text-xs)/1 var(--font-body);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+
+.viewer-parts button {
+    border-color: var(--color-rule-strong);
+}
+
+    .media-switch button:hover, .viewer-parts button:hover {
+        color: var(--color-ink);
+        background: var(--color-paper-3);
+    }
+
+    .media-switch button:active, .viewer-parts button:active, .viewer-tools button:active, .ring-controls button:active {
+        transform: translateY(1px);
+    }
+
+    .media-switch button[aria-pressed="true"], .viewer-parts button[aria-pressed="true"] {
+        background: var(--color-ink);
+        border-color: var(--color-ink);
+        color: var(--color-paper);
+    }
+
+.viewer {
+    position: relative;
+    aspect-ratio: 1/1;
+    border-radius: var(--radius-input);
+    overflow: hidden;
+    background: var(--color-paper);
+    border: 1px solid var(--color-rule);
+    cursor: grab;
+}
+
+    .viewer.drag {
+        cursor: grabbing;
+    }
+
+    /* pan-y: a finger moving up or down still scrolls the page, sideways turns the model */
+    .viewer canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+        touch-action: pan-y;
+    }
+
+.viewer-tools {
+    position: absolute;
+    top: var(--space-sm);
+    right: var(--space-sm);
+    display: flex;
+    gap: var(--space-2xs);
+}
+
+    /* small round buttons: zoom and reset on the 3D model, arrows under the badge carousel */
+    .viewer-tools button, .ring-controls button {
+        width: var(--space-xl);
+        height: var(--space-xl);
+        border: 1px solid var(--color-rule-strong);
+        border-radius: 50%;
+        background: var(--color-paper-2);
+        color: var(--color-ink);
+        font: 500 var(--text-base)/1 var(--font-body);
+        cursor: pointer;
+        transition: background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+    }
+
+        .viewer-tools button:hover, .ring-controls button:hover {
+            background: var(--color-paper-3);
+            border-color: var(--color-ink-3);
+        }
+
+/* name and description of the chosen part, on top of the model */
+.viewer-cap {
+    position: absolute;
+    left: var(--space-sm);
+    bottom: var(--space-sm);
+    max-width: calc(100% - var(--space-lg));
+    padding: var(--space-xs) var(--space-sm);
+    border: 1px solid var(--color-rule);
+    border-radius: var(--radius-input);
+    background: var(--color-paper-2);
+    font-size: var(--text-xs);
+    line-height: 1.5;
+    pointer-events: none;
+}
+
+    .viewer-cap b {
+        display: block;
+        font-size: var(--text-sm);
+        font-weight: 600;
+    }
+
+    .viewer-cap span {
+        color: var(--color-ink-2);
+    }
+
+.viewer-parts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-top: var(--space-sm);
+}
+
+/* the picture next to the 3D model is a wide diagram on white: show all of it, never cropped */
+.media .shot, .back .media .shot {
+    aspect-ratio: 16/9;
+}
+
+/* the switch shows either the model with its buttons, or the picture */
+.media[data-view="photo"] .viewer, .media[data-view="photo"] .viewer-parts, .media[data-view="model"] .shot {
+    display: none;
+}
+
+.page h3 {
+    font-size: clamp(1.3rem, 1rem + 1.4vw, 1.75rem);
+    font-weight: 700;
+    margin-bottom: var(--space-xs);
+}
+
+.page p {
+    color: var(--color-ink-2);
+}
+
+.page ul {
+    list-style: disc;
+    padding-left: 1.1em;
+    margin: var(--space-sm) 0 var(--space-2xs);
+}
+
+.page li {
+    color: var(--color-ink-2);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-2xs);
+}
+
+    .page li::marker {
+        color: var(--color-ink-3);
+    }
+
+.tags {
+    display: flex;
+    gap: var(--space-xs);
+    flex-wrap: wrap;
+    margin: var(--space-md) 0;
+}
+
+    .tags span {
+        font: 400 var(--text-xs) var(--font-mono);
+        color: var(--color-ink-2);
+        border: 1px solid var(--color-rule-strong);
+        padding: var(--space-2xs) var(--space-sm);
+        border-radius: var(--radius-pill);
+    }
+
+.cover {
+    grid-template-columns: 1fr;
+    place-items: center;
+    text-align: center;
+    min-height: 380px;
+}
+
+    .cover h3 {
+        font-size: clamp(1.7rem, 1.2rem + 2.4vw, 2.6rem);
+        margin: var(--space-2xs) 0 var(--space-sm);
+    }
+
+    .cover p {
+        max-width: 46ch;
+        margin-inline: auto;
+    }
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
+    flex-wrap: wrap;
+}
+
+.pager {
+    font: 400 var(--text-sm) var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-ink-2);
+    min-width: 64px;
+    text-align: center;
+}
+
+/* IMAGE LIGHTBOX (opens when a project image is clicked) */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-overlay);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(16px, 4vw, 48px);
+    background: var(--color-scrim);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--dur) var(--ease-out), visibility 0s var(--dur);
+    cursor: zoom-out;
+}
+
+    .lightbox.open {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity var(--dur) var(--ease-out), visibility 0s;
+    }
+
+    .lightbox figure {
+        margin: 0;
+        max-width: min(1100px, 100%);
+        max-height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-md);
+    }
+
+    .lightbox img {
+        max-width: 100%;
+        max-height: calc(100svh - 150px);
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        border-radius: var(--radius-input);
+        border: 1px solid var(--color-rule);
+        background: var(--color-paper-2);
+    }
+
+    .lightbox figcaption {
+        color: var(--color-ink-2);
+        font-size: var(--text-sm);
+        text-align: center;
+    }
+
+.lb-close {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    width: var(--tap);
+    height: var(--tap);
+    border-radius: 50%;
+    border: 1px solid var(--color-rule-strong);
+    background: var(--color-paper-2);
+    color: var(--color-ink);
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+
+    .lb-close:hover {
+        background: var(--color-paper-3);
+        border-color: var(--color-ink-3);
+    }
+
+    .lb-close:active {
+        transform: translateY(1px);
+    }
+
+/* journey: plain two-column list */
+.journey {
+    display: grid;
+    gap: var(--space-lg) var(--space-2xl);
+}
+
+    .journey article {
+        border-top: 1px solid var(--color-rule);
+        padding-top: var(--space-md);
+    }
+
+    .journey h3 {
+        margin-bottom: var(--space-2xs);
+    }
+
+    .journey p {
+        color: var(--color-ink-2);
+    }
+
+/* CERTIFICATION BADGES */
+.badges {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2xl) var(--space-lg);
+}
+
+/* line up the title, issuer and link of every badge in a row, even when one title is longer */
+@supports (grid-template-rows: subgrid) {
+    .badge {
+        display: grid;
+        grid-template-rows: subgrid;
+        grid-row: span 4;
+        row-gap: 0;
+    }
+}
+
+/* BADGE CAROUSEL: script.js adds "ring" to .badges and moves the badges around a circle.
+   Without JavaScript the badges stay in the grid above. */
+.badges.ring {
+    display: block;
+    position: relative;
+    height: 330px;
+    cursor: grab;
+    user-select: none;
+    touch-action: pan-y;      /* a finger moving up or down still scrolls the page, sideways spins the carousel */
+}
+
+    .badges.ring.drag {
+        cursor: grabbing;
+    }
+
+.ring .badge {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 210px;
+    margin-left: -105px;
+    text-align: center;
+}
+
+    /* only the badge in front shows its name, issuer and link (script.js sets --front from 0 to 1) */
+    .ring .badge h3, .ring .badge p, .ring .badge .verify {
+        opacity: var(--front, 1);
+    }
+
+    .ring .badge:not(.is-front) .verify {
+        pointer-events: none;
+    }
+
+.ring-controls {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+}
+
+.badge img {
+    width: 112px;
+    height: 112px;
+    object-fit: contain;
+    margin-bottom: var(--space-md);
+    transition: transform .4s var(--ease-pop);
+}
+
+.badge:hover img {
+    transform: scale(1.12) rotate(-4deg);
+}
+
+.badge h3 {
+    font-size: var(--text-base);
+    line-height: 1.3;
+}
+
+.badge p {
+    color: var(--color-ink-2);
+    font-size: var(--text-sm);
+    margin-top: var(--space-2xs);
+}
+
+.verify, .links a {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: var(--color-rule-strong);
+    text-underline-offset: 4px;
+    transition: text-decoration-color var(--dur-fast) var(--ease-out);
+}
+
+    .verify:hover, .links a:hover {
+        text-decoration-color: var(--color-ink);
+    }
+
+    .verify:active, .links a:active {
+        color: var(--color-ink-press);
+    }
+
+.verify {
+    display: inline-block;
+    margin-top: var(--space-xs);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* resume: the one raised panel on the page */
+.resume {
+    display: grid;
+    gap: var(--space-lg);
+    background: var(--color-paper-2);
+    border: 1px solid var(--color-rule);
+    border-radius: var(--radius-panel);
+    padding: var(--space-xl) var(--space-lg);
+}
+
+    .resume h3 {
+        color: var(--color-ink-3);
+        font-size: var(--text-sm);
+        font-weight: 500;
+        letter-spacing: 0;
+        margin-bottom: var(--space-2xs);
+    }
+
+    .resume p {
+        margin-bottom: var(--space-lg);
+        max-width: 56ch;
+    }
+
+    .resume div > p:last-child {
+        margin-bottom: 0;
+    }
+
+/* contact */
+.contact {
+    display: grid;
+    gap: var(--space-2xl);
+    align-items: start;
+}
+
+.prose-lead {
+    color: var(--color-ink-2);
+    max-width: 46ch;
+    margin-bottom: var(--space-lg);
+}
+
+.links li:last-child {
+    border-bottom: 1px solid var(--color-rule);
+}
+
+form {
+    display: grid;
+    gap: var(--space-md);
+}
+
+label {
+    display: grid;
+    gap: var(--space-xs);
+    font-weight: 500;
+    font-size: var(--text-sm);
+}
+
+input, textarea {
+    min-height: var(--tap);
+    background: var(--color-paper-2);
+    border: 1px solid var(--color-field);
+    border-radius: var(--radius-input);
+    padding: var(--space-xs) var(--space-md);
+    color: var(--color-ink);
+    font: 400 var(--text-base)/1.5 var(--font-body);
+    transition: border-color var(--dur-fast) var(--ease-out);
+}
+
+textarea {
+    resize: vertical;
+}
+
+    input:hover, textarea:hover {
+        border-color: var(--color-ink-2);
+    }
+
+    input:focus-visible, textarea:focus-visible {
+        outline-offset: 1px;
+        border-color: var(--color-ink);
+    }
+
+    input.bad, textarea.bad {
+        border-color: var(--color-error);
+    }
+
+.err {
+    color: var(--color-error);
+    font-size: .82rem;
+    min-height: 1.2em;
+    font-weight: 400;
+}
+
+form .btn {
+    justify-self: start;
+}
+
+.form-status {
+    min-height: 1.4em;
+    font-size: var(--text-sm);
+    color: var(--color-ink-2);
+}
+
+    .form-status.error {
+        color: var(--color-error);
+    }
+
+/* footer: one line */
+.footer {
+    max-width: var(--max);
+    margin: var(--space-4xl) auto 0;
+    padding: 0 var(--gutter) var(--space-xl);
+}
+
+.foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-sm) var(--space-lg);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-rule);
+    color: var(--color-ink-2);
+    font-size: var(--text-sm);
+}
+
+    .foot nav {
+        display: flex;
+        gap: var(--space-lg);
+    }
+
+    .foot a {
+        white-space: nowrap;
+        transition: color var(--dur-fast) var(--ease-out);
+    }
+
+        .foot a:hover {
+            color: var(--color-ink);
+        }
+
+        .foot a:active {
+            color: var(--color-ink-press);
+        }
+
+/* large phone: label and value sit side by side */
+@media (min-width: 30rem) {
+    .facts li, .links li {
+        grid-template-columns: 6.5rem minmax(0, 1fr);
+    }
+}
+
+/* tablet */
+@media (min-width: 40rem) {
+    .viewer {
+        aspect-ratio: 16/10;
+    }
+
+    .journey {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .badges {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .svc-group dl > div {
+        grid-template-columns: 14rem minmax(0, 1fr);
+    }
+}
+
+/* desktop */
+@media (min-width: 60rem) {
+    .burger {
+        display: none;
+    }
+
+    #menu {
+        position: static;
+        height: auto;
+        flex-direction: row;
+        gap: var(--space-lg);
+        background: none;
+        transform: none;
+        visibility: visible;
+        transition: none;
+    }
+
+        #menu a {
+            font-size: var(--text-sm);
+        }
+
+    .hero {
+        grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+        gap: var(--space-3xl);
+        padding-top: calc(var(--nav-h) + var(--space-3xl));
+    }
+
+    .net-nodes {
+        display: block;
+    }
+
+    .about, .mission {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+        column-gap: var(--space-3xl);
+    }
+
+    .timeline {
+        grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+        gap: var(--space-3xl);
+    }
+
+        .tl-item + .tl-item {
+            border-top: 0;
+            padding-top: 0;
+        }
+
+    .skill-groups {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-3xl);
+    }
+
+    .svc-group {
+        grid-template-columns: 12rem minmax(0, 1fr);
+    }
+
+    /* THE OPEN BOOK: .stack is the right-hand page, and turned pages come to rest on the left */
+    .book {
+        max-width: 1040px;
+    }
+
+    .stack {
+        width: 50%;
+        margin-left: 50%;
+        perspective-origin: left center;
+        transition: transform var(--dur-page) var(--ease-in-out);
+    }
+
+    /* while the book is closed the cover sits in the middle, then slides over as it opens */
+    .book.closed .stack {
+        transform: translateX(-50%);
+    }
+
+    .leaf.flipped {
+        visibility: visible;
+    }
+
+    /* pointing at a page corner lifts that page a little */
+    .leaf.peek {
+        transform: rotateY(-14deg);
+        transition-duration: .35s, 0s, 0s;
+        transition-delay: 0s;
+    }
+
+    .leaf.flipped.peek {
+        transform: rotateY(-166deg);
+    }
+
+    .front {
+        min-height: 560px;
+        padding: var(--space-2xl);
+    }
+
+    /* the left-hand page: holds the picture or the 3D model */
+    .back {
+        display: grid;
+        align-content: center;
+        padding: var(--space-2xl);
+        background: linear-gradient(270deg, var(--color-shade), transparent 8%), var(--color-paper-2);
+        border-radius: var(--radius-panel) 4px 4px var(--radius-panel);
+    }
+
+        .back .shot, .back .viewer {
+            aspect-ratio: 4/3;
+        }
+
+    .cover {
+        min-height: 0;
+    }
+
+    .folio {
+        display: block;
+        position: absolute;
+        bottom: var(--space-md);
+        font: 400 var(--text-xs) var(--font-mono);
+        color: var(--color-ink-3);
+    }
+
+    .front .folio {
+        right: var(--space-3xl);
+    }
+
+    .back .folio {
+        left: var(--space-3xl);
+    }
+
+    /* thin stripes at the outer sides: the pages still to come (right) and the pages already turned (left) */
+    .edge {
+        display: block;
+        position: absolute;
+        top: var(--space-xs);
+        bottom: var(--space-xs);
+        background: repeating-linear-gradient(90deg, var(--color-rule-strong) 0 1px, var(--color-paper-2) 1px 3px);
+        pointer-events: none;
+    }
+
+        .edge.right {
+            left: 100%;
+            width: calc(var(--right, 0) * 3px);
+            border-radius: 0 3px 3px 0;
+        }
+
+        .edge.left {
+            right: 200%;
+            width: calc(var(--left, 0) * 3px);
+            border-radius: 3px 0 0 3px;
+        }
+
+    /* folded page corners: click to turn the page */
+    .corner {
+        display: block;
+        position: absolute;
+        bottom: 0;
+        z-index: 20;
+        width: var(--space-2xl);
+        height: var(--space-2xl);
+        padding: 0;
+        border: 0;
+        cursor: pointer;
+        transition: transform var(--dur) var(--ease-out);
+    }
+
+        .corner[hidden] {
+            display: none;
+        }
+
+        .corner.next {
+            right: 0;
+            border-radius: 0 0 var(--radius-panel) 0;
+            background: linear-gradient(135deg, var(--color-paper-3) 0 50%, var(--color-paper) 50% 100%);
+            transform-origin: bottom right;
+        }
+
+        .corner.prev {
+            right: calc(200% - var(--space-2xl));
+            border-radius: 0 0 0 var(--radius-panel);
+            background: linear-gradient(225deg, var(--color-paper-3) 0 50%, var(--color-paper) 50% 100%);
+            transform-origin: bottom left;
+        }
+
+        .corner:hover {
+            transform: scale(1.25);
+        }
+
+    .badges {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .resume {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-3xl);
+        padding: var(--space-2xl);
+    }
+
+    .contact {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+        gap: var(--space-3xl);
+    }
+}
+
+/* hero entrance: each line rises in, one after another */
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    .hero-text > * {
+        opacity: 0;
+        transform: translateY(22px);
+        animation: rise .9s var(--ease-reveal) forwards;
+    }
+
+    .hero-text > :nth-child(2) {
+        animation-delay: .08s;
+    }
+
+    .hero-text > :nth-child(3) {
+        animation-delay: .16s;
+    }
+
+    .hero-text > :nth-child(4) {
+        animation-delay: .24s;
+    }
+
+    .hero-text > :nth-child(5) {
+        animation-delay: .32s;
+    }
+}
+
+@keyframes rise {
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ===== SECTION ANIMATIONS (a different one for each part, set by script.js) ===== */
+[data-anim] {
+    opacity: 0;
+    transition: opacity .9s var(--ease-reveal), transform .9s var(--ease-reveal);
+    transition-delay: var(--d, 0ms);
+}
+
+[data-anim="rise"] {
+    transform: translateY(26px);
+}
+
+[data-anim="slide-l"] {
+    transform: translateX(-44px);
+}
+
+[data-anim="slide-r"] {
+    transform: translateX(44px);
+}
+
+[data-anim="flip-x"] {
+    transform: perspective(900px) rotateX(-75deg) translateY(30px);
+    transform-origin: top center;
+}
+
+[data-anim="flip-y"] {
+    transform: perspective(900px) rotateY(-70deg);
+    transform-origin: left center;
+}
+
+[data-anim="pop"] {
+    transform: scale(.6) rotate(-6deg);
+    transition-timing-function: var(--ease-pop);
+}
+
+[data-anim="unfold"] {
+    transform: perspective(1200px) rotateX(-85deg);
+    transform-origin: top center;
+}
+
+[data-anim="open"] {
+    transform: perspective(1400px) rotateY(-18deg) scale(.92);
+    transform-origin: left center;
+}
+
+/* line: the element itself stays visible, only the rule above a section title draws in */
+[data-anim="line"] {
+    opacity: 1;
+}
+
+    [data-anim="line"]::before {
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 1.2s var(--ease-reveal);
+    }
+
+    [data-anim="line"].in::before {
+        transform: none;
+    }
+
+/* curtain and wipe: invisible at first, then a keyframe reveal plays once the element is on screen */
+[data-anim="curtain"], [data-anim="wipe"] {
+    transition: none;
+}
+
+/* end state (must stay after the rules above) */
+[data-anim].in {
+    opacity: 1;
+    transform: none;
+}
+
+[data-anim="curtain"].in {
+    animation: curtain 1.1s var(--d, 0ms) var(--ease-reveal) both;
+}
+
+[data-anim="wipe"].in {
+    animation: wipe 1s var(--d, 0ms) var(--ease-reveal) both;
+}
+
+@keyframes curtain {
+    from {
+        opacity: 1;
+        transform: scale(1.15);
+        clip-path: inset(0 100% 0 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+        clip-path: inset(-30px);
+    }
+}
+
+@keyframes wipe {
+    from {
+        opacity: 1;
+        clip-path: inset(0 100% 0 0);
+    }
+
+    to {
+        opacity: 1;
+        clip-path: inset(-30px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* solid nav for people who turn off transparency */
+@media (prefers-reduced-transparency: reduce) {
+    .nav.scrolled {
+        background: var(--color-paper);
+        backdrop-filter: none;
+    }
+}
