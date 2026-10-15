@@ -8,25 +8,32 @@
     if (!canvas || !hero) return;
     const g = canvas.getContext('2d');
     const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const wide = matchMedia('(min-width: 60rem)');      // the same width as the desktop block in style.css
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const token = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
     const COLOR = { line: token('--color-rule-strong'), node: token('--color-ink-3'), bright: token('--color-ink') };
 
     /* ---- EDIT HERE: where each named dot sits ----
-       First number: across the page (0 = left edge, 1 = right edge).
-       Second number: down the top section (0 = top, 1 = bottom).
-       Same order as the links in index.html. */
-    const SPOTS = [[.6, .3], [.83, .2], [.72, .52], [.92, .6], [.58, .8], [.82, .86]];
-    const SMALL_DOTS = 24;      // how many unnamed dots float around
+       First number: across the network (0 = its left end, 1 = its right end).
+       Second number: down the network (0 = top, 1 = bottom).
+       Same order as the links in index.html.
+       SPOTS is for computers, where the network sits to the right of your name.
+       PHONE_SPOTS is for phones and tablets, where it sits in a strip under the buttons. */
+    const SPOTS = [[.12, .3], [.7, .2], [.42, .52], [.92, .6], [.08, .8], [.68, .86]];
+    const PHONE_SPOTS = [[.04, .2], [.4, .1], [.7, .3], [.08, .8], [.4, .9], [.72, .72]];
+    const SMALL_DOTS = 24;      // how many unnamed dots float around (phones show half of them)
     const REACH = 110;          // how close the mouse must be (in pixels) for a dot to react
 
     const links = [...document.querySelectorAll('.net-nodes a')];
-    const nodes = links.map((el, i) => ({ el, x: SPOTS[i % SPOTS.length][0], y: SPOTS[i % SPOTS.length][1], p: Math.random() * 6 }));
-    nodes.forEach(n => n.el.classList.toggle('flip', n.x > .88));      // near the right edge the name goes on the left
-    for (let i = 0; i < SMALL_DOTS; i++) nodes.push({ x: Math.random(), y: Math.random(), p: Math.random() * 6 });
+    const nodes = links.map((el, i) => ({ el, spot: SPOTS[i % SPOTS.length], phone: PHONE_SPOTS[i % PHONE_SPOTS.length], p: Math.random() * 6 }));
+    for (let i = 0; i < SMALL_DOTS; i++) {
+        const spot = [Math.random(), Math.random()];
+        nodes.push({ spot, phone: i % 2 ? null : spot, p: Math.random() * 6 });
+    }
+    const heroText = hero.querySelector('.hero-text');
 
     let W = 0, H = 0, sizeKey = '', narrow = false, tick = 0, mouseX = -999, mouseY = -999;
-    let base = [], edges = [], packets = [];
+    let shown = [], base = [], edges = [], packets = [];
 
     // Work out where everything sits. Runs again whenever the page or the top section changes size.
     function layout() {
@@ -39,12 +46,30 @@
         canvas.height = H * dpr;
         canvas.style.height = H + 'px';
         g.setTransform(dpr, 0, 0, dpr, 0, 0);
-        narrow = W < 960;       // phones and tablets: the network spreads across the whole width, behind the text
+        narrow = !wide.matches;
 
-        const top = 96, tall = heroH - 40;
-        base = nodes.map(n => {
-            const across = n.el ? (narrow ? .08 + (n.x - .55) * 2.1 : n.x) : (narrow ? .04 + n.x * .92 : .5 + n.x * .48);
-            return [across * W, top + n.y * tall];
+        // the area the network fills
+        const style = getComputedStyle(hero), heroTop = hero.offsetTop;
+        let left, right, top, tall;
+        if (narrow) {
+            // phones and tablets: the empty strip style.css leaves under the buttons, so nothing runs behind the text
+            left = parseFloat(style.paddingLeft);
+            right = W - left;
+            top = heroTop + heroH - parseFloat(style.paddingBottom) + 28;
+            tall = heroTop + heroH + 40 - top;
+        } else {
+            // computers: from just after the text to the right edge of the page content, so both sides keep some air
+            const text = heroText.getBoundingClientRect(), box = hero.getBoundingClientRect();
+            left = text.right + scrollX + 40;
+            right = box.right + scrollX - parseFloat(style.paddingRight);
+            top = heroTop + 96;
+            tall = heroH - 40;
+        }
+        shown = nodes.filter(n => narrow ? n.phone : n.spot);
+        base = shown.map(n => {
+            const [x, y] = narrow ? n.phone : n.spot;
+            if (n.el) n.el.classList.toggle('flip', x > .85);      // near the right end the name goes on the left of its dot
+            return [left + x * (right - left), top + y * tall];
         });
         // join every dot to its two nearest neighbours
         edges = [];
@@ -63,13 +88,12 @@
         tick += 1;
         layout();
         g.clearRect(0, 0, W, H);
-        const fade = narrow ? .45 : 1;      // quieter behind text
         // every dot drifts a little around its spot
-        const P = base.map((b, i) => [b[0] + Math.sin(tick * .008 + nodes[i].p) * 6, b[1] + Math.cos(tick * .006 + nodes[i].p) * 6]);
+        const P = base.map((b, i) => [b[0] + Math.sin(tick * .008 + shown[i].p) * 6, b[1] + Math.cos(tick * .006 + shown[i].p) * 6]);
 
         g.lineWidth = 1;
         g.strokeStyle = COLOR.line;
-        g.globalAlpha = .7 * fade;
+        g.globalAlpha = .7;
         edges.forEach(e => line(P[e[0]], P[e[1]]));
 
         // packets: bright dots that travel along a line and disappear at the other end
@@ -77,7 +101,7 @@
             packets.push({ edge: edges[Math.floor(Math.random() * edges.length)], at: 0, forward: Math.random() < .5 });
         }
         g.fillStyle = COLOR.bright;
-        g.globalAlpha = fade;
+        g.globalAlpha = 1;
         packets = packets.filter(p => {
             p.at += .011;
             if (p.at >= 1) return false;
@@ -90,15 +114,15 @@
             const near = Math.hypot(p[0] - mouseX, p[1] - mouseY) < REACH;
             if (near) {
                 g.strokeStyle = COLOR.bright;
-                g.globalAlpha = .45 * fade;
+                g.globalAlpha = .45;
                 line(p, [mouseX, mouseY]);
             }
-            if (nodes[i].el && !narrow) {
+            if (shown[i].el) {
                 // a named dot: move its link to this spot (the dot and its name are drawn by style.css)
-                nodes[i].el.style.transform = `translate(${p[0].toFixed(1)}px, ${p[1].toFixed(1)}px)`;
+                shown[i].el.style.transform = `translate(${p[0].toFixed(1)}px, ${p[1].toFixed(1)}px)`;
             } else {
                 g.fillStyle = near ? COLOR.bright : COLOR.node;
-                g.globalAlpha = fade;
+                g.globalAlpha = 1;
                 dot(p[0], p[1], near ? 3.6 : 2.2);
             }
         });

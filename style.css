@@ -68,6 +68,7 @@
     --gutter: clamp(20px, 5vw, 56px);
     --nav-h: 72px;
     --tap: 44px; /* shared height of buttons and form fields */
+    --hero-shift: 0px; /* how far your name sits in from the page edge (set in the desktop block) */
 }
 
 * {
@@ -347,11 +348,14 @@ h2 {
     }
 
 /* hero */
+/* phones and tablets: the empty space at the bottom is where network.js draws the network,
+   so it never runs behind your name */
 .hero {
     display: grid;
     gap: var(--space-2xl);
     align-items: center;
     padding-top: calc(var(--nav-h) + var(--space-2xl));
+    padding-bottom: 11rem;
 }
 
 .status {
@@ -433,14 +437,12 @@ h1 {
     width: 100%;
     z-index: -1;
     pointer-events: none;
-    -webkit-mask-image: linear-gradient(#000 78%, transparent);
-    mask-image: linear-gradient(#000 78%, transparent);
+    -webkit-mask-image: linear-gradient(#000 calc(100% - 70px), transparent);
+    mask-image: linear-gradient(#000 calc(100% - 70px), transparent);
 }
 
-/* the six named dots are links that jump to a section. network.js moves them.
-   They only show on wide screens (see the desktop block near the bottom). */
+/* the six named dots are links that jump to a section. network.js moves them. */
 .net-nodes {
-    display: none;
     position: absolute;
     top: 0;
     left: 0;
@@ -530,12 +532,12 @@ h1 {
     color: var(--color-ink-3);
 }
 
-/* the prompt lines up with the page text and covers the names as they slide under it */
+/* the prompt lines up with your name and covers the names as they slide under it */
 .tape-prompt {
     position: relative;
     z-index: 1;
     flex: none;
-    padding: 0 var(--space-md) 0 max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
+    padding: 0 var(--space-md) 0 calc(max(var(--gutter), (100vw - var(--max)) / 2 + var(--gutter)) + var(--hero-shift));
     color: var(--color-ink);
     background: var(--color-paper);
     box-shadow: var(--space-md) 0 var(--space-md) var(--color-paper);
@@ -1533,14 +1535,26 @@ form .btn {
             font-size: var(--text-sm);
         }
 
+    /* your name sits a little in from the left (up to 4.5rem on wide screens) and network.js keeps
+       the network inside the page width, so both sides of the top section have some open space */
+    :root {
+        --hero-shift: clamp(0px, 8vw - 4.5rem, 4.5rem);
+    }
+
     .hero {
         grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
         gap: var(--space-3xl);
         padding-top: calc(var(--nav-h) + var(--space-3xl));
+        padding-bottom: 0;
     }
 
-    .net-nodes {
-        display: block;
+    .hero-text {
+        margin-left: var(--hero-shift);
+    }
+
+    .net {
+        -webkit-mask-image: linear-gradient(#000 78%, transparent);
+        mask-image: linear-gradient(#000 78%, transparent);
     }
 
     .about, .mission {
