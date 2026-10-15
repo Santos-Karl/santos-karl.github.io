@@ -49,6 +49,8 @@ const PROJECTS = [
 const $ = (s, p = document) => p.querySelector(s);
 const $$ = (s, p = document) => [...p.querySelectorAll(s)];
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+// the "?v=..." this file was loaded with (set in index.html), reused for files loaded later such as cane3d.js
+const VERSION = new URL(document.currentScript.src).search;
 
 // Footer year
 $('#year').textContent = new Date().getFullYear();
@@ -173,7 +175,7 @@ function syncCane() {
     const open = cur === modelAt && modelBox.dataset.view === 'model';
     if (open && !cane && !caneLoading) {
         caneLoading = true;
-        loadScript(THREE_URL).then(() => loadScript('cane3d.js')).then(() => {
+        loadScript(THREE_URL).then(() => loadScript('cane3d.js' + VERSION)).then(() => {
             cane = createCaneViewer($('.viewer', modelBox), $('.viewer-cap', modelBox), $('.viewer-parts', modelBox));
             syncCane();
         }).catch(() => {
