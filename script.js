@@ -5,6 +5,7 @@ const CONTACT_EMAIL = 'karldsantos2004@gmail.com';
 
 // The project book. Each item becomes one page after the cover.
 // Change the text, tags and link. While the link is "#" the "View project" button stays hidden.
+// "linkText" (optional) changes the words on that button.
 const PROJECTS = [
     {
         title: 'My Portfolio Website', img: 'images/portfolio-site.jpg', link: 'https://github.com/Santos-Karl/santos-karl.github.io',
@@ -32,10 +33,22 @@ const PROJECTS = [
         details: ['Operating system installation and setup', 'Bootable USB creation and disk partitioning', 'Driver installation and basic system troubleshooting']
     },
     {
-        title: 'Laravel Online Shopping Cart', img: 'images/cart.png', link: '#',
-        desc: 'Laravel-based e-commerce website that allows users to browse products, add items to their shopping cart, place orders, and process payments.',
-        tags: ['Laravel', 'PHP', 'MySQL',],
-        details: ['Product listing, shopping cart, and checkout functionality', 'Order management and payment integration']
+        title: 'Velora Online Store', img: 'images/velora-shop.jpg', link: '#',
+        desc: 'A fashion and gadgets online store built with Laravel. It is a demo: the products, orders and payments are fake, and no real money is taken.',
+        tags: ['Laravel', 'PHP', 'Tailwind CSS', 'SQLite'],
+        details: ['Product search and filters, bag, wishlist and discount codes', 'Checkout with test cards, order tracking, cancellations and returns', 'Staff back office for products, stock, orders and reports, with a role for each kind of staff']
+    },
+    {
+        title: 'Rooftop Fitness Gym Website', img: 'images/rooftop-gym.jpg', link: 'https://rooftop-gym-demo.vercel.app', linkText: 'Open live demo',
+        desc: 'A website and check-in system for a gym in Dau, built with a friend. Members check in at the door with a QR code, and staff run the front desk from their own screens.',
+        tags: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
+        details: ['My part: the staff and owner screens (front desk, members, reports, settings and staff sign-in)', 'Team project: we worked in branches and pull requests on GitHub', 'Live demo with sample data, hosted on Vercel']
+    },
+    {
+        title: 'TechSupport Lab', img: 'images/techsupport-lab.jpg', link: '#',
+        desc: 'A practice desk for entry-level IT support, still in progress. You work tickets, take calls from a practice caller, manage user accounts and build a PC, all in the browser.',
+        tags: ['Next.js', 'React', 'TypeScript', 'Prisma'],
+        details: ['Ticket queue and practice phone calls with feedback on each answer', 'User directory for unlocking accounts and resetting access', 'Drag-and-drop PC build, step-by-step guides and PowerShell scripts']
     },
     {
         title: 'PC Troubleshooting Log', img: 'images/TShardwareissue.jpg', link: '#',
@@ -113,7 +126,7 @@ const textPage = p => `
       <p>${p.desc}</p>
       <ul>${p.details.map(d => `<li>${d}</li>`).join('')}</ul>
       <div class="tags">${p.tags.map(t => `<span>${t}</span>`).join('')}</div>
-      ${p.link && p.link !== '#' ? `<a class="btn ghost" href="${p.link}" target="_blank" rel="noopener">View project</a>` : ''}
+      ${p.link && p.link !== '#' ? `<a class="btn ghost" href="${p.link}" target="_blank" rel="noopener">${p.linkText || 'View project'}</a>` : ''}
     </div>
   </article>`;
 
