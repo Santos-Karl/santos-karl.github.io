@@ -3,58 +3,70 @@
 // Email used when someone sends the contact form.
 const CONTACT_EMAIL = 'karldsantos2004@gmail.com';
 
-// The project book. Each item becomes one page after the cover.
-// Change the text, tags and link. While the link is "#" the "View project" button stays hidden.
-// "linkText" (optional) changes the words on that button.
+// The project book. Each project is one chapter: its picture on the left page, its text on the right.
+// type: "web", "it" or "hardware". It sets the chapter name, the index tab and the picture frame
+//   (websites sit in a browser window, the rest look like a printed photo). Keep each kind together.
+// status (optional): a small label next to the chapter name, such as "Live" or "In progress".
+// url (websites): the address shown in the browser bar above the picture.
+// caption: the line under the picture.
+// While the link is "#" the "View project" button stays hidden. "linkText" (optional) changes its words.
 const PROJECTS = [
     {
-        title: 'My Portfolio Website', img: 'images/portfolio-site.jpg', link: 'https://github.com/Santos-Karl/santos-karl.github.io',
+        title: 'My Portfolio Website', type: 'web', status: 'Live', url: 'santos-karl.github.io', caption: 'The site you are on now',
+        img: 'images/portfolio-site.jpg', link: 'https://github.com/Santos-Karl/santos-karl.github.io',
         desc: 'The website you are looking at, built from scratch as my main showcase.',
         tags: ['HTML', 'CSS', 'JavaScript'],
         details: ['Responsive layout for phone, tablet and desktop', 'Interactive project book and animations']
     },
     {
-        title: 'pfSense Firewall Installation & Configuration', img: 'images/Firewall.jpg', link: '#',
-        desc: 'Installed and configured pfSense to manage network traffic, restrict access to selected websites, and control bandwidth usage.',
-        tags: ['pfSense'],
-        details: ['Firewall installation and basic configuration', 'Network interface setup and firewall rules', 'Website blocking and traffic control']
-    },
-    {
-        title: 'I-Tungkod Smart Assistive Cane', img: 'images/tungkod-parts.jpg', link: '#',
-        model: true,   // this page shows the interactive 3D model from cane3d.js, with the picture one click away
-        desc: 'A smart assistive cane designed to support safer navigation for visually impaired individuals using sensors, AI camera technology, GPS tracking, and emergency communication.',
-        tags: ['ESP32', 'Ultrasonic Sensor', 'Water Sensor', 'HuskyLens', 'GPS', 'GSM'],
-        details: ['Ultrasonic and water sensors for obstacle and water detection', 'HuskyLens AI camera for object recognition', 'GPS and GSM modules for location tracking and emergency alerts']
-    },
-    {
-        title: 'Operating System Installation & Setup', img: 'images/OSins.jpg', link: '#',
-        desc: 'Installed and configured operating systems on computers, including preparing bootable USB drives and setting up essential system configurations.',
-        tags: ['Windows OS', 'USB', 'PC Hardware'],
-        details: ['Operating system installation and setup', 'Bootable USB creation and disk partitioning', 'Driver installation and basic system troubleshooting']
-    },
-    {
-        title: 'Velora Online Store', img: 'images/velora-shop.jpg', link: '#',
+        title: 'Velora Online Store', type: 'web', status: 'Demo', url: 'localhost:8000', caption: 'Velora home page',
+        img: 'images/velora-shop.jpg', link: '#',
         desc: 'A fashion and gadgets online store built with Laravel. It is a demo: the products, orders and payments are fake, and no real money is taken.',
         tags: ['Laravel', 'PHP', 'Tailwind CSS', 'SQLite'],
         details: ['Product search and filters, bag, wishlist and discount codes', 'Checkout with test cards, order tracking, cancellations and returns', 'Staff back office for products, stock, orders and reports, with a role for each kind of staff']
     },
     {
-        title: 'Rooftop Fitness Gym Website', img: 'images/rooftop-gym.jpg', link: 'https://rooftop-gym-demo.vercel.app', linkText: 'Open live demo',
+        title: 'Rooftop Fitness Gym Website', type: 'web', status: 'Team project', url: 'rooftop-gym-demo.vercel.app', caption: 'Rooftop home page',
+        img: 'images/rooftop-gym.jpg', link: 'https://rooftop-gym-demo.vercel.app', linkText: 'Open live demo',
         desc: 'A website and check-in system for a gym in Dau, built with a friend. Members check in at the door with a QR code, and staff run the front desk from their own screens.',
         tags: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
         details: ['My part: the staff and owner screens (front desk, members, reports, settings and staff sign-in)', 'Team project: we worked in branches and pull requests on GitHub', 'Live demo with sample data, hosted on Vercel']
     },
     {
-        title: 'TechSupport Lab', img: 'images/techsupport-lab.jpg', link: '#',
-        desc: 'A practice desk for entry-level IT support, still in progress. You work tickets, take calls from a practice caller, manage user accounts and build a PC, all in the browser.',
+        title: 'TechSupport Lab', type: 'web', status: 'In progress', url: 'localhost:3000', caption: 'The help desk start page',
+        img: 'images/techsupport-lab.jpg', link: '#',
+        desc: 'A practice desk for entry-level IT support. You work tickets, take calls from a practice caller, manage user accounts and build a PC, all in the browser.',
         tags: ['Next.js', 'React', 'TypeScript', 'Prisma'],
         details: ['Ticket queue and practice phone calls with feedback on each answer', 'User directory for unlocking accounts and resetting access', 'Drag-and-drop PC build, step-by-step guides and PowerShell scripts']
     },
     {
-        title: 'PC Troubleshooting Log', img: 'images/TShardwareissue.jpg', link: '#',
+        title: 'pfSense Firewall Installation & Configuration', type: 'it', caption: 'pfSense firewall setup',
+        img: 'images/Firewall.jpg', link: '#',
+        desc: 'Installed and configured pfSense to manage network traffic, restrict access to selected websites, and control bandwidth usage.',
+        tags: ['pfSense'],
+        details: ['Firewall installation and basic configuration', 'Network interface setup and firewall rules', 'Website blocking and traffic control']
+    },
+    {
+        title: 'Operating System Installation & Setup', type: 'it', caption: 'Operating system installation',
+        img: 'images/OSins.jpg', link: '#',
+        desc: 'Installed and configured operating systems on computers, including preparing bootable USB drives and setting up essential system configurations.',
+        tags: ['Windows OS', 'USB', 'PC Hardware'],
+        details: ['Operating system installation and setup', 'Bootable USB creation and disk partitioning', 'Driver installation and basic system troubleshooting']
+    },
+    {
+        title: 'PC Troubleshooting Log', type: 'it', caption: 'Finding a hardware fault',
+        img: 'images/TShardwareissue.jpg', link: '#',
         desc: 'Notes on hardware and software problems I diagnosed and fixed.',
         tags: ['Hardware', 'Software', 'Documentation'],
         details: ['Symptoms, cause and fix for each problem', 'Practice writing clear technical notes']
+    },
+    {
+        title: 'I-Tungkod Smart Assistive Cane', type: 'hardware', caption: 'I-Tungkod parts',
+        img: 'images/tungkod-parts.jpg', link: '#',
+        model: true,   // this page shows the interactive 3D model from cane3d.js, with the picture one click away
+        desc: 'A smart assistive cane designed to support safer navigation for visually impaired individuals using sensors, AI camera technology, GPS tracking, and emergency communication.',
+        tags: ['ESP32', 'Ultrasonic Sensor', 'Water Sensor', 'HuskyLens', 'GPS', 'GSM'],
+        details: ['Ultrasonic and water sensors for obstacle and water detection', 'HuskyLens AI camera for object recognition', 'GPS and GSM modules for location tracking and emergency alerts']
     }
 ];
 
@@ -85,20 +97,59 @@ function guardImages(root = document) {
 // On a wide screen the book lies open: the picture is on the left page, the text on the right page,
 // and turned pages stay on the left. On a phone it shows one page at a time.
 // A "leaf" is one sheet of paper. Leaf 0 is the cover. Leaf 1, 2, 3 ... carry the text of a project
-// on their front, and the picture of the NEXT project on their back.
+// on their front, and the picture of the NEXT project on their back. The last leaf is the back cover,
+// and the page facing it ("About the author") is the back of the last project's leaf.
 const book = $('#book'), stack = $('#stack');
-const total = PROJECTS.length + 1;      // the cover plus one leaf per project
+const total = PROJECTS.length + 2;      // the cover, one leaf per project, and the back cover
 const wide = matchMedia('(min-width: 60rem)');
+const KINDS = { web: 'Web development', it: 'IT support', hardware: 'Hardware' };   // chapter names and index tabs
+const DID = { web: 'What I built', it: 'What I did', hardware: 'What I built' };    // the heading above the list
+const two = n => String(n).padStart(2, '0');
+// a small network drawing for the covers, like the one at the top of the site. A dot travels along it.
+const coverArt = `
+      <svg class="cover-art" viewBox="0 0 160 48" aria-hidden="true">
+        <path d="M14 36 52 12 92 30 132 10M92 30 116 42"/>
+        <circle cx="14" cy="36" r="3"/><circle cx="52" cy="12" r="3"/><circle cx="92" cy="30" r="4.5"/><circle cx="132" cy="10" r="3"/><circle cx="116" cy="42" r="3"/>
+        ${reduceMotion ? '' : '<circle class="packet" r="2"><animateMotion dur="3.2s" repeatCount="indefinite" path="M14 36 52 12 92 30 132 10"/></circle>'}
+      </svg>`;
+// the cover: the contents list shows the page each project starts on. Click a line to go there.
 const coverPage = `
   <div class="page cover">
     <div>
-      <p>Karl D. Santos</p>
+      <p class="cover-name">Karl D. Santos</p>
+      ${coverArt}
       <h3>Project portfolio</h3>
-      <p>A collection of my practice projects in web development and IT support. Every project here is part of my learning journey.</p>
-      <ol class="contents">${PROJECTS.map((p, i) => `<li><button type="button" data-go="${i + 1}">${p.title}</button></li>`).join('')}</ol>
+      <p class="cover-count">${PROJECTS.length} projects in web development and IT support</p>
+      <ol class="contents">${PROJECTS.map((p, i) => `<li><button type="button" data-go="${i + 1}"><span>${p.title}</span><i></i><b>${(i + 1) * 2}</b></button></li>`).join('')}</ol>
+    </div>
+  </div>`;
+const backCover = `
+  <div class="page cover">
+    <div>
+      <p class="cover-name">Karl D. Santos</p>
+      ${coverArt}
+      <h3>Thanks for reading</h3>
+      <p>More projects are on the way. If one of these caught your eye, I'd like to hear from you.</p>
+      <div class="end-actions">
+        <a class="btn primary" href="#contact">Get in touch</a>
+        <button class="btn ghost" type="button" data-go="0">Back to the cover</button>
+      </div>
+    </div>
+  </div>`;
+const authorPage = `
+  <div class="page author">
+    <div>
+      <img src="images/Santoss.png" alt="" width="374" height="372" loading="lazy">
+      <p class="chapter">About the author</p>
+      <h3>Karl D. Santos</h3>
+      <p>BSIT graduate from Mabalacat City College. I build responsive websites and troubleshoot real computer problems.</p>
     </div>
   </div>`;
 const shot = p => `<div class="shot" tabindex="0" role="button" aria-label="Expand image of ${p.title}"><img src="${p.img}" alt="${p.title}" loading="lazy"></div>`;
+// the picture in its frame: a browser window for websites, a taped photo for the rest, and a caption below
+const framed = (p, n, inside) => p.type === 'web'
+    ? `<figure class="frame browser"><div class="window"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>${p.url || ''}</span></div>${inside}</div><figcaption>Fig. ${n} · ${p.caption || p.title}</figcaption></figure>`
+    : `<figure class="frame ${p.model ? 'model' : 'taped'}"><div class="print">${inside}</div><figcaption>Fig. ${n} · ${p.caption || p.title}</figcaption></figure>`;
 // A project with "model: true" gets the 3D viewer, a switch to the picture, and one button per part
 const media = p => `
     <div class="media" data-view="model">
@@ -118,12 +169,14 @@ const media = p => `
       ${shot(p)}
     </div>`;
 // the text page of a project. The empty "slot" is where its picture goes on a phone.
-const textPage = p => `
+const textPage = (p, n) => `
   <article class="page">
     <div class="slot"></div>
     <div>
+      <p class="chapter"><span>Project ${two(n)} · ${KINDS[p.type]}</span>${p.status ? `<span class="state">${p.status}</span>` : ''}</p>
       <h3>${p.title}</h3>
       <p>${p.desc}</p>
+      <p class="did">${DID[p.type]}</p>
       <ul>${p.details.map(d => `<li>${d}</li>`).join('')}</ul>
       <div class="tags">${p.tags.map(t => `<span>${t}</span>`).join('')}</div>
       ${p.link && p.link !== '#' ? `<a class="btn ghost" href="${p.link}" target="_blank" rel="noopener">${p.linkText || 'View project'}</a>` : ''}
@@ -131,27 +184,45 @@ const textPage = p => `
   </article>`;
 
 for (let i = 0; i < total; i++) {
-    const leaf = document.createElement('div'), hasBack = i < PROJECTS.length;
-    leaf.className = 'leaf';
+    const leaf = document.createElement('div'), last = i === total - 1;
+    leaf.className = i === 0 || last ? 'leaf board' : 'leaf';     // "board": the hard front and back covers
+    const front = i === 0 ? coverPage : last ? backCover : textPage(PROJECTS[i - 1], i);
+    const back = last ? '' : i === total - 2 ? authorPage : '<div class="slot"></div>';
     // the small numbers are page numbers, like in a real book
-    leaf.innerHTML = `<div class="front">${i === 0 ? coverPage : textPage(PROJECTS[i - 1])}${i ? `<span class="folio">${i * 2 + 1}</span>` : ''}</div>`
-        + `<div class="back">${hasBack ? `<div class="slot"></div><span class="folio">${i * 2 + 2}</span>` : ''}</div>`;
+    leaf.innerHTML = `<div class="front">${front}${i && !last ? `<span class="folio">${i * 2 + 1}</span>` : ''}</div>`
+        + `<div class="back">${back}${last ? '' : `<span class="folio">${i * 2 + 2}</span>`}</div>`;
     stack.appendChild(leaf);
 }
-// the stacks of page edges at both sides, and the two corners you can click to turn a page
+// the stacks of page edges at both sides, the two corners you can click to turn a page,
+// and the index tabs that jump to the first project of each kind
+const firstOf = kind => PROJECTS.findIndex(p => p.type === kind) + 1;
 stack.insertAdjacentHTML('beforeend', '<div class="edge left"></div><div class="edge right"></div>'
-    + '<button class="corner prev" type="button" tabindex="-1" aria-hidden="true"></button><button class="corner next" type="button" tabindex="-1" aria-hidden="true"></button>');
+    + '<button class="corner prev" type="button" tabindex="-1" aria-hidden="true"></button><button class="corner next" type="button" tabindex="-1" aria-hidden="true"></button>'
+    + `<nav class="index" aria-label="Jump to a kind of project">${Object.keys(KINDS).filter(firstOf).map(k => `<button type="button" data-go="${firstOf(k)}" data-kind="${k}">${KINDS[k]}</button>`).join('')}</nav>`);
 
 const leaves = $$('.leaf', stack);
+const tabs = $$('.index button', stack);
 const prev = $('#prev'), next = $('#next'), pager = $('#pager');
 const cornerPrev = $('.corner.prev', stack), cornerNext = $('.corner.next', stack);
 let cur = 0;
 
+// the page scrubber between the buttons: one mark per page, the current one is long. Click one to go there.
+const scrub = document.createElement('div');
+scrub.className = 'scrub';
+scrub.innerHTML = `<div class="marks">${leaves.map((_, i) => `<button type="button" data-go="${i}" aria-label="${i === 0 ? 'Cover' : i === total - 1 ? 'Back cover' : PROJECTS[i - 1].title}"></button>`).join('')}</div>`;
+pager.replaceWith(scrub);
+scrub.appendChild(pager);
+const marks = $$('.marks button', scrub);
+scrub.addEventListener('click', e => {
+    const go = e.target.closest('[data-go]');
+    if (go) show(Number(go.dataset.go));
+});
+
 // Every project's picture (or 3D model) is built once, then moved to the page that should show it:
 // the left-hand page on a wide screen, or the top of the project's own page on a phone.
-const medias = PROJECTS.map(p => {
+const medias = PROJECTS.map((p, i) => {
     const holder = document.createElement('div');
-    holder.innerHTML = p.model ? media(p) : shot(p);
+    holder.innerHTML = framed(p, i + 1, p.model ? media(p) : shot(p));
     return holder.firstElementChild;
 });
 function placeMedia() {
@@ -237,7 +308,10 @@ function show(n) {
     book.style.setProperty('--right', total - cur - 1);
     cornerPrev.hidden = cur === 0;
     cornerNext.hidden = cur === total - 1;
-    pager.textContent = `${cur + 1} / ${total}`;
+    const project = PROJECTS[cur - 1];      // undefined on the two covers
+    pager.textContent = cur === 0 ? 'Cover' : project ? `${two(cur)} / ${two(PROJECTS.length)} · ${project.title}` : 'The end';
+    marks.forEach((m, i) => m.classList.toggle('on', i === cur));
+    tabs.forEach(t => t.classList.toggle('on', !!project && t.dataset.kind === project.type));
     prev.disabled = cur === 0;
     next.disabled = cur === total - 1;
     syncCane();

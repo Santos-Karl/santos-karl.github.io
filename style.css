@@ -793,10 +793,12 @@ section .tape {
     margin: auto;
 }
 
+/* the top margin leaves room for the index tabs that stand on top of the page */
 .stack {
     display: grid;
     perspective: 2400px;
     position: relative;
+    margin-top: var(--space-xl);
 }
 
 /* --wait is set by script.js so that several pages turning at once follow each other.
@@ -847,6 +849,31 @@ section .tape {
     box-shadow: inset 40px 0 60px -40px var(--color-shade);
 }
 
+/* and a shadow sweeps across a turning page: darkest half way, when the page stands upright */
+.front::after, .back::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--color-shade), transparent 75%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.back::after {
+    background: linear-gradient(270deg, var(--color-shade), transparent 75%);
+}
+
+.leaf.flipping .front::after, .leaf.flipping .back::after {
+    animation: page-shade var(--dur-page) var(--ease-in-out) var(--wait, 0ms);
+}
+
+@keyframes page-shade {
+    50% {
+        opacity: 1;
+    }
+}
+
 .page {
     display: grid;
     gap: var(--space-lg);
@@ -859,26 +886,43 @@ section .tape {
     display: none;
 }
 
+/* on a phone a website's picture runs edge to edge across the top of its page */
+.front .slot:has(.browser) {
+    margin: calc(-1 * var(--space-lg)) calc(-1 * var(--space-lg)) 0 calc(-1 * var(--space-xl));
+}
+
+    .front .slot .window {
+        border-width: 0 0 1px;
+        border-radius: 4px var(--radius-panel) 0 0;
+    }
+
+    .front .slot .browser figcaption {
+        padding: 0 var(--space-lg) 0 var(--space-xl);
+    }
+
 /* page numbers, page edges and clickable corners only exist in the open book on wide screens */
 .folio, .edge, .corner {
     display: none;
 }
 
-/* the list of projects on the cover: click one to jump straight to it */
+/* the contents on the cover: each project, a dotted line, and the page it starts on.
+   Click one to jump straight to it. */
 .contents {
     display: grid;
-    gap: var(--space-2xs);
-    width: fit-content;
-    max-width: 100%;
+    width: 100%;
+    max-width: 26rem;
     margin: var(--space-lg) auto 0;
-    padding-left: 1.5em;
-    list-style: decimal;
+    padding: 0;
+    list-style: none;
     text-align: left;
-    color: var(--color-ink-3);
     font-size: var(--text-sm);
 }
 
     .contents button {
+        display: flex;
+        align-items: baseline;
+        gap: var(--space-xs);
+        width: 100%;
         padding: var(--space-2xs) 0;
         border: 0;
         background: none;
@@ -899,6 +943,17 @@ section .tape {
 
         .contents button:active {
             color: var(--color-ink-press);
+        }
+
+        .contents button i {
+            flex: 1;
+            min-width: var(--space-md);
+            border-bottom: 1px dotted var(--color-rule-strong);
+        }
+
+        .contents button b {
+            color: var(--color-ink-3);
+            font: 400 var(--text-xs)/1 var(--font-mono);
         }
 
 /* project picture: fills the whole frame, click it to see the full image */
@@ -1067,6 +1122,119 @@ section .tape {
     display: none;
 }
 
+/* PICTURE FRAMES: a website sits in a browser window, the other projects look like a taped photo */
+.frame {
+    min-width: 0;
+    margin: 0;
+}
+
+.window {
+    overflow: hidden;
+    border: 1px solid var(--color-rule-strong);
+    border-radius: var(--radius-input);
+    background: var(--color-paper);
+}
+
+/* the browser bar: three dots and the address */
+.bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: var(--space-xs) var(--space-sm);
+    border-bottom: 1px solid var(--color-rule);
+    background: var(--color-paper-3);
+}
+
+    .bar i {
+        flex: none;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--color-rule-strong);
+    }
+
+    .bar span {
+        flex: 1;
+        min-width: 0;
+        margin-left: var(--space-xs);
+        padding: 2px var(--space-sm);
+        overflow: hidden;
+        border-radius: var(--radius-pill);
+        background: var(--color-paper);
+        color: var(--color-ink-3);
+        font: 400 var(--text-xs)/1.5 var(--font-mono);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+.frame.browser .shot {
+    aspect-ratio: 16/10;
+    border: 0;
+    border-radius: 0;
+}
+
+/* a printed photo, a little crooked and held on by tape. It straightens when you point at it. */
+.print {
+    position: relative;
+    padding: var(--space-xs);
+    border: 1px solid var(--color-rule-strong);
+    border-radius: 3px;
+    background: var(--color-paper-3);
+    rotate: -1.2deg;
+    transition: rotate var(--dur) var(--ease-out), translate var(--dur) var(--ease-out);
+}
+
+    .print:hover {
+        rotate: 0deg;
+        translate: 0 -3px;
+    }
+
+    .print::before {
+        content: "";
+        position: absolute;
+        z-index: 1;
+        top: -10px;
+        left: 50%;
+        width: 88px;
+        height: 22px;
+        translate: -50% 0;
+        rotate: 2deg;
+        border: 1px solid oklch(96% 0.003 260 / .1);
+        background: oklch(96% 0.003 260 / .14);
+        pointer-events: none;
+    }
+
+.frame.taped .shot {
+    aspect-ratio: 4/3;
+    border-radius: 2px;
+}
+
+/* the 3D model keeps still: no tilt and no tape */
+.frame.model .print, .frame.model .print:hover {
+    rotate: none;
+    translate: none;
+}
+
+    .frame.model .print::before {
+        display: none;
+    }
+
+/* the model, its switch, its part buttons and the caption must fit on one page:
+   a little flatter on a phone, flatter still on the open book */
+.front .frame.model .viewer {
+    aspect-ratio: 4/3;
+}
+
+.back .frame.model .viewer {
+    aspect-ratio: 16/10;
+}
+
+.frame figcaption {
+    margin-top: var(--space-sm);
+    color: var(--color-ink-3);
+    font: 400 var(--text-xs)/1.5 var(--font-mono);
+}
+
 .page h3 {
     font-size: clamp(1.3rem, 1rem + 1.4vw, 1.75rem);
     font-weight: 700;
@@ -1091,6 +1259,35 @@ section .tape {
 
     .page li::marker {
         color: var(--color-ink-3);
+    }
+
+/* the chapter line above a project's name: its number, its kind and a status label */
+.page .chapter {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-sm);
+    color: var(--color-ink-3);
+    font: 400 var(--text-xs)/1.5 var(--font-mono);
+}
+
+    .chapter .state {
+        padding: 0 var(--space-xs);
+        border: 1px solid var(--color-rule-strong);
+        border-radius: var(--radius-pill);
+        color: var(--color-ink-2);
+    }
+
+/* "What I built" / "What I did" above the list */
+.page .did {
+    margin-top: var(--space-md);
+    color: var(--color-ink-3);
+    font: 500 var(--text-xs)/1.5 var(--font-mono);
+}
+
+    .page .did + ul {
+        margin-top: var(--space-2xs);
     }
 
 .tags {
@@ -1125,6 +1322,82 @@ section .tape {
         margin-inline: auto;
     }
 
+/* the front and back covers: a hard board with a printed frame and a darker spine */
+.board .front {
+    background: var(--color-paper-2);
+    box-shadow: inset 6px 0 0 var(--color-paper-3);
+}
+
+    .board .front::before {
+        content: "";
+        position: absolute;
+        inset: var(--space-sm) var(--space-sm) var(--space-sm) calc(var(--space-sm) + 6px);
+        border: 1px solid var(--color-rule-strong);
+        border-radius: 2px var(--radius-input) var(--radius-input) 2px;
+        pointer-events: none;
+    }
+
+.page .cover-name, .page .cover-count {
+    color: var(--color-ink-3);
+    font: 400 var(--text-xs)/1.5 var(--font-mono);
+}
+
+.page .cover-name {
+    letter-spacing: .08em;
+}
+
+/* the small network drawing on the covers */
+.cover-art {
+    display: block;
+    width: 160px;
+    height: 48px;
+    margin: var(--space-md) auto var(--space-sm);
+    fill: var(--color-ink);
+    stroke: var(--color-rule-strong);
+}
+
+    .cover-art path {
+        fill: none;
+    }
+
+    .cover-art circle {
+        stroke: none;
+    }
+
+    .cover-art .packet {
+        fill: var(--color-ink-2);
+    }
+
+.end-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-xl);
+}
+
+/* "About the author": the page facing the back cover */
+.author {
+    text-align: center;
+}
+
+    .author img {
+        width: 160px;
+        height: auto;
+        margin: 0 auto var(--space-md);
+        -webkit-mask-image: radial-gradient(closest-side, #000 70%, transparent);
+        mask-image: radial-gradient(closest-side, #000 70%, transparent);
+    }
+
+    .author .chapter {
+        justify-content: center;
+    }
+
+    .author p:last-child {
+        max-width: 34ch;
+        margin-inline: auto;
+    }
+
 .controls {
     display: flex;
     justify-content: center;
@@ -1134,13 +1407,97 @@ section .tape {
     flex-wrap: wrap;
 }
 
+/* page scrubber: one mark per page, the current page's mark is long, and its name shows below.
+   On a phone it sits above the buttons; on wider screens between them. */
+.scrub {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-2xs);
+    order: -1;
+    flex-basis: 100%;
+    min-width: 0;
+}
+
+.marks {
+    display: flex;
+    align-items: center;
+}
+
+    .marks button {
+        width: 18px;
+        height: 24px;
+        padding: 0;
+        border: 0;
+        background: none;
+        cursor: pointer;
+        transition: width var(--dur) var(--ease-out);
+    }
+
+        .marks button::before {
+            content: "";
+            display: block;
+            height: 4px;
+            margin: 0 3px;
+            border-radius: 2px;
+            background: var(--color-rule-strong);
+            transition: background-color var(--dur-fast) var(--ease-out);
+        }
+
+        .marks button:hover::before {
+            background: var(--color-ink-3);
+        }
+
+        .marks button.on {
+            width: 36px;
+        }
+
+            .marks button.on::before {
+                background: var(--color-ink);
+            }
+
 .pager {
+    max-width: 100%;
+    overflow: hidden;
+    color: var(--color-ink-2);
     font: 400 var(--text-sm) var(--font-mono);
     font-variant-numeric: tabular-nums;
-    color: var(--color-ink-2);
-    min-width: 64px;
     text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
+
+/* index tabs: they stand on top of the page here, and stick out of its right edge on big screens */
+.index {
+    position: absolute;
+    bottom: 100%;
+    right: var(--space-md);
+    display: flex;
+    gap: 2px;
+}
+
+    .index button {
+        padding: var(--space-2xs) var(--space-sm);
+        border: 1px solid var(--color-rule);
+        border-bottom: 0;
+        border-radius: var(--radius-input) var(--radius-input) 0 0;
+        background: var(--color-paper);
+        color: var(--color-ink-3);
+        font: 500 var(--text-xs)/1.4 var(--font-body);
+        white-space: nowrap;
+        cursor: pointer;
+        transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+    }
+
+        .index button:hover {
+            background: var(--color-paper-3);
+            color: var(--color-ink);
+        }
+
+        /* the tab of the kind you are reading is joined to the page */
+        .index button.on {
+            background: var(--color-paper-2);
+            color: var(--color-ink);
+        }
 
 /* IMAGE LIGHTBOX (opens when a project image is clicked) */
 .lightbox {
@@ -1505,6 +1862,16 @@ form .btn {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    /* the page scrubber moves between the Previous and Next buttons */
+    .scrub {
+        order: 0;
+        flex-basis: auto;
+    }
+
+    .pager {
+        width: min(40ch, 50vw);
+    }
+
     .badges {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
@@ -1618,11 +1985,11 @@ form .btn {
         padding: var(--space-2xl);
     }
 
-    /* the left-hand page: holds the picture or the 3D model */
+    /* the left-hand page: holds the picture or the 3D model, as big as the page allows */
     .back {
         display: grid;
         align-content: center;
-        padding: var(--space-2xl);
+        padding: var(--space-xl) var(--space-lg);
         background: linear-gradient(270deg, var(--color-shade), transparent 8%), var(--color-paper-2);
         border-radius: var(--radius-panel) 4px 4px var(--radius-panel);
     }
@@ -1723,6 +2090,38 @@ form .btn {
         grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
         gap: var(--space-3xl);
     }
+}
+
+/* big screens: the book grows wider than the page text (up to 1200px) so the pictures are bigger,
+   and the index tabs move to the right edge of the page, past the page edges */
+@media (min-width: 75rem) {
+    .book {
+        --book: min(1200px, 100vw - 10rem);
+        width: var(--book);
+        max-width: none;
+        margin-inline: calc((100% - var(--book)) / 2);
+    }
+
+    .stack {
+        margin-top: 0;
+    }
+
+    .index {
+        top: var(--space-xl);
+        right: auto;
+        bottom: auto;
+        left: calc(100% + var(--right, 0) * 3px);
+        flex-direction: column;
+        gap: var(--space-2xs);
+    }
+
+        .index button {
+            padding: var(--space-sm) var(--space-2xs);
+            border: 1px solid var(--color-rule);
+            border-left: 0;
+            border-radius: 0 var(--radius-input) var(--radius-input) 0;
+            writing-mode: vertical-rl;
+        }
 }
 
 /* hero entrance: each line rises in, one after another */
