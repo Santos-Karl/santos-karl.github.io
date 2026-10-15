@@ -1380,55 +1380,6 @@ section .tape {
     margin-top: var(--space-xl);
 }
 
-/* "Turn your phone sideways to open the book": shown on the cover only while the screen is upright
-   (script.js adds .upright to the book). A small phone outline tips over sideways and back. */
-.turn-hint {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-sm);
-    margin-top: var(--space-lg);
-    font: 500 var(--text-sm)/1.4 var(--font-body);
-}
-
-    .upright .turn-hint {
-        display: flex;
-    }
-
-    .turn-hint i {
-        flex: none;
-        width: 14px;
-        height: 22px;
-        border: 1.5px solid currentColor;
-        border-radius: 3px;
-        animation: turn-phone 2.6s var(--ease-in-out) infinite;
-    }
-
-    /* with a mouse (a narrow computer window) the hint asks for a wider window instead */
-    .turn-hint .fine {
-        display: none;
-    }
-
-@media (pointer: fine) {
-    .turn-hint .coarse {
-        display: none;
-    }
-
-    .turn-hint .fine {
-        display: inline;
-    }
-}
-
-@keyframes turn-phone {
-    0%, 30%, 100% {
-        rotate: 0deg;
-    }
-
-    50%, 80% {
-        rotate: -90deg;
-    }
-}
-
 /* "About the author": the page facing the back cover */
 .author {
     text-align: center;
