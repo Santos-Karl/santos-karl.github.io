@@ -66,12 +66,15 @@
             </div>
         </section>
 
-        <!-- TAPE: the white strip of words that keeps moving sideways.
-             Edit the words here. script.js repeats them so the strip never runs out.
+        <!-- TAPE: a terminal line. The prompt on the left stays still and the folder names keep scrolling out of it.
+             Edit the folder names here. script.js repeats them so the line never runs out.
              To add another tape somewhere else, copy this whole <div class="tape"> block. -->
         <div class="tape" aria-hidden="true">
-            <div class="tape-track">
-                <span>HTML</span><span>CSS</span><span>JavaScript</span><span>Networking</span><span>Troubleshooting</span><span>CCTV setup</span><span>PC building</span>
+            <span class="tape-prompt"><span class="tape-host">karl@portfolio:</span>~$ ls skills/<i></i></span>
+            <div class="tape-run">
+                <div class="tape-track">
+                    <span>html/</span><span>css/</span><span>javascript/</span><span>networking/</span><span>troubleshooting/</span><span>cctv-setup/</span><span>pc-building/</span>
+                </div>
             </div>
         </div>
 

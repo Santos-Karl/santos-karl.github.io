@@ -514,15 +514,53 @@ h1 {
     }
 }
 
-/* MOVING TAPE: a straight white strip of words that scrolls sideways (the words are in index.html).
-   It always runs from the left edge of the screen to the right edge, wherever it is placed. */
+/* MOVING TAPE: a terminal line. The prompt on the left stays still while the folder names
+   scroll out of it (the names are in index.html). It always runs from the left edge of the
+   screen to the right edge, wherever it is placed. */
 .tape {
+    display: flex;
+    align-items: center;
     width: 100vw;
     margin: var(--space-3xl) 0 0 calc(50% - 50vw);
     padding: var(--space-sm) 0;
+    border-top: 1px solid var(--color-rule);
+    border-bottom: 1px solid var(--color-rule);
     overflow: hidden;
-    background: var(--color-ink);
-    color: var(--color-paper);
+    font: 400 var(--text-sm)/1.4 var(--font-mono);
+    color: var(--color-ink-3);
+}
+
+/* the prompt lines up with the page text and covers the names as they slide under it */
+.tape-prompt {
+    position: relative;
+    z-index: 1;
+    flex: none;
+    padding: 0 var(--space-md) 0 max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
+    color: var(--color-ink);
+    background: var(--color-paper);
+    box-shadow: var(--space-md) 0 var(--space-md) var(--color-paper);
+}
+
+    /* the blinking cursor */
+    .tape-prompt i {
+        display: inline-block;
+        width: .6em;
+        height: 1.1em;
+        margin-left: var(--space-xs);
+        background: var(--color-ink);
+        vertical-align: -.2em;
+        animation: blink 1s steps(2) infinite;
+    }
+
+/* "karl@portfolio:" only fits on wider screens */
+.tape-host {
+    display: none;
+}
+
+.tape-run {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
 }
 
 /* a tape inside a section sits between the title and the content */
@@ -539,19 +577,18 @@ section .tape {
 .tape-track {
     display: flex;
     width: max-content;
-    font: 700 var(--text-md)/1 var(--font-body);
-    letter-spacing: .02em;
-    text-transform: uppercase;
     white-space: nowrap;
     animation: tape 30s linear infinite;      /* script.js sets the real time so the speed stays the same on any screen */
 }
 
-    /* the star between two words */
-    .tape-track span::after {
-        content: "✶";
-        margin: 0 var(--space-lg);
-        font-weight: 400;
+    .tape-track span {
+        margin-right: var(--space-lg);
+        transition: color var(--dur-fast) var(--ease-out);
     }
+
+        .tape-track span:hover {
+            color: var(--color-ink);
+        }
 
 /* hold the mouse over the tape to stop it */
 .tape:hover .tape-track {
@@ -1456,6 +1493,10 @@ form .btn {
 @media (min-width: 40rem) {
     .viewer {
         aspect-ratio: 16/10;
+    }
+
+    .tape-host {
+        display: inline;
     }
 
     .journey {
