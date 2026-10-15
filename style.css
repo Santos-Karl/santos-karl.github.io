@@ -882,6 +882,10 @@ section .tape {
 }
 
 /* the place a project's picture is moved into. It takes no room while it is empty. */
+.slot {
+    min-width: 0;   /* a long web address in a browser bar must not make the page wider */
+}
+
 .slot:empty {
     display: none;
 }
@@ -1374,6 +1378,55 @@ section .tape {
     justify-content: center;
     gap: var(--space-sm);
     margin-top: var(--space-xl);
+}
+
+/* "Turn your phone sideways to open the book": shown on the cover only while the screen is upright
+   (script.js adds .upright to the book). A small phone outline tips over sideways and back. */
+.turn-hint {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-lg);
+    font: 500 var(--text-sm)/1.4 var(--font-body);
+}
+
+    .upright .turn-hint {
+        display: flex;
+    }
+
+    .turn-hint i {
+        flex: none;
+        width: 14px;
+        height: 22px;
+        border: 1.5px solid currentColor;
+        border-radius: 3px;
+        animation: turn-phone 2.6s var(--ease-in-out) infinite;
+    }
+
+    /* with a mouse (a narrow computer window) the hint asks for a wider window instead */
+    .turn-hint .fine {
+        display: none;
+    }
+
+@media (pointer: fine) {
+    .turn-hint .coarse {
+        display: none;
+    }
+
+    .turn-hint .fine {
+        display: inline;
+    }
+}
+
+@keyframes turn-phone {
+    0%, 30%, 100% {
+        rotate: 0deg;
+    }
+
+    50%, 80% {
+        rotate: -90deg;
+    }
 }
 
 /* "About the author": the page facing the back cover */
@@ -1948,7 +2001,25 @@ form .btn {
         grid-template-columns: 12rem minmax(0, 1fr);
     }
 
-    /* THE OPEN BOOK: .stack is the right-hand page, and turned pages come to rest on the left */
+    .badges {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .resume {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-3xl);
+        padding: var(--space-2xl);
+    }
+
+    .contact {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+        gap: var(--space-3xl);
+    }
+}
+
+/* THE OPEN BOOK: on wide screens, and on a phone turned sideways (script.js uses the same rule as this block).
+   .stack is the right-hand page, and turned pages come to rest on the left */
+@media (min-width: 60rem), (orientation: landscape) and (min-width: 34rem) {
     .book {
         max-width: 1040px;
     }
@@ -2075,21 +2146,6 @@ form .btn {
         .corner:hover {
             transform: scale(1.25);
         }
-
-    .badges {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-
-    .resume {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: var(--space-3xl);
-        padding: var(--space-2xl);
-    }
-
-    .contact {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
-        gap: var(--space-3xl);
-    }
 }
 
 /* big screens: the book grows wider than the page text (up to 1200px) so the pictures are bigger,
@@ -2121,6 +2177,121 @@ form .btn {
             border-left: 0;
             border-radius: 0 var(--radius-input) var(--radius-input) 0;
             writing-mode: vertical-rl;
+        }
+}
+
+/* PHONE TURNED SIDEWAYS: a short, wide screen. The open book fits the height of the screen,
+   the menu bar scrolls away with the page instead of covering it, and a long page scrolls inside itself. */
+@media (orientation: landscape) and (max-height: 32rem) and (min-width: 34rem) {
+    .nav {
+        position: absolute;
+    }
+
+    .index {
+        display: none;
+    }
+
+    .stack {
+        margin-top: 0;
+    }
+
+    .controls {
+        margin-top: var(--space-sm);
+    }
+
+    /* the bottom padding keeps words and pictures clear of the folded corners */
+    .front {
+        min-height: 0;
+        height: calc(100svh - 7.25rem);
+        padding: var(--space-md) var(--space-lg) var(--space-xl);
+    }
+
+    .front > .page, .back {
+        overflow-x: hidden;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scrollbar-width: thin;
+    }
+
+    /* Previous, the scrubber and Next stay on one line */
+    .controls {
+        gap: var(--space-md);
+    }
+
+    .pager {
+        width: min(30ch, 40vw);
+    }
+
+    .front > .page {
+        min-height: 0;
+        align-content: start;
+        gap: var(--space-sm);
+    }
+
+    .back {
+        align-content: start;
+        padding: var(--space-sm) var(--space-md) var(--space-xl);
+    }
+
+        /* the picture takes the height that is left on the page; there is no room for its caption */
+        .back .frame .shot {
+            aspect-ratio: auto;
+            height: calc(100svh - 12.75rem);
+        }
+
+        .back .frame figcaption {
+            display: none;
+        }
+
+    .author img {
+        width: 96px;
+        margin-bottom: var(--space-xs);
+    }
+
+    .page h3 {
+        font-size: var(--text-lg);
+    }
+
+    .cover h3 {
+        font-size: 1.6rem;
+    }
+
+    .page p {
+        font-size: var(--text-sm);
+    }
+
+    .page li {
+        font-size: var(--text-xs);
+    }
+
+    .cover-art {
+        margin: var(--space-xs) auto;
+    }
+
+    .contents {
+        margin-top: var(--space-sm);
+    }
+
+    .tags {
+        margin: var(--space-sm) 0;
+    }
+
+    .end-actions {
+        margin-top: var(--space-md);
+    }
+
+    /* smaller folded corners, and no page numbers */
+    .folio {
+        display: none;
+    }
+
+    .corner {
+        width: var(--space-xl);
+        height: var(--space-xl);
+    }
+
+        .corner.prev {
+            right: calc(200% - var(--space-xl));
         }
 }
 

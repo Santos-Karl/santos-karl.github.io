@@ -94,14 +94,16 @@ function guardImages(root = document) {
 }
 
 /* ============ PROJECT BOOK ============ */
-// On a wide screen the book lies open: the picture is on the left page, the text on the right page,
-// and turned pages stay on the left. On a phone it shows one page at a time.
+// On a wide screen, or a phone turned sideways, the book lies open: the picture is on the left page,
+// the text on the right page, and turned pages stay on the left. On a phone held upright it shows the
+// cover with "Turn your phone sideways"; tapping a project still opens it, one page at a time.
 // A "leaf" is one sheet of paper. Leaf 0 is the cover. Leaf 1, 2, 3 ... carry the text of a project
 // on their front, and the picture of the NEXT project on their back. The last leaf is the back cover,
 // and the page facing it ("About the author") is the back of the last project's leaf.
 const book = $('#book'), stack = $('#stack');
 const total = PROJECTS.length + 2;      // the cover, one leaf per project, and the back cover
-const wide = matchMedia('(min-width: 60rem)');
+// when the book lies open: keep this the same as the "THE OPEN BOOK" block in style.css
+const wide = matchMedia('(min-width: 60rem), (orientation: landscape) and (min-width: 34rem)');
 const KINDS = { web: 'Web development', it: 'IT support', hardware: 'Hardware' };   // chapter names and index tabs
 const DID = { web: 'What I built', it: 'What I did', hardware: 'What I built' };    // the heading above the list
 const two = n => String(n).padStart(2, '0');
@@ -120,6 +122,7 @@ const coverPage = `
       ${coverArt}
       <h3>Project portfolio</h3>
       <p class="cover-count">${PROJECTS.length} projects in web development and IT support</p>
+      <p class="turn-hint"><i aria-hidden="true"></i><span class="coarse">Turn your phone sideways to open the book</span><span class="fine">Make the window wider to open the book</span></p>
       <ol class="contents">${PROJECTS.map((p, i) => `<li><button type="button" data-go="${i + 1}"><span>${p.title}</span><i></i><b>${(i + 1) * 2}</b></button></li>`).join('')}</ol>
     </div>
   </div>`;
@@ -330,8 +333,16 @@ stack.addEventListener('click', e => {
     const go = e.target.closest('[data-go]');
     if (go) show(Number(go.dataset.go));
 });
-// going between phone and wide layout: move the pictures to the right pages again
-wide.addEventListener('change', () => { placeMedia(); show(cur); });
+// Turning the phone (or resizing the window): move the pictures to the right pages again.
+// Upright goes back to the cover; sideways opens the book where you were and, on a short screen,
+// scrolls so the whole open book fills it.
+wide.addEventListener('change', () => {
+    book.classList.toggle('upright', !wide.matches);
+    placeMedia();
+    show(wide.matches ? cur : 0);
+    if (wide.matches && bookVisible && innerHeight < 520) scrollTo({ top: book.getBoundingClientRect().top + scrollY - 8, behavior: 'instant' });
+});
+book.classList.toggle('upright', !wide.matches);
 show(0);
 
 /* ============ IMAGE LIGHTBOX (click a project image to expand it) ============ */
