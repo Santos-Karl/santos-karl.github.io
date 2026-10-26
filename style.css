@@ -1255,12 +1255,19 @@ section .tape {
     text-align: center;
 }
 
+    /* printed in dots like the photo in "About me" (finer dots, it is smaller), with soft round edges.
+       The filter "print" is in index.html, next to that photo. */
     .author img {
         width: 160px;
         height: auto;
         margin: 0 auto var(--space-md);
-        -webkit-mask-image: radial-gradient(closest-side, #000 70%, transparent);
-        mask-image: radial-gradient(closest-side, #000 70%, transparent);
+        filter: url(#print) contrast(1.1) grayscale(1);
+        -webkit-mask-image: radial-gradient(circle, #000 1.05px, transparent 1.4px), radial-gradient(closest-side, #000 70%, transparent);
+        -webkit-mask-size: 3px 3px, 100% 100%;
+        -webkit-mask-composite: source-in;
+        mask-image: radial-gradient(circle, #000 1.05px, transparent 1.4px), radial-gradient(closest-side, #000 70%, transparent);
+        mask-size: 3px 3px, 100% 100%;
+        mask-composite: intersect;
     }
 
     .author .chapter {
