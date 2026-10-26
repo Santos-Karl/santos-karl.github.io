@@ -1,0 +1,9 @@
+step,check,command_or_action,expected_result,your_result,next_step_if_failed
+1,Is the cable or Wi-Fi connected,Look at the port light or Wi-Fi icon,Link light on or Wi-Fi connected,,Reconnect the cable or Wi-Fi network
+2,Current IP address,ipconfig,Address starts 192.168.x.x or 10.x.x.x,,If 169.254.x.x: renew the lease or check DHCP on the router
+3,Gateway reachable,ping <default gateway>,Replies received,,Check cable and router; check gateway address
+4,Internet by IP,ping 8.8.8.8,Replies received,,Restart modem and router; contact ISP if it persists
+5,DNS name lookup,nslookup www.microsoft.com,Address returned,,Run ipconfig /flushdns; try another DNS server
+6,Route to destination,tracert www.microsoft.com,Hops respond until destination,,Note the last hop that replies and report it
+7,Browser test,Open a website in a private window,Page loads,,Check proxy, VPN, and security software
+8,Record,Write the time and results above,Notes saved on the ticket,,

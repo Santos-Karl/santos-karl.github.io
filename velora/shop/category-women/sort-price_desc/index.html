@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="iEWc7xBqB5I77hRK7vd7vdpCSjcbD1bz0zbbock3">
+
+        <title>Velora</title>
+
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800&display=swap" rel="stylesheet" />
+
+        <link rel="preload" as="style" href="/velora/build/assets/app-1rW3kbI8.css" /><link rel="preload" as="style" href="/velora/build/assets/app-Cdf2NgfA.css" /><link rel="modulepreload" as="script" href="/velora/build/assets/app-H5IZ37cx.js" /><link rel="stylesheet" href="/velora/build/assets/app-1rW3kbI8.css" /><link rel="stylesheet" href="/velora/build/assets/app-Cdf2NgfA.css" /><script type="module" src="/velora/build/assets/app-H5IZ37cx.js"></script>    <style>
+.velora-copy-bar{position:relative;z-index:60;padding:10px 16px;background:#111;color:#f3f3f3;font:14px/1.5 system-ui,sans-serif;text-align:center}
+.velora-copy-bar a{color:#fff;text-decoration:underline;text-underline-offset:3px;margin-left:6px}
+.velora-copy-note{position:fixed;left:50%;bottom:24px;z-index:99;max-width:min(92vw,420px);padding:12px 16px;border-radius:10px;background:#111;color:#f3f3f3;font:14px/1.5 system-ui,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.25);transform:translate(-50%,20px);opacity:0;transition:opacity .25s,transform .25s;pointer-events:none}
+.velora-copy-note.show{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+    <body class="font-sans antialiased bg-stone-50 text-ink min-h-screen flex flex-col">
+<div class="velora-copy-bar" role="note">Browse-only copy of <b>Velora</b>, a Laravel shop demo by Karl D. Santos. The bag, checkout, accounts and staff area need the full app. <a href="https://santos-karl.github.io/#projects">Back to the portfolio</a></div>
+        <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-none focus:bg-ink focus:px-4 focus:py-2 focus:text-white">Skip to content</a>
+
+        <nav x-data="{ open: false }" class="bg-white sticky top-0 z-30 border-b border-stone-200">
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center gap-3 h-16">
+            <button @click="open = !open" class="lg:hidden -ml-2 p-2 text-ink" aria-label="Open menu" :aria-expanded="open.toString()">
+                <i class="ph text-2xl" :class="open ? 'ph-x' : 'ph-list'"></i>
+            </button>
+
+            <a href="/velora/" aria-label="Velora home">
+                <span class="inline-flex items-center gap-2.5">
+    <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true" focusable="false">
+        <circle cx="15" cy="15" r="15" fill="#1a1a1a"/>
+        <path d="M9 10 L15 21 L21 10" fill="none" stroke="#fafafa" stroke-width="2.6" stroke-linecap="square" stroke-linejoin="miter"/>
+    </svg>
+    <span class="text-lg font-semibold tracking-tight text-ink">Velora</span>
+</span>
+            </a>
+
+            <form action="/velora/shop/" method="GET" class="hidden md:flex flex-1 max-w-xl ms-6" role="search">
+                <label for="site-search" class="sr-only">Search products</label>
+                <div class="relative w-full">
+                    <i class="ph ph-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-ink-muted"></i>
+                    <input id="site-search" type="search" name="q" value="" placeholder="Search dresses, sneakers, gadgets"
+                           class="w-full rounded-none border-stone-200 bg-stone-100 pl-11 pr-4 py-2.5 text-sm focus:bg-white focus:border-accent focus:ring-accent">
+                </div>
+            </form>
+
+            <div class="ms-auto flex items-center gap-1">
+                <a href="/velora/shop/" class="md:hidden p-2 text-ink" aria-label="Search">
+                    <i class="ph ph-magnifying-glass text-xl"></i>
+                </a>
+
+                                    <a href="#full-app" class="hidden sm:flex flex-col items-center px-2 text-[11px] font-medium hover:text-accent">
+                        <i class="ph ph-user text-xl"></i> Sign in
+                    </a>
+                
+                <a href="#full-app" class="hidden sm:flex flex-col items-center px-2 text-[11px] font-medium hover:text-accent">
+                    <i class="ph ph-heart text-xl"></i> Wishlist
+                </a>
+
+                <a href="#full-app" class="relative flex flex-col items-center px-2 text-[11px] font-medium hover:text-accent" aria-label="Bag, 0 items">
+                    <i class="ph ph-shopping-bag text-xl"></i> Bag
+                                    </a>
+            </div>
+        </div>
+
+        
+        <div class="hidden lg:flex items-center gap-7 h-11 text-sm font-semibold text-ink overflow-x-auto whitespace-nowrap">
+            <a href="/velora/shop/category-women/" class="hover:text-accent">Women</a>
+            <a href="/velora/shop/category-men/" class="hover:text-accent">Men</a>
+            <a href="/velora/shop/category-accessories/" class="hover:text-accent">Accessories</a>
+            <a href="/velora/shop/category-shoes/" class="hover:text-accent">Shoes</a>
+            <a href="/velora/shop/category-beauty/" class="hover:text-accent">Beauty</a>
+            <a href="/velora/shop/category-gadgets/" class="hover:text-accent">Gadgets</a>
+            <a href="/velora/shop/sort-newest/" class="text-accent hover:underline">New Arrivals</a>
+        </div>
+    </div>
+
+    <div x-show="open" x-cloak class="lg:hidden border-t border-stone-200 px-4 py-4 space-y-1 text-sm font-semibold">
+        <form action="/velora/shop/" method="GET" class="mb-3">
+            <input type="search" name="q" placeholder="Search products" class="w-full rounded-none border-stone-200 bg-stone-100 px-4 py-2.5 text-sm">
+        </form>
+                    <a href="/velora/shop/category-women/" class="block rounded-none px-3 py-2.5 hover:bg-stone-100">Women</a>
+                    <a href="/velora/shop/category-men/" class="block rounded-none px-3 py-2.5 hover:bg-stone-100">Men</a>
+                    <a href="/velora/shop/category-accessories/" class="block rounded-none px-3 py-2.5 hover:bg-stone-100">Accessories</a>
+                    <a href="/velora/shop/category-shoes/" class="block rounded-none px-3 py-2.5 hover:bg-stone-100">Shoes</a>
+                    <a href="/velora/shop/category-beauty/" class="block rounded-none px-3 py-2.5 hover:bg-stone-100">Beauty</a>
+                    <a href="/velora/shop/category-gadgets/" class="block rounded-none px-3 py-2.5 hover:bg-stone-100">Gadgets</a>
+                <a href="/velora/shop/sort-newest/" class="block rounded-none px-3 py-2.5 text-accent hover:bg-stone-100">New Arrivals</a>
+                    <a href="#full-app" class="block rounded-none px-3 py-2.5 hover:bg-stone-100">Sign in</a>
+            <a href="#full-app" class="block rounded-none px-3 py-2.5 hover:bg-stone-100">Create account</a>
+            </div>
+</nav>
+
+        
+        
+        <main id="main" class="flex-1 w-full">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex flex-wrap items-end justify-between gap-4">
+            <div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Women</h1>
+                <p class="mt-1 text-sm text-ink-muted">13 items</p>
+            </div>
+
+            <div class="flex items-center gap-2">
+                
+                <details class="lg:hidden relative">
+                    <summary class="btn-secondary cursor-pointer list-none py-2.5">
+                        <i class="ph ph-funnel"></i> Filters
+                        <span class="ms-1 rounded-none bg-accent px-2 text-xs text-white">1</span>                    </summary>
+                    <div class="absolute right-0 z-20 mt-2 w-72 rounded-none border border-stone-200 bg-white p-5 shadow-lg">
+                        <div class="space-y-6 text-sm">
+    <fieldset>
+        <legend class="font-bold">Category</legend>
+        <div class="mt-3 space-y-2">
+            <label class="flex items-center gap-2">
+                <input type="radio" name="category" value="" form="catalog-filters-mobile" class="text-accent focus:ring-accent" >
+                All categories
+            </label>
+                            <label class="flex items-center gap-2">
+                    <input type="radio" name="category" value="accessories" form="catalog-filters-mobile" class="text-accent focus:ring-accent" >
+                    Accessories
+                </label>
+                            <label class="flex items-center gap-2">
+                    <input type="radio" name="category" value="beauty" form="catalog-filters-mobile" class="text-accent focus:ring-accent" >
+                    Beauty
+                </label>
+                            <label class="flex items-center gap-2">
+                    <input type="radio" name="category" value="gadgets" form="catalog-filters-mobile" class="text-accent focus:ring-accent" >
+                    Gadgets
+                </label>
+                            <label class="flex items-center gap-2">
+                    <input type="radio" name="category" value="home-living" form="catalog-filters-mobile" class="text-accent focus:ring-accent" >
+                    Home &amp; Living
+                </label>
+                            <label class="flex items-center gap-2">
+                    <input type="radio" name="category" value="men" form="catalog-filters-mobile" class="text-accent focus:ring-accent" >
+                    Men
+                </label>
+                            <label class="flex items-center gap-2">
+                    <input type="radio" name="category" value="shoes" form="catalog-filters-mobile" class="text-accent focus:ring-accent" >
+                    Shoes
+                </label>
+                            <label class="flex items-center gap-2">
+                    <input type="radio" name="category" value="women" form="catalog-filters-mobile" class="text-accent focus:ring-accent" checked>
+                    Women
+                </label>
+                    </div>
+    </fieldset>
+
+            <div>
+            <label for="size-catalog-filters-mobile" class="font-bold">Size</label>
+            <select id="size-catalog-filters-mobile" name="size" form="catalog-filters-mobile" class="mt-2 w-full rounded-none border-stone-300 text-sm focus:border-accent focus:ring-accent">
+                <option value="">Any size</option>
+                                    <option value="26" >26</option>
+                                    <option value="28" >28</option>
+                                    <option value="30" >30</option>
+                                    <option value="32" >32</option>
+                                    <option value="34" >34</option>
+                                    <option value="36" >36</option>
+                                    <option value="37" >37</option>
+                                    <option value="38" >38</option>
+                                    <option value="39" >39</option>
+                                    <option value="40" >40</option>
+                                    <option value="41" >41</option>
+                                    <option value="42" >42</option>
+                                    <option value="43" >43</option>
+                                    <option value="44" >44</option>
+                                    <option value="L" >L</option>
+                                    <option value="M" >M</option>
+                                    <option value="One size" >One size</option>
+                                    <option value="S" >S</option>
+                                    <option value="XL" >XL</option>
+                                    <option value="XS" >XS</option>
+                            </select>
+        </div>
+    
+            <div>
+            <label for="color-catalog-filters-mobile" class="font-bold">Colour</label>
+            <select id="color-catalog-filters-mobile" name="color" form="catalog-filters-mobile" class="mt-2 w-full rounded-none border-stone-300 text-sm focus:border-accent focus:ring-accent">
+                <option value="">Any colour</option>
+                                    <option value="Black" >Black</option>
+                                    <option value="Blue" >Blue</option>
+                                    <option value="Blue Stripe" >Blue Stripe</option>
+                                    <option value="Brown" >Brown</option>
+                                    <option value="Champagne" >Champagne</option>
+                                    <option value="Charcoal" >Charcoal</option>
+                                    <option value="Clear" >Clear</option>
+                                    <option value="Cream" >Cream</option>
+                                    <option value="Dark Wash" >Dark Wash</option>
+                                    <option value="Deep" >Deep</option>
+                                    <option value="Ecru" >Ecru</option>
+                                    <option value="Gold" >Gold</option>
+                                    <option value="Graphite" >Graphite</option>
+                                    <option value="Grey" >Grey</option>
+                                    <option value="Grey Marl" >Grey Marl</option>
+                                    <option value="Heather" >Heather</option>
+                                    <option value="Indigo" >Indigo</option>
+                                    <option value="Khaki" >Khaki</option>
+                                    <option value="Light" >Light</option>
+                                    <option value="Light Wash" >Light Wash</option>
+                                    <option value="Lilac" >Lilac</option>
+                                    <option value="Matte White" >Matte White</option>
+                                    <option value="Medium" >Medium</option>
+                                    <option value="Mid Blue" >Mid Blue</option>
+                                    <option value="Mid Wash" >Mid Wash</option>
+                                    <option value="Mocha" >Mocha</option>
+                                    <option value="Natural" >Natural</option>
+                                    <option value="Navy" >Navy</option>
+                                    <option value="Navy Stripe" >Navy Stripe</option>
+                                    <option value="Nude" >Nude</option>
+                                    <option value="Oatmeal" >Oatmeal</option>
+                                    <option value="Olive" >Olive</option>
+                                    <option value="Olive Print" >Olive Print</option>
+                                    <option value="Red" >Red</option>
+                                    <option value="Rose Print" >Rose Print</option>
+                                    <option value="Sage" >Sage</option>
+                                    <option value="Sand" >Sand</option>
+                                    <option value="Silver" >Silver</option>
+                                    <option value="Sky" >Sky</option>
+                                    <option value="Speckled" >Speckled</option>
+                                    <option value="Stone" >Stone</option>
+                                    <option value="Tan" >Tan</option>
+                                    <option value="Tortoise" >Tortoise</option>
+                                    <option value="Trio" >Trio</option>
+                                    <option value="Volt" >Volt</option>
+                                    <option value="White" >White</option>
+                            </select>
+        </div>
+    
+    <fieldset>
+        <legend class="font-bold">Price (₱)</legend>
+        <div class="mt-2 grid grid-cols-2 gap-2">
+            <input type="number" min="0" step="50" name="min" value="" placeholder="Min" form="catalog-filters-mobile"
+                   class="rounded-none border-stone-300 text-sm focus:border-accent focus:ring-accent">
+            <input type="number" min="0" step="50" name="max" value="" placeholder="Max" form="catalog-filters-mobile"
+                   class="rounded-none border-stone-300 text-sm focus:border-accent focus:ring-accent">
+        </div>
+    </fieldset>
+
+    <label class="flex items-center gap-2">
+        <input type="checkbox" name="in_stock" value="1" form="catalog-filters-mobile" class="rounded border-stone-300 text-accent focus:ring-accent" >
+        In stock only
+    </label>
+
+    <div class="flex gap-2 pt-2">
+        <button type="submit" form="catalog-filters-mobile" class="btn-primary flex-1 py-2.5">Apply</button>
+        <a href="/velora/shop/" class="btn-secondary py-2.5">Reset</a>
+    </div>
+
+    
+    <input type="hidden" name="q" value="" form="catalog-filters-mobile">
+            <input type="hidden" name="sort" value="price_desc" form="catalog-filters-mobile">
+    
+    <form id="catalog-filters-mobile" method="GET" action="/velora/shop/" class="hidden"></form>
+</div>
+                    </div>
+                </details>
+
+                <label for="sort" class="sr-only">Sort products</label>
+                <select id="sort" name="sort" form="catalog-filters" onchange="this.form.requestSubmit()"
+                        class="rounded-none border-stone-300 py-2.5 pl-4 pr-9 text-sm focus:border-accent focus:ring-accent">
+                                            <option value="featured" >Recommended</option>
+                                            <option value="newest" >New arrivals</option>
+                                            <option value="best" >Best sellers</option>
+                                            <option value="price_asc" >Price: low to high</option>
+                                            <option value="price_desc" selected>Price: high to low</option>
+                                    </select>
+            </div>
+        </div>
+
+        <div class="mt-8 grid gap-10 lg:grid-cols-[14rem_1fr]">
+            <aside class="hidden lg:block">
+                <div class="space-y-6 text-sm">
+    <fieldset>
+        <legend class="font-bold">Category</legend>
+        <div class="mt-3 space-y-2">
+            <label class="flex items-center gap-2">
+                <input type="radio" name="category" value="" form="catalog-filters" class="text-accent focus:ring-accent" >
+                All categories
+            </label>
+                            <label class="flex items-center gap-2">
+                    <input type="radio" name="category" value="accessories" form="catalog-filters" class="text-accent focus:ring-accent" >
+                    Accessories
+                </label>
+                            <label class="flex items-center gap-2">
+                    <input type="radio" name="category" value="beauty" form="catalog-filters" class="text-accent focus:ring-accent" >
+                    Beauty
+                </label>
+                            <label class="flex items-center gap-2">
+                    <input type="radio" name="category" value="gadgets" form="catalog-filters" class="text-accent focus:ring-accent" >
+                    Gadgets
+                </label>
+                            <label class="flex items-center gap-2">
+                    <input type="radio" name="category" value="home-living" form="catalog-filters" class="text-accent focus:ring-accent" >
+                    Home &amp; Living
+                </label>
+                            <label class="flex items-center gap-2">
+                    <input type="radio" name="category" value="men" form="catalog-filters" class="text-accent focus:ring-accent" >
+                    Men
+                </label>
+                            <label class="flex items-center gap-2">
+                    <input type="radio" name="category" value="shoes" form="catalog-filters" class="text-accent focus:ring-accent" >
+                    Shoes
+                </label>
+                            <label class="flex items-center gap-2">
+                    <input type="radio" name="category" value="women" form="catalog-filters" class="text-accent focus:ring-accent" checked>
+                    Women
+                </label>
+                    </div>
+    </fieldset>
+
+            <div>
+            <label for="size-catalog-filters" class="font-bold">Size</label>
+            <select id="size-catalog-filters" name="size" form="catalog-filters" class="mt-2 w-full rounded-none border-stone-300 text-sm focus:border-accent focus:ring-accent">
+                <option value="">Any size</option>
+                                    <option value="26" >26</option>
+                                    <option value="28" >28</option>
+                                    <option value="30" >30</option>
+                                    <option value="32" >32</option>
+                                    <option value="34" >34</option>
+                                    <option value="36" >36</option>
+                                    <option value="37" >37</option>
+                                    <option value="38" >38</option>
+                                    <option value="39" >39</option>
+                                    <option value="40" >40</option>
+                                    <option value="41" >41</option>
+                                    <option value="42" >42</option>
+                                    <option value="43" >43</option>
+                                    <option value="44" >44</option>
+                                    <option value="L" >L</option>
+                                    <option value="M" >M</option>
+                                    <option value="One size" >One size</option>
+                                    <option value="S" >S</option>
+                                    <option value="XL" >XL</option>
+                                    <option value="XS" >XS</option>
+                            </select>
+        </div>
+    
+            <div>
+            <label for="color-catalog-filters" class="font-bold">Colour</label>
+            <select id="color-catalog-filters" name="color" form="catalog-filters" class="mt-2 w-full rounded-none border-stone-300 text-sm focus:border-accent focus:ring-accent">
+                <option value="">Any colour</option>
+                                    <option value="Black" >Black</option>
+                                    <option value="Blue" >Blue</option>
+                                    <option value="Blue Stripe" >Blue Stripe</option>
+                                    <option value="Brown" >Brown</option>
+                                    <option value="Champagne" >Champagne</option>
+                                    <option value="Charcoal" >Charcoal</option>
+                                    <option value="Clear" >Clear</option>
+                                    <option value="Cream" >Cream</option>
+                                    <option value="Dark Wash" >Dark Wash</option>
+                                    <option value="Deep" >Deep</option>
+                                    <option value="Ecru" >Ecru</option>
+                                    <option value="Gold" >Gold</option>
+                                    <option value="Graphite" >Graphite</option>
+                                    <option value="Grey" >Grey</option>
+                                    <option value="Grey Marl" >Grey Marl</option>
+                                    <option value="Heather" >Heather</option>
+                                    <option value="Indigo" >Indigo</option>
+                                    <option value="Khaki" >Khaki</option>
+                                    <option value="Light" >Light</option>
+                                    <option value="Light Wash" >Light Wash</option>
+                                    <option value="Lilac" >Lilac</option>
+                                    <option value="Matte White" >Matte White</option>
+                                    <option value="Medium" >Medium</option>
+                                    <option value="Mid Blue" >Mid Blue</option>
+                                    <option value="Mid Wash" >Mid Wash</option>
+                                    <option value="Mocha" >Mocha</option>
+                                    <option value="Natural" >Natural</option>
+                                    <option value="Navy" >Navy</option>
+                                    <option value="Navy Stripe" >Navy Stripe</option>
+                                    <option value="Nude" >Nude</option>
+                                    <option value="Oatmeal" >Oatmeal</option>
+                                    <option value="Olive" >Olive</option>
+                                    <option value="Olive Print" >Olive Print</option>
+                                    <option value="Red" >Red</option>
+                                    <option value="Rose Print" >Rose Print</option>
+                                    <option value="Sage" >Sage</option>
+                                    <option value="Sand" >Sand</option>
+                                    <option value="Silver" >Silver</option>
+                                    <option value="Sky" >Sky</option>
+                                    <option value="Speckled" >Speckled</option>
+                                    <option value="Stone" >Stone</option>
+                                    <option value="Tan" >Tan</option>
+                                    <option value="Tortoise" >Tortoise</option>
+                                    <option value="Trio" >Trio</option>
+                                    <option value="Volt" >Volt</option>
+                                    <option value="White" >White</option>
+                            </select>
+        </div>
+    
+    <fieldset>
+        <legend class="font-bold">Price (₱)</legend>
+        <div class="mt-2 grid grid-cols-2 gap-2">
+            <input type="number" min="0" step="50" name="min" value="" placeholder="Min" form="catalog-filters"
+                   class="rounded-none border-stone-300 text-sm focus:border-accent focus:ring-accent">
+            <input type="number" min="0" step="50" name="max" value="" placeholder="Max" form="catalog-filters"
+                   class="rounded-none border-stone-300 text-sm focus:border-accent focus:ring-accent">
+        </div>
+    </fieldset>
+
+    <label class="flex items-center gap-2">
+        <input type="checkbox" name="in_stock" value="1" form="catalog-filters" class="rounded border-stone-300 text-accent focus:ring-accent" >
+        In stock only
+    </label>
+
+    <div class="flex gap-2 pt-2">
+        <button type="submit" form="catalog-filters" class="btn-primary flex-1 py-2.5">Apply</button>
+        <a href="/velora/shop/" class="btn-secondary py-2.5">Reset</a>
+    </div>
+
+    
+    <input type="hidden" name="q" value="" form="catalog-filters">
+    
+    <form id="catalog-filters" method="GET" action="/velora/shop/" class="hidden"></form>
+</div>
+            </aside>
+
+            <section>
+                <div class="grid grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-8">
+                                            <a href="/velora/products/floral-midi-dress/" class="group block">
+    <div class="relative aspect-[3/4] overflow-hidden rounded-none bg-stone-100">
+        <img src="https://images.unsplash.com/photo-1616313253719-c46514cddee1?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wxMTAyNzI2fDB8MXxzZWFyY2h8MXx8RmxvcmFsJTIwTWlkaSUyMERyZXNzJTIwV29tZW4lMjBmYXNoaW9uJTIwcHJvZHVjdHxlbnwxfDF8fHwxNzkyMDQxNzU1fDA&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=1080" alt="Floral Midi Dress" loading="lazy"
+             class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]">
+
+        <div class="absolute top-2 left-2 flex flex-col items-start gap-1">
+                                        <span class="rounded bg-ink px-1.5 py-0.5 text-[11px] font-bold text-white">New</span>
+                                </div>
+    </div>
+
+    <div class="mt-2.5 space-y-0.5">
+        <p class="text-xs text-ink-muted">Women</p>
+        <h3 class="text-sm font-medium leading-snug text-ink line-clamp-2 group-hover:underline">Floral Midi Dress</h3>
+        <p class="flex flex-wrap items-baseline gap-x-2 text-sm">
+            <span class="font-bold text-ink">₱1,599.00</span>
+                    </p>
+    </div>
+</a>
+                                            <a href="/velora/products/ribbed-knit-cardigan/" class="group block">
+    <div class="relative aspect-[3/4] overflow-hidden rounded-none bg-stone-100">
+        <img src="https://images.unsplash.com/photo-1683315565563-f72590773805?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wxMTAyNzI2fDB8MXxzZWFyY2h8MXx8UmliYmVkJTIwS25pdCUyMENhcmRpZ2FuJTIwV29tZW4lMjBwcm9kdWN0fGVufDF8MXx8fDE3OTIwNTcxOTh8MA&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=1080" alt="Ribbed Knit Cardigan" loading="lazy"
+             class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]">
+
+        <div class="absolute top-2 left-2 flex flex-col items-start gap-1">
+                                            </div>
+    </div>
+
+    <div class="mt-2.5 space-y-0.5">
+        <p class="text-xs text-ink-muted">Women</p>
+        <h3 class="text-sm font-medium leading-snug text-ink line-clamp-2 group-hover:underline">Ribbed Knit Cardigan</h3>
+        <p class="flex flex-wrap items-baseline gap-x-2 text-sm">
+            <span class="font-bold text-ink">₱1,599.00</span>
+                    </p>
+    </div>
+</a>
+                                            <a href="/velora/products/striped-knit-dress/" class="group block">
+    <div class="relative aspect-[3/4] overflow-hidden rounded-none bg-stone-100">
+        <img src="https://images.unsplash.com/photo-1592246491309-ad9c6bad1458?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wxMTAyNzI2fDB8MXxzZWFyY2h8MXx8U3RyaXBlZCUyMEtuaXQlMjBEcmVzcyUyMFdvbWVuJTIwcHJvZHVjdHxlbnwxfDF8fHwxNzkyMDU3MzA4fDA&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=1080" alt="Striped Knit Dress" loading="lazy"
+             class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]">
+
+        <div class="absolute top-2 left-2 flex flex-col items-start gap-1">
+                                            </div>
+    </div>
+
+    <div class="mt-2.5 space-y-0.5">
+        <p class="text-xs text-ink-muted">Women</p>
+        <h3 class="text-sm font-medium leading-snug text-ink line-clamp-2 group-hover:underline">Striped Knit Dress</h3>
+        <p class="flex flex-wrap items-baseline gap-x-2 text-sm">
+            <span class="font-bold text-ink">₱1,499.00</span>
+                    </p>
+    </div>
+</a>
+                                            <a href="/velora/products/cropped-denim-jacket/" class="group block">
+    <div class="relative aspect-[3/4] overflow-hidden rounded-none bg-stone-100">
+        <img src="https://images.unsplash.com/photo-1600219823854-f3bfee26ea9c?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wxMTAyNzI2fDB8MXxzZWFyY2h8MXx8Q3JvcHBlZCUyMERlbmltJTIwSmFja2V0JTIwV29tZW4lMjBmYXNoaW9uJTIwcHJvZHVjdHxlbnwxfDF8fHwxNzkyMDQxNzU5fDA&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=1080" alt="Cropped Denim Jacket" loading="lazy"
+             class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]">
+
+        <div class="absolute top-2 left-2 flex flex-col items-start gap-1">
+                            <span class="rounded bg-accent px-1.5 py-0.5 text-[11px] font-bold text-white">-26%</span>
+                                            </div>
+    </div>
+
+    <div class="mt-2.5 space-y-0.5">
+        <p class="text-xs text-ink-muted">Women</p>
+        <h3 class="text-sm font-medium leading-snug text-ink line-clamp-2 group-hover:underline">Cropped Denim Jacket</h3>
+        <p class="flex flex-wrap items-baseline gap-x-2 text-sm">
+            <span class="font-bold text-accent">₱1,399.00</span>
+                            <span class="text-xs text-ink-muted line-through">₱1,899.00</span>
+                    </p>
+    </div>
+</a>
+                                            <a href="/velora/products/wide-leg-trousers/" class="group block">
+    <div class="relative aspect-[3/4] overflow-hidden rounded-none bg-stone-100">
+        <img src="https://images.unsplash.com/photo-1580651214613-f4692d6d138f?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wxMTAyNzI2fDB8MXxzZWFyY2h8MXx8V2lkZS1MZWclMjBUcm91c2VycyUyMFdvbWVuJTIwcHJvZHVjdHxlbnwxfDF8fHwxNzkyMDU3MTk5fDA&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=1080" alt="Wide-Leg Trousers" loading="lazy"
+             class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]">
+
+        <div class="absolute top-2 left-2 flex flex-col items-start gap-1">
+                                            </div>
+    </div>
+
+    <div class="mt-2.5 space-y-0.5">
+        <p class="text-xs text-ink-muted">Women</p>
+        <h3 class="text-sm font-medium leading-snug text-ink line-clamp-2 group-hover:underline">Wide-Leg Trousers</h3>
+        <p class="flex flex-wrap items-baseline gap-x-2 text-sm">
+            <span class="font-bold text-ink">₱1,399.00</span>
+                    </p>
+    </div>
+</a>
+                                            <a href="/velora/products/linen-wrap-blouse/" class="group block">
+    <div class="relative aspect-[3/4] overflow-hidden rounded-none bg-stone-100">
+        <img src="https://images.unsplash.com/photo-1562572159-4efc207f5aff?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wxMTAyNzI2fDB8MXxzZWFyY2h8MXx8TGluZW4lMjBXcmFwJTIwQmxvdXNlJTIwV29tZW4lMjBmYXNoaW9uJTIwcHJvZHVjdHxlbnwxfDF8fHwxNzkyMDQyODAyfDA&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=1080" alt="Linen Wrap Blouse" loading="lazy"
+             class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]">
+
+        <div class="absolute top-2 left-2 flex flex-col items-start gap-1">
+                                            </div>
+    </div>
+
+    <div class="mt-2.5 space-y-0.5">
+        <p class="text-xs text-ink-muted">Women</p>
+        <h3 class="text-sm font-medium leading-snug text-ink line-clamp-2 group-hover:underline">Linen Wrap Blouse</h3>
+        <p class="flex flex-wrap items-baseline gap-x-2 text-sm">
+            <span class="font-bold text-ink">₱1,299.00</span>
+                    </p>
+    </div>
+</a>
+                                            <a href="/velora/products/high-waist-denim-jeans/" class="group block">
+    <div class="relative aspect-[3/4] overflow-hidden rounded-none bg-stone-100">
+        <img src="https://images.unsplash.com/photo-1602293589930-45aad59ba3ab?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wxMTAyNzI2fDB8MXxzZWFyY2h8MXx8SGlnaC1XYWlzdCUyMERlbmltJTIwSmVhbnMlMjBXb21lbiUyMGZhc2hpb24lMjBwcm9kdWN0fGVufDF8MXx8fDE3OTIwNDE3NTd8MA&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=1080" alt="High-Waist Denim Jeans" loading="lazy"
+             class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]">
+
+        <div class="absolute top-2 left-2 flex flex-col items-start gap-1">
+                            <span class="rounded bg-accent px-1.5 py-0.5 text-[11px] font-bold text-white">-23%</span>
+                                            </div>
+    </div>
+
+    <div class="mt-2.5 space-y-0.5">
+        <p class="text-xs text-ink-muted">Women</p>
+        <h3 class="text-sm font-medium leading-snug text-ink line-clamp-2 group-hover:underline">High-Waist Denim Jeans</h3>
+        <p class="flex flex-wrap items-baseline gap-x-2 text-sm">
+            <span class="font-bold text-accent">₱999.00</span>
+                            <span class="text-xs text-ink-muted line-through">₱1,299.00</span>
+                    </p>
+    </div>
+</a>
+                                            <a href="/velora/products/puff-sleeve-blouse/" class="group block">
+    <div class="relative aspect-[3/4] overflow-hidden rounded-none bg-stone-100">
+        <img src="https://images.unsplash.com/photo-1609505848912-b7c3b8b4beda?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wxMTAyNzI2fDB8MXxzZWFyY2h8MXx8UHVmZiUyMFNsZWV2ZSUyMEJsb3VzZSUyMFdvbWVuJTIwcHJvZHVjdHxlbnwxfDF8fHwxNzkyMDU3MjAyfDA&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=1080" alt="Puff Sleeve Blouse" loading="lazy"
+             class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]">
+
+        <div class="absolute top-2 left-2 flex flex-col items-start gap-1">
+                                        <span class="rounded bg-ink px-1.5 py-0.5 text-[11px] font-bold text-white">New</span>
+                                </div>
+    </div>
+
+    <div class="mt-2.5 space-y-0.5">
+        <p class="text-xs text-ink-muted">Women</p>
+        <h3 class="text-sm font-medium leading-snug text-ink line-clamp-2 group-hover:underline">Puff Sleeve Blouse</h3>
+        <p class="flex flex-wrap items-baseline gap-x-2 text-sm">
+            <span class="font-bold text-ink">₱999.00</span>
+                    </p>
+    </div>
+</a>
+                                            <a href="/velora/products/pleated-midi-skirt/" class="group block">
+    <div class="relative aspect-[3/4] overflow-hidden rounded-none bg-stone-100">
+        <img src="https://images.unsplash.com/photo-1789110853398-539d78dd63bc?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wxMTAyNzI2fDB8MXxzZWFyY2h8MXx8UGxlYXRlZCUyME1pZGklMjBTa2lydCUyMFdvbWVuJTIwZmFzaGlvbiUyMHByb2R1Y3R8ZW58MXwxfHx8MTc5MjA0MjgwNHww&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=1080" alt="Pleated Midi Skirt" loading="lazy"
+             class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]">
+
+        <div class="absolute top-2 left-2 flex flex-col items-start gap-1">
+                            <span class="rounded bg-accent px-1.5 py-0.5 text-[11px] font-bold text-white">-25%</span>
+                                            </div>
+    </div>
+
+    <div class="mt-2.5 space-y-0.5">
+        <p class="text-xs text-ink-muted">Women</p>
+        <h3 class="text-sm font-medium leading-snug text-ink line-clamp-2 group-hover:underline">Pleated Midi Skirt</h3>
+        <p class="flex flex-wrap items-baseline gap-x-2 text-sm">
+            <span class="font-bold text-accent">₱899.00</span>
+                            <span class="text-xs text-ink-muted line-through">₱1,199.00</span>
+                    </p>
+    </div>
+</a>
+                                            <a href="/velora/products/denim-mini-skirt/" class="group block">
+    <div class="relative aspect-[3/4] overflow-hidden rounded-none bg-stone-100">
+        <img src="https://images.unsplash.com/photo-1780566758461-8a2e9287abb2?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wxMTAyNzI2fDB8MXxzZWFyY2h8MXx8RGVuaW0lMjBNaW5pJTIwU2tpcnQlMjBXb21lbiUyMHByb2R1Y3R8ZW58MXwxfHx8MTc5MjA1NzMwNnww&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=1080" alt="Denim Mini Skirt" loading="lazy"
+             class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]">
+
+        <div class="absolute top-2 left-2 flex flex-col items-start gap-1">
+                                        <span class="rounded bg-ink px-1.5 py-0.5 text-[11px] font-bold text-white">New</span>
+                                </div>
+    </div>
+
+    <div class="mt-2.5 space-y-0.5">
+        <p class="text-xs text-ink-muted">Women</p>
+        <h3 class="text-sm font-medium leading-snug text-ink line-clamp-2 group-hover:underline">Denim Mini Skirt</h3>
+        <p class="flex flex-wrap items-baseline gap-x-2 text-sm">
+            <span class="font-bold text-ink">₱899.00</span>
+                    </p>
+    </div>
+</a>
+                                            <a href="/velora/products/satin-slip-top/" class="group block">
+    <div class="relative aspect-[3/4] overflow-hidden rounded-none bg-stone-100">
+        <img src="https://images.unsplash.com/photo-1563715992267-f9df28c292ac?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wxMTAyNzI2fDB8MXxzZWFyY2h8MXx8U2F0aW4lMjBTbGlwJTIwVG9wJTIwV29tZW4lMjBmYXNoaW9uJTIwcHJvZHVjdHxlbnwxfDF8fHwxNzkyMDQxNzYxfDA&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=1080" alt="Satin Slip Top" loading="lazy"
+             class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]">
+
+        <div class="absolute top-2 left-2 flex flex-col items-start gap-1">
+                                        <span class="rounded bg-ink px-1.5 py-0.5 text-[11px] font-bold text-white">New</span>
+                                </div>
+    </div>
+
+    <div class="mt-2.5 space-y-0.5">
+        <p class="text-xs text-ink-muted">Women</p>
+        <h3 class="text-sm font-medium leading-snug text-ink line-clamp-2 group-hover:underline">Satin Slip Top</h3>
+        <p class="flex flex-wrap items-baseline gap-x-2 text-sm">
+            <span class="font-bold text-ink">₱799.00</span>
+                    </p>
+    </div>
+</a>
+                                            <a href="/velora/products/bodycon-mini-dress/" class="group block">
+    <div class="relative aspect-[3/4] overflow-hidden rounded-none bg-stone-100">
+        <img src="https://images.unsplash.com/photo-1621086894855-a6e46e5da68f?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wxMTAyNzI2fDB8MXxzZWFyY2h8MXx8Qm9keWNvbiUyME1pbmklMjBEcmVzcyUyMFdvbWVuJTIwcHJvZHVjdHxlbnwxfDF8fHwxNzkyMDU3MjA0fDA&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=1080" alt="Bodycon Mini Dress" loading="lazy"
+             class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]">
+
+        <div class="absolute top-2 left-2 flex flex-col items-start gap-1">
+                            <span class="rounded bg-accent px-1.5 py-0.5 text-[11px] font-bold text-white">-27%</span>
+                                            </div>
+    </div>
+
+    <div class="mt-2.5 space-y-0.5">
+        <p class="text-xs text-ink-muted">Women</p>
+        <h3 class="text-sm font-medium leading-snug text-ink line-clamp-2 group-hover:underline">Bodycon Mini Dress</h3>
+        <p class="flex flex-wrap items-baseline gap-x-2 text-sm">
+            <span class="font-bold text-accent">₱799.00</span>
+                            <span class="text-xs text-ink-muted line-through">₱1,099.00</span>
+                    </p>
+    </div>
+</a>
+                                            <a href="/velora/products/off-shoulder-top/" class="group block">
+    <div class="relative aspect-[3/4] overflow-hidden rounded-none bg-stone-100">
+        <img src="https://images.unsplash.com/photo-1609505848912-b7c3b8b4beda?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wxMTAyNzI2fDB8MXxzZWFyY2h8MXx8T2ZmLVNob3VsZGVyJTIwVG9wJTIwV29tZW4lMjBwcm9kdWN0fGVufDF8MXx8fDE3OTIwNTczMTB8MA&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=1080" alt="Off-Shoulder Top" loading="lazy"
+             class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]">
+
+        <div class="absolute top-2 left-2 flex flex-col items-start gap-1">
+                            <span class="rounded bg-accent px-1.5 py-0.5 text-[11px] font-bold text-white">-29%</span>
+                                            </div>
+    </div>
+
+    <div class="mt-2.5 space-y-0.5">
+        <p class="text-xs text-ink-muted">Women</p>
+        <h3 class="text-sm font-medium leading-snug text-ink line-clamp-2 group-hover:underline">Off-Shoulder Top</h3>
+        <p class="flex flex-wrap items-baseline gap-x-2 text-sm">
+            <span class="font-bold text-accent">₱499.00</span>
+                            <span class="text-xs text-ink-muted line-through">₱699.00</span>
+                    </p>
+    </div>
+</a>
+                                    </div>
+
+                <div class="mt-10"></div>
+            </section>
+        </div>
+    </div>
+        </main>
+
+        <footer class="border-t border-stone-200 mt-20 bg-stone-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid gap-10 sm:grid-cols-3 text-sm">
+                <div>
+                    <span class="inline-flex items-center gap-2.5">
+    <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true" focusable="false">
+        <circle cx="15" cy="15" r="15" fill="#1a1a1a"/>
+        <path d="M9 10 L15 21 L21 10" fill="none" stroke="#fafafa" stroke-width="2.6" stroke-linecap="square" stroke-linejoin="miter"/>
+    </svg>
+    <span class="text-lg font-semibold tracking-tight text-ink">Velora</span>
+</span>
+                    <p class="mt-2 text-ink-muted max-w-xs">Everyday fashion, gadgets and home picks.</p>
+                </div>
+                <div>
+                    <p class="font-semibold">Shop</p>
+                    <ul class="mt-3 space-y-2 text-ink-muted">
+                        <li><a href="/velora/shop/" class="hover:text-ink">All products</a></li>
+                        <li><a href="/velora/shop/sort-newest/" class="hover:text-ink">New arrivals</a></li>
+                        <li><a href="#full-app" class="hover:text-ink">Cart</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="font-semibold">Need help?</p>
+                    <p class="mt-3 text-ink-muted">Track orders under My orders. Returns are accepted within 14 days of delivery.</p>
+                </div>
+            </div>
+            <div class="border-t border-stone-200">
+                <p class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-xs text-ink-muted">&copy; 2026 Velora</p>
+            </div>
+        </footer>
+    <script>
+(function () {
+  var note;
+  function tell() {
+    if (!note) { note = document.createElement('div'); note.className = 'velora-copy-note'; note.setAttribute('role', 'status'); document.body.appendChild(note); }
+    note.textContent = 'This is a browse-only copy. Search, the price, colour and size filters, the bag, checkout and accounts need the full Laravel app.';
+    note.classList.add('show');
+    clearTimeout(note.t);
+    note.t = setTimeout(function () { note.classList.remove('show'); }, 3200);
+  }
+  // the shop pages are saved as folders: /velora/shop/category-men/sort-newest/page-2/
+  var KEYS = ['category', 'sort', 'page'];
+  function folderFor(params) {
+    var path = '/velora/shop/', other = false;
+    params.forEach(function (v, k) {
+      if (v !== '' && KEYS.indexOf(k) < 0) other = true;
+    });
+    if (other) return null;
+    KEYS.forEach(function (k) {
+      var v = params.get(k) || '';
+      if (!v || (k === 'page' && v === '1') || (k === 'sort' && v === 'featured')) return;
+      path += k + '-' + v.replace(/[^a-z0-9_-]+/gi, '-') + '/';
+    });
+    return path;
+  }
+  if (location.search && location.pathname.indexOf('/velora/shop/') === 0) {
+    var to = folderFor(new URLSearchParams(location.search));
+    if (to) location.replace(to); else window.addEventListener('DOMContentLoaded', tell);
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href="#full-app"]');
+    if (a) { e.preventDefault(); e.stopPropagation(); tell(); }
+  }, true);
+  document.addEventListener('submit', function (e) {
+    e.preventDefault(); e.stopPropagation();
+    var f = e.target, to = null;
+    if ((f.getAttribute('method') || 'get').toLowerCase() === 'get' && /\/velora\/shop\/$/.test(f.getAttribute('action') || '')) {
+      to = folderFor(new URLSearchParams(new FormData(f)));
+    }
+    if (to) location.href = to; else tell();
+  }, true);
+})();
+</script>
+</body>
+</html>

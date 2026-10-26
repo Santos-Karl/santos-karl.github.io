@@ -9,32 +9,51 @@ const CONTACT_EMAIL = 'karldsantos2004@gmail.com';
 // status (optional): a small label next to the chapter name, such as "Live" or "In progress".
 // url (websites): the address shown in the browser bar above the picture.
 // caption: the line under the picture.
+// pages (websites, optional): a scrolling preview in place of the picture, with one button per page.
+//   Each page is a full-page screenshot: { name, img, path }. "path" is added to the address in the browser bar.
 // While the link is "#" the "View project" button stays hidden. "linkText" (optional) changes its words.
 const PROJECTS = [
     {
         title: 'My Portfolio Website', type: 'web', status: 'Live', url: 'santos-karl.github.io', caption: 'The site you are on now',
         img: 'images/portfolio-site.jpg', link: 'https://github.com/Santos-Karl/santos-karl.github.io',
+        pages: [{ name: 'Home', img: 'images/sites/portfolio-home.jpg' }],
         desc: 'The website you are looking at, built from scratch as my main showcase.',
         tags: ['HTML', 'CSS', 'JavaScript'],
         details: ['Responsive layout for phone, tablet and desktop', 'Interactive project book and animations']
     },
     {
-        title: 'Velora Online Store', type: 'web', status: 'Demo', url: 'localhost:8000', caption: 'Velora home page',
-        img: 'images/velora-shop.jpg', link: '#',
-        desc: 'A fashion and gadgets online store built with Laravel. It is a demo: the products, orders and payments are fake, and no real money is taken.',
+        title: 'Velora Online Store', type: 'web', status: 'Demo', url: 'santos-karl.github.io/velora', caption: 'Velora store pages',
+        img: 'images/velora-shop.jpg', link: 'https://santos-karl.github.io/velora/', linkText: 'Browse the store',
+        pages: [
+            { name: 'Home', img: 'images/sites/velora-home.jpg' },
+            { name: 'Shop', img: 'images/sites/velora-shop.jpg', path: '/shop' },
+            { name: 'Product', img: 'images/sites/velora-product.jpg', path: '/products/canvas-sneakers' }
+        ],
+        desc: 'A fashion and gadgets online store built with Laravel. It is a demo: the products, orders and payments are fake, and no real money is taken. The copy online is for browsing only; the bag, checkout and accounts need the full app.',
         tags: ['Laravel', 'PHP', 'Tailwind CSS', 'SQLite'],
         details: ['Product search and filters, bag, wishlist and discount codes', 'Checkout with test cards, order tracking, cancellations and returns', 'Staff back office for products, stock, orders and reports, with a role for each kind of staff']
     },
     {
-        title: 'Rooftop Fitness Gym Website', type: 'web', status: 'Team project', url: 'rooftop-gym-demo.vercel.app', caption: 'Rooftop home page',
+        title: 'Rooftop Fitness Gym Website', type: 'web', status: 'Team project', url: 'rooftop-gym-demo.vercel.app', caption: 'Rooftop home page and staff screens',
         img: 'images/rooftop-gym.jpg', link: 'https://rooftop-gym-demo.vercel.app', linkText: 'Open live demo',
+        pages: [
+            { name: 'Home', img: 'images/sites/rooftop-home.jpg' },
+            { name: 'Front desk', img: 'images/sites/rooftop-owner.jpg', path: '/staff' },
+            { name: 'Reports', img: 'images/sites/rooftop-reports.jpg', path: '/staff/reports' }
+        ],
         desc: 'A website and check-in system for a gym in Dau, built with a friend. Members check in at the door with a QR code, and staff run the front desk from their own screens.',
         tags: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
         details: ['My part: the staff and owner screens (front desk, members, reports, settings and staff sign-in)', 'Team project: we worked in branches and pull requests on GitHub', 'Live demo with sample data, hosted on Vercel']
     },
     {
-        title: 'TechSupport Lab', type: 'web', status: 'In progress', url: 'localhost:3000', caption: 'The help desk start page',
-        img: 'images/techsupport-lab.jpg', link: '#',
+        title: 'TechSupport Lab', type: 'web', status: 'In progress', url: 'santos-karl.github.io/techsupport-lab', caption: 'TechSupport Lab pages',
+        img: 'images/techsupport-lab.jpg', link: 'https://santos-karl.github.io/techsupport-lab/', linkText: 'Open the lab',
+        pages: [
+            { name: 'Desk', img: 'images/sites/tsl-desk.jpg' },
+            { name: 'Ticket queue', img: 'images/sites/tsl-queue.jpg', path: '/queue' },
+            { name: 'PC build', img: 'images/sites/tsl-build.jpg', path: '/build' },
+            { name: 'Guides', img: 'images/sites/tsl-guides.jpg', path: '/guides' }
+        ],
         desc: 'A practice desk for entry-level IT support. You work tickets, take calls from a practice caller, manage user accounts and build a PC, all in the browser.',
         tags: ['Next.js', 'React', 'TypeScript', 'Prisma'],
         details: ['Ticket queue and practice phone calls with feedback on each answer', 'User directory for unlocking accounts and resetting access', 'Drag-and-drop PC build, step-by-step guides and PowerShell scripts']
@@ -148,10 +167,24 @@ const authorPage = `
     </div>
   </div>`;
 const shot = p => `<div class="shot" tabindex="0" role="button" aria-label="Expand image of ${p.title}"><img src="${p.img}" alt="${p.title}" loading="lazy"></div>`;
-// the picture in its frame: a browser window for websites, a taped photo for the rest, and a caption below
-const framed = (p, n, inside) => p.type === 'web'
-    ? `<figure class="frame browser"><div class="window"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>${p.url || ''}</span></div>${inside}</div><figcaption>Fig. ${n} · ${p.caption || p.title}</figcaption></figure>`
+// the picture in its frame: a browser window for websites, a taped photo for the rest, and a caption below.
+// "below" goes between the window and the caption (the page buttons of a website preview).
+const framed = (p, n, inside, below = '') => p.type === 'web'
+    ? `<figure class="frame browser"><div class="window"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>${p.url || ''}</span></div>${inside}</div>${below}<figcaption>Fig. ${n} · ${p.caption || p.title}</figcaption></figure>`
     : `<figure class="frame ${p.model ? 'model' : 'taped'}"><div class="print">${inside}</div><figcaption>Fig. ${n} · ${p.caption || p.title}</figcaption></figure>`;
+// A website with "pages" gets a scrolling preview: the screenshot scrolls inside the browser window.
+// The picture is loaded when its page of the book is close (data-src), so the book opens fast.
+const site = p => `
+    <div class="site">
+      <div class="site-view" tabindex="0" aria-label="Preview of ${p.title}. Scroll it, or press Enter to see it bigger.">
+        <img data-src="${p.pages[0].img}" alt="${p.pages[0].name} page of ${p.title}">
+      </div>
+      <div class="viewer-cap"><b>${p.pages[0].name}</b><span>Scroll to explore, click to enlarge</span></div>
+    </div>`;
+const sitePages = p => p.pages.length < 2 ? '' : `
+    <div class="viewer-parts site-pages" role="group" aria-label="Pages of ${p.title}">
+      ${p.pages.map((pg, i) => `<button type="button" data-page="${i}" aria-pressed="${i === 0}">${pg.name}</button>`).join('')}
+    </div>`;
 // A project with "model: true" gets the 3D viewer, a switch to the picture, and one button per part
 const media = p => `
     <div class="media" data-view="model">
@@ -220,11 +253,11 @@ scrub.addEventListener('click', e => {
     if (go) show(Number(go.dataset.go));
 });
 
-// Every project's picture (or 3D model) is built once, then moved to the page that should show it:
+// Every project's picture (3D model, or website preview) is built once, then moved to the page that should show it:
 // the left-hand page on a wide screen, or the top of the project's own page on a phone.
 const medias = PROJECTS.map((p, i) => {
     const holder = document.createElement('div');
-    holder.innerHTML = framed(p, i + 1, p.model ? media(p) : shot(p));
+    holder.innerHTML = p.pages ? framed(p, i + 1, site(p), sitePages(p)) : framed(p, i + 1, p.model ? media(p) : shot(p));
     return holder.firstElementChild;
 });
 function placeMedia() {
@@ -282,6 +315,78 @@ if (modelBox) {
     });
 }
 
+/* ============ WEBSITE PREVIEWS (scrolling screenshots of the websites) ============ */
+// While a website's page of the book is open, its screenshot scrolls down slowly by itself, rests at
+// the bottom, then glides back to the top. Point at it, touch it or tab to it and it stops, so you can
+// scroll it yourself; it starts again a few seconds after you leave. Click it to see the page bigger,
+// and use the buttons below it to switch to another page of the website.
+const SCROLL_SPEED = 40;      // pixels per second. Bigger number = faster
+const sites = PROJECTS.map((p, i) => p.pages && {
+    p, at: i + 1, figure: medias[i], box: $('.site', medias[i]), view: $('.site-view', medias[i]),
+    phase: 'rest', until: 0, y: 0, held: false
+}).filter(Boolean);
+let siteFrame = 0, siteLast = 0;
+
+// wait a little, then start scrolling down from wherever the picture is
+function rest(s, ms) {
+    s.phase = 'rest';
+    s.until = performance.now() + ms;
+}
+function showSitePage(s, n) {
+    const page = s.p.pages[n], img = $('img', s.view);
+    img.src = page.img;
+    img.alt = `${page.name} page of ${s.p.title}`;
+    $('.viewer-cap b', s.box).textContent = page.name;
+    $('.bar span', s.figure).textContent = s.p.url + (page.path || '');
+    $$('.site-pages button', s.figure).forEach(b => b.setAttribute('aria-pressed', b.dataset.page === String(n)));
+    s.view.scrollTop = 0;
+    rest(s, 1200);
+}
+// called on every page turn: load the pictures of the pages next to this one, and scroll the open one
+function syncSites() {
+    sites.forEach(s => {
+        const img = $('img', s.view);
+        if (!img.getAttribute('src') && Math.abs(cur - s.at) <= 1) img.src = img.dataset.src;
+        if (s.at === cur) rest(s, 1200);     // first let the page finish turning
+    });
+    if (!reduceMotion && !siteFrame && sites.some(s => s.at === cur)) siteFrame = requestAnimationFrame(tickSites);
+}
+function tickSites(t) {
+    const s = sites.find(s => s.at === cur);
+    if (!s) { siteFrame = siteLast = 0; return; }
+    const dt = Math.min(.05, (t - (siteLast || t)) / 1000);
+    siteLast = t;
+    const v = s.view, max = v.scrollHeight - v.clientHeight;
+    if (bookVisible && !s.held && max > 4 && t > s.until) {
+        if (s.phase === 'rest') { s.phase = 'down'; s.y = v.scrollTop; }
+        if (s.phase === 'down') {
+            s.y = Math.min(max, s.y + SCROLL_SPEED * dt);     // kept as a fraction: scrollTop alone would round small steps away
+            v.scrollTop = s.y;
+            if (s.y >= max) { s.phase = 'bottom'; s.until = t + 2000; }
+        } else if (s.phase === 'bottom') {
+            v.scrollTo({ top: 0, behavior: 'smooth' });
+            s.phase = 'up';
+        } else if (s.phase === 'up' && v.scrollTop < 2) {
+            rest(s, 1500);
+        }
+    }
+    siteFrame = requestAnimationFrame(tickSites);
+}
+sites.forEach(s => {
+    const hold = () => { s.held = true; };
+    const free = () => { s.held = false; rest(s, 2500); };
+    s.box.addEventListener('pointerenter', hold);
+    s.box.addEventListener('pointerleave', free);
+    s.view.addEventListener('focus', hold);
+    s.view.addEventListener('blur', free);
+    // the page name and the hint show only near the top, so they never cover the page while it scrolls
+    s.view.addEventListener('scroll', () => s.box.classList.toggle('quiet', s.view.scrollTop > 40), { passive: true });
+    s.figure.addEventListener('click', e => {
+        const b = e.target.closest('[data-page]');
+        if (b) showSitePage(s, Number(b.dataset.page));
+    });
+});
+
 // only the pages you can see are clickable and read out by screen readers
 function setFace(face, on) {
     face.inert = !on;
@@ -317,6 +422,7 @@ function show(n) {
     prev.disabled = cur === 0;
     next.disabled = cur === total - 1;
     syncCane();
+    syncSites();
 }
 prev.addEventListener('click', () => show(cur - 1));
 next.addEventListener('click', () => show(cur + 1));
@@ -361,12 +467,15 @@ const lbCap = $('figcaption', lightbox);
 const lbClose = $('.lb-close', lightbox);
 let lbOpener = null;
 
-function openLightbox(shot) {
+// "tall": a whole website page, shown at full width; the lightbox scrolls
+function openLightbox(shot, tall = false) {
     const img = $('img', shot);
     lbOpener = shot;
     lbImg.src = img.currentSrc || img.src;
     lbImg.alt = img.alt;
     lbCap.textContent = img.alt;
+    lightbox.classList.toggle('tall', tall);
+    lightbox.scrollTop = 0;
     lightbox.classList.add('open');
     document.body.style.overflow = 'hidden';
     lbClose.focus({ preventScroll: true });
@@ -379,14 +488,17 @@ function closeLightbox() {
 }
 
 stack.addEventListener('click', e => {
-    const shot = e.target.closest('.shot');
+    const shot = e.target.closest('.shot'), view = e.target.closest('.site-view');
     if (shot) openLightbox(shot);
+    if (view && $('img', view).getAttribute('src')) openLightbox(view, true);
 });
 stack.addEventListener('keydown', e => {
     if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('shot')) {
         e.preventDefault();
         openLightbox(e.target);
     }
+    // on a website preview the space bar scrolls it, so only Enter opens it
+    if (e.key === 'Enter' && e.target.classList.contains('site-view')) openLightbox(e.target, true);
 });
 lightbox.addEventListener('click', closeLightbox);   // click anywhere to close
 addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });

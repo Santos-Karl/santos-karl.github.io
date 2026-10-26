@@ -900,7 +900,7 @@ section .tape {
         border-radius: 4px var(--radius-panel) 0 0;
     }
 
-    .front .slot .browser figcaption {
+    .front .slot .browser figcaption, .front .slot .browser .site-pages {
         padding: 0 var(--space-lg) 0 var(--space-xl);
     }
 
@@ -1177,6 +1177,41 @@ section .tape {
     border-radius: 0;
 }
 
+/* WEBSITE PREVIEW: a full-page screenshot that scrolls inside the browser window (script.js moves it) */
+.site {
+    position: relative;
+}
+
+.site-view {
+    aspect-ratio: 16/10;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: var(--color-paper);
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-rule-strong) transparent;
+    cursor: zoom-in;
+}
+
+    .site-view img {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    .site-view:focus-visible {
+        outline: 2px solid var(--color-ink);
+        outline-offset: -2px;
+    }
+
+/* the name of the page and the hint fade away once the page scrolls down from the top */
+.site .viewer-cap {
+    transition: opacity var(--dur) var(--ease-out);
+}
+
+.site.quiet .viewer-cap {
+    opacity: 0;
+}
+
 /* a printed photo, a little crooked and held on by tape. It straightens when you point at it. */
 .print {
     position: relative;
@@ -1230,6 +1265,11 @@ section .tape {
 }
 
 .back .frame.model .viewer {
+    aspect-ratio: 16/10;
+}
+
+/* a website preview on the open book has page buttons below it: the shape of a browser window leaves room for them */
+.back .frame .site-view {
     aspect-ratio: 16/10;
 }
 
@@ -1551,6 +1591,27 @@ section .tape {
         font-size: var(--text-sm);
         text-align: center;
     }
+
+    /* a whole website page is tall: it opens at full width and the lightbox scrolls */
+    .lightbox.tall {
+        align-items: flex-start;
+        overflow-y: auto;
+    }
+
+        .lightbox.tall figure {
+            width: min(900px, 100%);
+            max-height: none;
+        }
+
+        .lightbox.tall img {
+            width: 100%;
+            max-height: none;
+        }
+
+        .lightbox.tall .lb-close {
+            position: fixed;
+            z-index: 1;
+        }
 
 .lb-close {
     position: absolute;
@@ -2185,9 +2246,14 @@ form .btn {
     }
 
         /* the picture takes the height that is left on the page; there is no room for its caption */
-        .back .frame .shot {
+        .back .frame .shot, .back .frame .site-view {
             aspect-ratio: auto;
             height: calc(100svh - 12.75rem);
+        }
+
+        /* less again when page buttons sit below the website preview */
+        .back .frame:has(.site-pages) .site-view {
+            height: calc(100svh - 15.5rem);
         }
 
         .back .frame figcaption {

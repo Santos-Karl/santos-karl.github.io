@@ -1,0 +1,4 @@
+samAccountName,givenName,surname,displayName,email,department,title,ouPath,startDate
+practice.user01,Sample,One,Sample One,user01@example.com,Accounting,Accounts Clerk,"OU=Accounting,OU=Practice,DC=lab,DC=local",2026-11-01
+practice.user02,Sample,Two,Sample Two,user02@example.com,Sales,Sales Representative,"OU=Sales,OU=Practice,DC=lab,DC=local",2026-11-01
+practice.user03,Sample,Three,Sample Three,user03@example.com,Operations,Operations Coordinator,"OU=Operations,OU=Practice,DC=lab,DC=local",2026-11-01
