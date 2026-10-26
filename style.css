@@ -68,7 +68,6 @@
     --gutter: clamp(20px, 5vw, 56px);
     --nav-h: 72px;
     --tap: 44px; /* shared height of buttons and form fields */
-    --hero-shift: 0px; /* how far your name sits in from the page edge (set in the desktop block) */
 }
 
 * {
@@ -347,175 +346,6 @@ h2 {
         transform: none;
     }
 
-/* hero */
-/* phones and tablets: the empty space at the bottom is where network.js draws the network,
-   so it never runs behind your name */
-.hero {
-    display: grid;
-    gap: var(--space-2xl);
-    align-items: center;
-    padding-top: calc(var(--nav-h) + var(--space-2xl));
-    padding-bottom: 11rem;
-}
-
-.status {
-    display: flex;
-    align-items: center;
-    gap: var(--space-xs);
-    color: var(--color-ink-2);
-    font-size: var(--text-sm);
-    margin-bottom: var(--space-lg);
-}
-
-.dot {
-    flex: none;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--color-ok);
-}
-
-h1 {
-    font-size: var(--text-display);
-    font-weight: 800;
-    letter-spacing: -.04em;
-    line-height: 1.02;
-}
-
-    h1 .role {
-        display: block;
-        margin-top: var(--space-sm);
-        font-size: clamp(1.15rem, .95rem + .9vw, 1.5rem);
-        font-weight: 500;
-        letter-spacing: -.01em;
-        line-height: 1.3;
-    }
-
-/* typing line (the words are in script.js) */
-.headline {
-    min-height: 1.65em;
-    margin-top: var(--space-md);
-    font-size: var(--text-md);
-    font-weight: 500;
-}
-
-.caret {
-    display: inline-block;
-    width: 2px;
-    height: 1em;
-    background: var(--color-ink);
-    margin-left: var(--space-2xs);
-    vertical-align: -.12em;
-    animation: blink 1s steps(2) infinite;
-}
-
-@keyframes blink {
-    50% {
-        opacity: 0;
-    }
-}
-
-.lead {
-    color: var(--color-ink-2);
-    font-size: var(--text-md);
-    max-width: 46ch;
-    margin: var(--space-sm) 0 var(--space-xl);
-}
-
-.actions {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    flex-wrap: wrap;
-}
-
-/* LIVE NETWORK: moving lines and dots behind the top section (drawn by network.js) */
-.net {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: -1;
-    pointer-events: none;
-    -webkit-mask-image: linear-gradient(#000 calc(100% - 70px), transparent);
-    mask-image: linear-gradient(#000 calc(100% - 70px), transparent);
-}
-
-/* the six named dots are links that jump to a section. network.js moves them. */
-.net-nodes {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-}
-
-    .net-nodes a {
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: flex;
-        align-items: center;
-        gap: var(--space-xs);
-        margin: calc(var(--space-lg) / -2) 0 0 calc(var(--space-lg) / -2);
-        color: var(--color-ink-2);
-        font: 500 var(--text-sm)/1 var(--font-body);
-        white-space: nowrap;
-        transition: color var(--dur-fast) var(--ease-out);
-    }
-
-        .net-nodes a:hover {
-            color: var(--color-ink);
-        }
-
-        /* near the right edge the name sits on the left of its dot */
-        .net-nodes a.flip {
-            flex-direction: row-reverse;
-            margin-left: calc(var(--space-lg) / 2);
-            translate: -100% 0;
-        }
-
-    /* the dot, with a ring that pulses outward */
-    .net-nodes i {
-        position: relative;
-        flex: none;
-        width: var(--space-lg);
-        height: var(--space-lg);
-    }
-
-        .net-nodes i::before {
-            content: "";
-            position: absolute;
-            inset: 7px;
-            border-radius: 50%;
-            background: var(--color-ink);
-            transition: transform var(--dur) var(--ease-pop);
-        }
-
-        .net-nodes i::after {
-            content: "";
-            position: absolute;
-            inset: 1px;
-            border: 1px solid var(--color-ink-2);
-            border-radius: 50%;
-            animation: ping 2.4s var(--ease-out) infinite;
-        }
-
-    .net-nodes a:hover i::before {
-        transform: scale(1.5);
-    }
-
-@keyframes ping {
-    from {
-        transform: scale(.5);
-        opacity: .8;
-    }
-
-    to {
-        transform: scale(1.3);
-        opacity: 0;
-    }
-}
-
 /* MOVING TAPE: a terminal line. The prompt on the left stays still while the folder names
    scroll out of it (the names are in index.html). It always runs from the left edge of the
    screen to the right edge, wherever it is placed. */
@@ -537,7 +367,7 @@ h1 {
     position: relative;
     z-index: 1;
     flex: none;
-    padding: 0 var(--space-md) 0 calc(max(var(--gutter), (100vw - var(--max)) / 2 + var(--gutter)) + var(--hero-shift));
+    padding: 0 var(--space-md) 0 max(var(--gutter), (100vw - var(--max)) / 2 + var(--gutter));
     color: var(--color-ink);
     background: var(--color-paper);
     box-shadow: var(--space-md) 0 var(--space-md) var(--color-paper);
@@ -1967,28 +1797,6 @@ form .btn {
             font-size: var(--text-sm);
         }
 
-    /* your name sits a little in from the left (up to 4.5rem on wide screens) and network.js keeps
-       the network inside the page width, so both sides of the top section have some open space */
-    :root {
-        --hero-shift: clamp(0px, 8vw - 4.5rem, 4.5rem);
-    }
-
-    .hero {
-        grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-        gap: var(--space-3xl);
-        padding-top: calc(var(--nav-h) + var(--space-3xl));
-        padding-bottom: 0;
-    }
-
-    .hero-text {
-        margin-left: var(--hero-shift);
-    }
-
-    .net {
-        -webkit-mask-image: linear-gradient(#000 78%, transparent);
-        mask-image: linear-gradient(#000 78%, transparent);
-    }
-
     .about, .mission {
         grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
         column-gap: var(--space-3xl);
@@ -2312,32 +2120,10 @@ form .btn {
         }
 }
 
-/* hero entrance: each line rises in, one after another */
+/* links inside the page glide to their section */
 @media (prefers-reduced-motion: no-preference) {
     html {
         scroll-behavior: smooth;
-    }
-
-    .hero-text > * {
-        opacity: 0;
-        transform: translateY(22px);
-        animation: rise .9s var(--ease-reveal) forwards;
-    }
-
-    .hero-text > :nth-child(2) {
-        animation-delay: .08s;
-    }
-
-    .hero-text > :nth-child(3) {
-        animation-delay: .16s;
-    }
-
-    .hero-text > :nth-child(4) {
-        animation-delay: .24s;
-    }
-
-    .hero-text > :nth-child(5) {
-        animation-delay: .32s;
     }
 }
 
@@ -2449,6 +2235,302 @@ form .btn {
     to {
         opacity: 1;
         clip-path: inset(-30px);
+    }
+}
+
+/* ===== LOADING SCREEN: a computer starting up (the lines are in script.js, "LOADING SCREEN") ===== */
+.boot {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    padding: 30px 40px;
+    background: #000;
+    color: #d6d6d6;
+    font: 22px/1.25 'VT323', var(--font-mono);
+    transition: opacity .6s var(--ease-out), visibility 0s .6s;
+}
+
+    /* fading out: clicks already go through to the page (script.js then removes it) */
+    .boot.done {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .boot.done, .boot.done * {
+        pointer-events: none;
+    }
+
+/* seen it already this visit (or the visitor turned off animations): no loading screen */
+html.booted .boot {
+    display: none;
+}
+
+html.booting {
+    overflow: hidden;
+}
+
+.bios {
+    font: inherit;
+    white-space: pre-wrap;
+}
+
+    .bios::after {
+        content: "█";
+        animation: blink .6s steps(2) infinite;
+    }
+
+.boot-skip {
+    position: absolute;
+    right: 40px;
+    bottom: 26px;
+    color: #777;
+    font-size: 18px;
+}
+
+/* "Karl OS" starting */
+.splash {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    text-align: center;
+    background: #000;
+    opacity: 0;
+    visibility: hidden;
+}
+
+    .boot.splashing .splash {
+        opacity: 1;
+        visibility: visible;
+    }
+
+.os-name {
+    font: italic 700 64px/1 Georgia, 'Times New Roman', serif;
+    letter-spacing: -.02em;
+    color: #eee;
+}
+
+    .os-name span {
+        display: block;
+        margin-top: 10px;
+        font: 400 15px var(--font-body);
+        letter-spacing: .3em;
+        text-transform: uppercase;
+        color: #aaa;
+    }
+
+.os-load {
+    display: flex;
+    gap: 3px;
+    width: 260px;
+    height: 18px;
+    margin: 40px auto 0;
+    padding: 2px;
+    border: 2px solid #777;
+    overflow: hidden;
+}
+
+    .os-load i {
+        flex: none;
+        width: 14px;
+        background: #ddd;
+        animation: os-load 1.2s linear infinite;
+    }
+
+@keyframes os-load {
+    from {
+        transform: translateX(-60px);
+    }
+
+    to {
+        transform: translateX(260px);
+    }
+}
+
+@media (max-width: 40rem) {
+    .boot {
+        padding: 20px;
+        font-size: 16px;
+    }
+
+    .os-name {
+        font-size: 46px;
+    }
+
+    .boot-skip {
+        right: 20px;
+        bottom: 18px;
+        font-size: 15px;
+    }
+}
+
+/* ===== TOP SECTION: who you are in one line, then four of your websites, each scrolling in its window ===== */
+.top {
+    display: grid;
+    gap: var(--space-2xl);
+    padding-top: calc(var(--nav-h) + var(--space-2xl));
+    padding-bottom: var(--space-3xl);
+}
+
+.top h1 {
+    max-width: 22ch;
+    font-size: clamp(2.1rem, 1.2rem + 3vw, 3.8rem);
+    font-weight: 600;
+    letter-spacing: -.035em;
+    line-height: 1.06;
+}
+
+    .top h1 b {
+        font-weight: 800;
+    }
+
+    .top h1 span {
+        color: var(--color-ink-2);
+    }
+
+.top .lead {
+    max-width: 52ch;
+    margin-top: var(--space-lg);
+    color: var(--color-ink-2);
+    font-size: var(--text-md);
+}
+
+    .top .lead a {
+        color: var(--color-ink);
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 5px;
+    }
+
+/* the four windows: as many in a row as fit, at least 220px wide each */
+.strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-md);
+}
+
+    .strip a {
+        display: block;
+        min-width: 0;
+        transition: translate var(--dur) var(--ease-out);
+    }
+
+        .strip a:hover {
+            translate: 0 -4px;
+        }
+
+    .strip .win {
+        overflow: hidden;
+        border: 1px solid var(--color-rule-strong);
+        border-radius: var(--radius-input);
+        background: var(--color-paper-2);
+        transition: border-color var(--dur) var(--ease-out);
+    }
+
+        .strip a:hover .win {
+            border-color: var(--color-ink-3);
+        }
+
+    .strip .bar {
+        padding: 6px 10px;
+    }
+
+    .strip .pane {
+        height: 200px;
+        overflow: hidden;
+        background: #fff;
+    }
+
+        /* each picture scrolls down the website and back up, each at its own moment */
+        .strip .pane img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 0;
+            filter: grayscale(1);
+            animation: pane-scroll 14s ease-in-out infinite alternate;
+        }
+
+    .strip a:nth-child(2) .pane img { animation-delay: -3.5s; }
+    .strip a:nth-child(3) .pane img { animation-delay: -7s; }
+    .strip a:nth-child(4) .pane img { animation-delay: -10.5s; }
+
+    .strip b {
+        display: block;
+        margin-top: var(--space-sm);
+        font-weight: 600;
+    }
+
+    .strip small {
+        color: var(--color-ink-3);
+        font-size: var(--text-xs);
+    }
+
+@keyframes pane-scroll {
+    0%, 10% {
+        object-position: 50% 0;
+    }
+
+    90%, 100% {
+        object-position: 50% 100%;
+    }
+}
+
+@media (min-width: 60rem) {
+    .top {
+        min-height: min(100vh, 900px);
+        align-content: center;
+    }
+}
+
+/* the top section comes in once the loading screen is gone (html.ready);
+   "js" is set in index.html, so without JavaScript nothing stays hidden */
+@media (prefers-reduced-motion: no-preference) {
+    html.js .top .in-1, html.js .top .in-2, html.js .strip a {
+        opacity: 0;
+        transform: translateY(26px);
+    }
+
+    html.ready .top .in-1, html.ready .top .in-2, html.ready .strip a {
+        animation: rise 1s var(--ease-reveal) forwards;
+    }
+
+    html.ready .top .in-2 { animation-delay: .12s; }
+    html.ready .strip a:nth-child(1) { animation-delay: .35s; }
+    html.ready .strip a:nth-child(2) { animation-delay: .45s; }
+    html.ready .strip a:nth-child(3) { animation-delay: .55s; }
+    html.ready .strip a:nth-child(4) { animation-delay: .65s; }
+}
+
+/* ===== YOUR PHOTO IN "ABOUT ME", PRINTED IN DOTS ===== */
+/* The photo shows only through small dots, like a print. Its soft edges come from .photo above.
+   The filter "print" (in index.html, next to the photo) brightens the middle tones so the face reads on the dark page. */
+.photo.dots img {
+    filter: url(#print) contrast(1.1) grayscale(1);
+    -webkit-mask-image: radial-gradient(circle, #000 1.35px, transparent 1.8px);
+    -webkit-mask-size: 4px 4px;
+    mask-image: radial-gradient(circle, #000 1.35px, transparent 1.8px);
+    mask-size: 4px 4px;
+}
+
+/* it prints from top to bottom when "About me" comes into view (script.js, "SCROLL ANIMATIONS") */
+@media (prefers-reduced-motion: no-preference) {
+    .facts[data-anim] .photo.dots img {
+        clip-path: inset(0 0 100% 0);
+    }
+
+    .facts.in .photo.dots img {
+        animation: print-in 2.4s steps(40) .3s both;
+    }
+}
+
+@keyframes print-in {
+    from {
+        clip-path: inset(0 0 100% 0);
+    }
+
+    to {
+        clip-path: inset(0 0 0 0);
     }
 }
 

@@ -14,26 +14,32 @@
     <meta property="og:description" content="Portfolio of Karl D. Santos, a beginner web developer and IT support technician open to internships and junior roles.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- VERSION: the "?v=8" on style.css, script.js and network.js (at the bottom of this file).
-         Raise the number on all three each time you upload a change, so visitors' browsers
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=VT323&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- LOADING SCREEN: plays once per visit; skipped for people who turn off animations.
+         "js" tells style.css that JavaScript runs, so the top section may start hidden and come in. -->
+    <script>
+        (function (h) {
+            h.classList.add('js');
+            var seen = false;
+            try { seen = sessionStorage.getItem('booted'); } catch (e) {}
+            h.classList.add(seen || matchMedia('(prefers-reduced-motion: reduce)').matches ? 'booted' : 'booting');
+        })(document.documentElement);
+    </script>
+    <noscript><style>.boot { display: none; }</style></noscript>
+    <!-- VERSION: the "?v=9" on style.css and script.js (at the bottom of this file).
+         Raise the number on both each time you upload a change, so visitors' browsers
          fetch the new files instead of mixing them with old saved copies. -->
-    <link rel="stylesheet" href="style.css?v=8">
+    <link rel="stylesheet" href="style.css?v=9">
 </head>
 <body>
 
     <a class="skip" href="#about">Skip to content</a>
 
-    <!-- LIVE NETWORK: the moving background of the top section (drawn by network.js).
-         The links below are the six named dots. Change a name or where it jumps to here. -->
-    <canvas class="net" id="net" aria-hidden="true"></canvas>
-    <div class="net-nodes" aria-hidden="true">
-        <a href="#about" tabindex="-1"><i></i>About</a>
-        <a href="#skills" tabindex="-1"><i></i>Skills</a>
-        <a href="#projects" tabindex="-1"><i></i>Projects</a>
-        <a href="#achievements" tabindex="-1"><i></i>Badges</a>
-        <a href="#services" tabindex="-1"><i></i>Services</a>
-        <a href="#contact" tabindex="-1"><i></i>Contact</a>
+    <!-- LOADING SCREEN: a computer starting up. The lines it prints are in script.js ("LOADING SCREEN"). -->
+    <div class="boot" id="boot" aria-hidden="true">
+        <pre class="bios" id="bios"></pre>
+        <div class="splash"><p class="os-name">Karl OS<span>Web developer · IT support</span></p><div class="os-load"><i></i><i></i><i></i></div></div>
+        <p class="boot-skip">Press any key to skip</p>
     </div>
 
     <header class="nav" id="nav">
@@ -53,19 +59,18 @@
     </header>
 
     <main>
-        <!-- HERO -->
-        <section class="hero" id="home" aria-label="Introduction">
-            <div class="hero-text">
-                <p class="status"><span class="dot" aria-hidden="true"></span>Open to internships and junior roles</p>
-                <h1>Karl D. Santos <span class="role">Web developer and IT support</span></h1>
-                <!-- typing line: change the words at "HERO TYPING" in script.js -->
-                <p class="headline"><span id="typed"></span><span class="caret" aria-hidden="true"></span></p>
-                <p class="lead">I’m a BSIT graduate who builds responsive websites and troubleshoots real computer problems.</p>
-                <div class="actions">
-                    <a class="btn primary" href="#projects">View projects</a>
-                    <!-- the resume file is not on the public site: this button takes visitors to the contact form to ask for it -->
-                    <a class="btn ghost" href="#contact" data-request="resume">Request resume</a>
-                </div>
+        <!-- TOP SECTION: who you are in one line, then four of your websites, each scrolling in its window.
+             data-book is the page of the project book that a window opens (2 = Velora). -->
+        <section class="top" id="home" aria-label="Introduction">
+            <div>
+                <h1 class="in-1"><b>I’m Karl D. Santos.</b> <span>I build websites and fix computers in Mabalacat City.</span></h1>
+                <p class="lead in-2">BSIT graduate, looking for my first job in web development or IT support. Here are four of my websites; each one is online to try. <a href="#contact" data-request="resume">Ask for my resume</a>.</p>
+            </div>
+            <div class="strip">
+                <a href="#projects" data-book="2"><div class="win"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>santos-karl.github.io/velora</span></div><div class="pane"><img src="images/sites/velora-home.jpg" alt="Velora home page"></div></div><b>Velora online store</b><small>Laravel · demo shop</small></a>
+                <a href="#projects" data-book="3"><div class="win"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>rooftop-gym-demo.vercel.app</span></div><div class="pane"><img src="images/sites/rooftop-home.jpg" alt="Rooftop Fitness Gym home page"></div></div><b>Rooftop Fitness Gym</b><small>Next.js · team project</small></a>
+                <a href="#projects" data-book="4"><div class="win"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>santos-karl.github.io/techsupport-lab</span></div><div class="pane"><img src="images/sites/tsl-desk.jpg" alt="TechSupport Lab desk"></div></div><b>TechSupport Lab</b><small>Next.js · in progress</small></a>
+                <a href="#projects" data-book="1"><div class="win"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>santos-karl.github.io</span></div><div class="pane"><img src="images/sites/portfolio-home.jpg" alt="This portfolio"></div></div><b>This portfolio</b><small>HTML, CSS, JavaScript</small></a>
             </div>
         </section>
 
@@ -87,8 +92,10 @@
             <div class="about">
                 <!-- Left side: your picture, then quick facts (edit the values) -->
                 <div class="facts">
-                    <!-- PHOTO: a square picture works best (images/Santoss.png). Its edges fade into the background. -->
-                    <figure class="photo"><img src="images/Santoss.png" alt="Portrait of Karl D. Santos" width="374" height="372"></figure>
+                    <!-- PHOTO: a square picture works best (images/Santoss.png). It is printed in dots and its edges fade into the background. -->
+                    <figure class="photo dots"><img src="images/Santoss.png" alt="Portrait of Karl D. Santos" width="374" height="372"></figure>
+                    <!-- brightens the middle tones of the dotted photo so the face reads on the dark page -->
+                    <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="print" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="gamma" exponent=".8"/><feFuncG type="gamma" exponent=".8"/><feFuncB type="gamma" exponent=".8"/></feComponentTransfer></filter></svg>
                     <h3>Quick facts</h3>
                     <ul>
                         <li><span>Role</span><b>Web Developer and IT Support</b></li>
@@ -344,7 +351,6 @@
         </div>
     </footer>
 
-    <script src="script.js?v=8"></script>
-    <script src="network.js?v=8"></script>
+    <script src="script.js?v=9"></script>
 </body>
 </html>

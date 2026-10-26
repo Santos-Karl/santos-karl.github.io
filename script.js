@@ -99,6 +99,50 @@ const VERSION = new URL(document.currentScript.src).search;
 // Footer year
 $('#year').textContent = new Date().getFullYear();
 
+/* ============ LOADING SCREEN ============ */
+// A computer starting up: the BIOS checks Karl, then "Karl OS" starts and the page appears.
+// It plays once per visit (the browser remembers until the tab is closed), and a key, click
+// or tap skips it. The small script in the <head> of index.html decides whether it plays at all.
+const BIOS = [
+    'KDS BIOS v2.0  (C) 2026 Karl D. Santos',
+    '',
+    'Main processor : Curiosity, running at 100%',
+    'Memory test    : 2022-2026 BSIT, Mabalacat City College ...... OK',
+    '',
+    'Detecting skills...',
+    '  HTML / CSS ............. OK',
+    '  Troubleshooting ........ OK',
+    '  JavaScript, Java ....... LEARNING',
+    '  Networking, CCTV ....... BASIC',
+    'Detecting badges ......... 8 found (Cisco Networking Academy)',
+    '',
+    'Starting Karl OS...'
+];
+const root = document.documentElement, boot = $('#boot');
+function bootDone() {
+    if (root.classList.contains('ready')) return;
+    if (boot) { boot.classList.add('done'); setTimeout(() => boot.remove(), 700); }     // gone once it has faded
+    root.classList.remove('booting');
+    root.classList.add('ready');      // the top section starts its entrance (style.css, "TOP SECTION")
+    try { sessionStorage.setItem('booted', '1'); } catch (e) { /* private mode: it just plays again */ }
+}
+if (boot && !root.classList.contains('booted')) {
+    const bios = $('#bios');
+    let line = 0;
+    (function next() {
+        if (root.classList.contains('ready')) return;
+        if (line < BIOS.length) {
+            bios.textContent += BIOS[line++] + '\n';
+            setTimeout(next, line < 3 ? 220 : 120);
+        } else {
+            setTimeout(() => { boot.classList.add('splashing'); setTimeout(bootDone, 1400); }, 400);
+        }
+    })();
+    ['keydown', 'pointerdown', 'wheel', 'touchstart'].forEach(type => addEventListener(type, bootDone, { once: true, passive: true }));
+} else {
+    bootDone();
+}
+
 // Styled placeholder when an image file is missing
 function placeholder(label) {
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#161616"/><stop offset="1" stop-color="#1f1f1f"/></linearGradient></defs><rect width="100%" height="100%" fill="url(#g)"/><text x="50%" y="48%" fill="#f3f4f5" font-family="monospace" font-size="26" text-anchor="middle">Add image</text><text x="50%" y="58%" fill="#9a9a9a" font-family="sans-serif" font-size="22" text-anchor="middle">${label.replace(/[<>&"]/g, '')}</text></svg>`;
@@ -424,6 +468,8 @@ function show(n) {
     syncCane();
     syncSites();
 }
+// links elsewhere on the page (data-book="2") open the book at that project
+$$('[data-book]').forEach(a => a.addEventListener('click', () => show(Number(a.dataset.book))));
 prev.addEventListener('click', () => show(cur - 1));
 next.addEventListener('click', () => show(cur + 1));
 // the page corners: click to turn, point at one and the page lifts a little
@@ -524,23 +570,6 @@ stack.addEventListener('touchend', e => {
     const dx = e.changedTouches[0].clientX - startX, dy = e.changedTouches[0].clientY - startY;
     if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) show(cur + (dx < 0 ? 1 : -1));
 }, { passive: true });
-
-/* ============ HERO TYPING ============ */
-const words = ['Learning every day.', 'Fixing real tech problems.', 'Ready for my first role.'];
-const typed = $('#typed');
-if (reduceMotion) {
-    typed.textContent = words[0];
-} else {
-    let w = 0, c = 0, del = false;
-    (function type() {
-        const word = words[w];
-        typed.textContent = word.slice(0, c);
-        if (!del && c === word.length) { del = true; return setTimeout(type, 1500); }
-        if (del && c === 0) { del = false; w = (w + 1) % words.length; }
-        c += del ? -1 : 1;
-        setTimeout(type, del ? 30 : 70);
-    })();
-}
 
 /* ============ MOVING TAPE ============ */
 // Repeats the words of every tape until the strip is much wider than the screen.
