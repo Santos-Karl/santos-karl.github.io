@@ -23,13 +23,13 @@ const PROJECTS = [
     },
     {
         title: 'Velora Online Store', type: 'web', status: 'Demo', url: 'santos-karl.github.io/velora', caption: 'Velora store pages',
-        img: 'images/velora-shop.jpg', link: 'https://santos-karl.github.io/velora/', linkText: 'Browse the store',
+        img: 'images/velora-shop.jpg', link: 'https://santos-karl.github.io/velora/', linkText: 'Try the store',
         pages: [
             { name: 'Home', img: 'images/sites/velora-home.jpg' },
             { name: 'Shop', img: 'images/sites/velora-shop.jpg', path: '/shop' },
             { name: 'Product', img: 'images/sites/velora-product.jpg', path: '/products/canvas-sneakers' }
         ],
-        desc: 'A fashion and gadgets online store built with Laravel. It is a demo: the products, orders and payments are fake, and no real money is taken. The copy online is for browsing only; the bag, checkout and accounts need the full app.',
+        desc: 'A fashion and gadgets online store built with Laravel. It is a demo: the products, orders and payments are fake, and no real money is taken. You can try the shopping side online: search, the bag, checkout with test cards, orders and returns. It all stays in your browser.',
         tags: ['Laravel', 'PHP', 'Tailwind CSS', 'SQLite'],
         details: ['Product search and filters, bag, wishlist and discount codes', 'Checkout with test cards, order tracking, cancellations and returns', 'Staff back office for products, stock, orders and reports, with a role for each kind of staff']
     },
