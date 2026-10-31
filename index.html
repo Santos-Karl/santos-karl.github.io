@@ -14,7 +14,7 @@
     <meta property="og:description" content="Portfolio of Karl D. Santos, a beginner IT support, help desk and web developer open to internships and junior roles.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=VT323&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=VT323&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Oswald:wght@500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- LOADING SCREEN: plays once per visit; skipped for people who turn off animations.
          "js" tells style.css that JavaScript runs, so the top section may start hidden and come in. -->
     <script>
@@ -26,10 +26,11 @@
         })(document.documentElement);
     </script>
     <noscript><style>.boot { display: none; }</style></noscript>
-    <!-- VERSION: the "?v=11" on style.css and script.js (at the bottom of this file).
-         Raise the number on both each time you upload a change, so visitors' browsers
+    <!-- VERSION: the "?v=12" on style.css, top.css, script.js and top.js (at the bottom of this file).
+         Raise the number on all four each time you upload a change, so visitors' browsers
          fetch the new files instead of mixing them with old saved copies. -->
-    <link rel="stylesheet" href="style.css?v=11">
+    <link rel="stylesheet" href="style.css?v=12">
+    <link rel="stylesheet" href="top.css?v=12">
 </head>
 <body>
 
@@ -59,20 +60,138 @@
     </header>
 
     <main>
-        <!-- TOP SECTION: who you are in one line, then four of your websites, each scrolling in its window.
-             data-book is the page of the project book that a window opens (2 = Velora). -->
-        <section class="top" id="home" aria-label="Introduction">
-            <div>
-                <h1 class="in-1"><b>I’m Karl D. Santos.</b> <span>IT support, help desk and website developer.</span></h1>
-                <p class="lead in-2">BSIT graduate, looking for my first job in IT support, help desk or web development. I fix computer problems, help people with their tech, and build websites.</p>
+        <!-- THE TOP and WHAT I CAN DO (top.css, top.js): the top pins to the screen and "What I can do" slides over it -->
+        <div class="k-stack">
+            <div class="k-layer"><div class="k-layer-in">
+            <!-- TOP: your name, and your photo as a black silhouette that the mouse reveals (top.js) -->
+            <section class="hero" id="home" aria-label="Introduction" data-play="ready">
+                <canvas class="hero-scene" id="scene" aria-hidden="true"></canvas>
+                <!-- the box your photo is fitted into below 1280 wide (the script reads its size) -->
+                <div class="hero-fig" aria-hidden="true"><div class="hero-fig-box" id="figbox"></div></div>
+                <img class="hero-still" id="still" src="images/Santoss.png" alt="" aria-hidden="true" hidden>
+                <div class="hero-ramp" aria-hidden="true"></div>
+
+                <div class="hero-col">
+                    <header class="mast" data-rise="0.75rem" data-delay="0">
+                        <a class="k-logo" href="#home" aria-label="Karl D. Santos, back to the top"><i aria-hidden="true"></i>Karl D. Santos</a>
+                        <nav class="mast-nav" aria-label="Primary">
+                            <ul>
+                                <li><a href="#about">About</a></li>
+                                <li><a href="#skills">Skills</a></li>
+                                <li><a href="#projects">Projects</a></li>
+                                <li><a href="#journey">Journey</a></li>
+                                <li><a href="#achievements">Badges</a></li>
+                            </ul>
+                        </nav>
+                        <a class="mast-cta" href="#contact"><span aria-hidden="true">[ </span>Hire me<span aria-hidden="true"> → ]</span></a>
+                        <button class="k-burger" id="kburger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="ksheet"><i></i><i></i></button>
+                    </header>
+
+                    <div class="hero-mid">
+                        <div class="hero-id">
+                            <p class="hero-tag" data-fade data-delay="180">bsit_graduate</p>
+                            <h1 class="hero-name" data-split="words" data-stagger="110" data-delay="180" data-spring="REVEAL">Karl D. Santos</h1>
+                            <ul class="hero-meta">
+                                <li data-rise="0.75rem" data-delay="440"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="8.5" rx="1"/><path d="M5.5 14h5M8 11v3"/></svg>IT support</li>
+                                <li data-rise="0.75rem" data-delay="570"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 9V8a5 5 0 0 1 10 0v1"/><rect x="2" y="9" width="3" height="4.5" rx="1"/><rect x="11" y="9" width="3" height="4.5" rx="1"/><path d="M13 13.5c0 1-1 1.5-3 1.5"/></svg>Help desk</li>
+                                <li data-rise="0.75rem" data-delay="700"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.5 4 1.5 8l4 4M10.5 4l4 4-4 4"/></svg>Website developer</li>
+                            </ul>
+                        </div>
+
+                        <div class="hero-panels" data-rise="1.25rem" data-delay="900">
+                            <div class="bpanel">
+                                <i class="k-corner tl"></i><i class="k-corner tr"></i><i class="k-corner bl"></i><i class="k-corner br"></i>
+                                <p class="eyebrow">now learning</p>
+                                <div class="bp-row">
+                                    <dl class="bp-list">
+                                        <dt>Active Directory</dt>
+                                        <dd>Laravel · Python</dd>
+                                        <dd>For help desk roles</dd>
+                                    </dl>
+                                    <!-- a small copy of the circuit in "What I can do" -->
+                                    <svg class="bp-map" viewBox="0 0 120 80" aria-hidden="true"><path d="M20 66V30L42 8H78L88 18H112V52L98 66H70L60 56H32Z"/><circle cx="20" cy="66" r="3"/></svg>
+                                </div>
+                            </div>
+                            <div class="bpanel">
+                                <i class="k-corner tl"></i><i class="k-corner tr"></i><i class="k-corner bl"></i><i class="k-corner br"></i>
+                                <p class="eyebrow">so far</p>
+                                <dl class="bp-stats">
+                                    <div><dt>Projects</dt><dd data-split="letters" data-stagger="26" data-delay="1000" data-spring="FIGURE">8</dd></div>
+                                    <div><dt>Websites</dt><dd data-split="letters" data-stagger="26" data-delay="1090" data-spring="FIGURE">4</dd></div>
+                                    <div><dt>Badges</dt><dd data-split="letters" data-stagger="26" data-delay="1180" data-spring="FIGURE">8</dd></div>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hero-actions" data-rise="1.25rem" data-delay="1500">
+                        <a class="hero-watch" href="#projects">
+                            <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15.5"/><path d="M13 10.5v11l9-5.5z"/></svg>
+                            <span><b>see my work</b><small>04 websites online</small></span>
+                        </a>
+                        <a class="k-cta" href="#contact">
+                            <svg class="k-cta-frame" viewBox="0 0 220 50" preserveAspectRatio="none" aria-hidden="true">
+                                <path class="k-cta-body" d="M220 42L212.932 50H0V0H220V42Z"/>
+                                <path class="k-cta-flood" d="M220 42L212.932 50H0V0H220V42Z"/>
+                                <path class="k-cta-ring" d="M220 42L212.932 50H0V0H220V42Z"/>
+                                <path class="k-cta-corners" d="M205 49.5H213L219.5 42V36M212 0.5H219.5V7M8 0.5H0.5V7M7.5 49.5H0.5V42.5"/>
+                            </svg>
+                            <span class="k-cta-label">contact me</span>
+                            <svg class="k-arrow" viewBox="0 0 13.7071 10.7071" aria-hidden="true"><path d="M0 5.35355H13M8 10.3536L13 5.35355L8 0.353553"/></svg>
+                        </a>
+                        <ul class="hero-social">
+                            <li><a href="https://github.com/Santos-Karl" target="_blank" rel="noopener">github</a></li>
+                            <li><a href="mailto:karldsantos2004@gmail.com">email</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            </div><div class="k-layer-shade" aria-hidden="true"></div></div>
+            <div class="k-layer last">
+            <!-- WHAT I CAN DO: a circuit lights up lap by lap past four of your skills (top.js).
+                 Move a skill to another level by moving it between the lines under "Comfortable", "Learning" and "Basic". -->
+            <section class="skills" id="skills" aria-labelledby="skills-title" data-play="view">
+                <canvas class="cheq" data-carry="light" aria-hidden="true"></canvas>
+                <div class="sk-frame" id="skframe" aria-hidden="true">
+                    <div class="sk-art" id="skart">
+                        <canvas class="sk-dots" id="skdots"></canvas>
+                        <svg class="sk-map" id="skmap" viewBox="0 0 1440 800"></svg>
+                        <canvas class="sk-trace" id="sktrace"></canvas>
+                    </div>
+                </div>
+                <div class="sk-col">
+                    <div class="sk-left">
+                        <h2 class="mh" id="skills-title">
+                            <span class="mh-line" data-split="words" data-stagger="110" data-delay="0" data-spring="REVEAL">What I</span>
+                            <span class="mh-line" data-split="words" data-stagger="110" data-delay="130" data-spring="REVEAL">can do<span class="mh-stop" data-fade data-delay="240">.</span></span>
+                        </h2>
+                        <i class="sk-rule" data-draw data-delay="260"></i>
+                        <p class="sk-intro" data-split="words" data-stagger="34" data-delay="350" data-spring="COPY_FAST" data-gap="0.22">I fix computer problems, help people with their tech, and build websites.</p>
+                    </div>
+                    <div class="sk-foot">
+                        <dl class="sk-levels" data-rise="0.75rem" data-delay="520">
+                            <div><dt>Comfortable</dt><dd>HTML, CSS, responsive design, hardware and software troubleshooting, Windows installation, PC maintenance</dd></div>
+                            <div><dt>Learning</dt><dd>JavaScript, Java, Python, Laravel, Active Directory, basic UI/UX</dd></div>
+                            <div><dt>Basic</dt><dd>Networking, CCTV setup, system configuration</dd></div>
+                            <p>Self-assessed levels, not certifications.</p>
+                        </dl>
+                        <div class="plate" data-rise="0.75rem" data-delay="260">
+                            <svg class="plate-frame" viewBox="0 0 277 78" preserveAspectRatio="none" aria-hidden="true"><path d="M0.5 0.5H276.5V69L268 77.5H0.5Z"/><path d="M83 0.5V77.5"/></svg>
+                            <div class="plate-badge">
+                                <svg class="globe" viewBox="0 0 37 23" aria-hidden="true"><ellipse cx="18.5" cy="11.5" rx="18" ry="11"/><path d="M0.5 11.5H36.5"/><ellipse class="meridian" cx="18.5" cy="11.5" rx="18" ry="11"/></svg>
+                                <p><span data-split="letters" data-stagger="22" data-delay="430" data-spring="TYPE">IT</span> <span class="dim" data-split="letters" data-stagger="22" data-delay="490" data-spring="TYPE">/ 2026</span></p>
+                            </div>
+                            <dl class="plate-stats">
+                                <div><dt data-split="letters" data-stagger="22" data-delay="430" data-spring="TYPE">08</dt><dd data-split="letters" data-stagger="22" data-delay="500" data-spring="TYPE">cisco badges</dd></div>
+                                <div><dt data-split="letters" data-stagger="22" data-delay="540" data-spring="TYPE">04</dt><dd data-split="letters" data-stagger="22" data-delay="610" data-spring="TYPE">websites online</dd></div>
+                                <div><dt data-split="letters" data-stagger="22" data-delay="650" data-spring="TYPE">BSIT</dt><dd data-split="letters" data-stagger="22" data-delay="720" data-spring="TYPE">2022 - 2026</dd></div>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </section>
             </div>
-            <div class="strip">
-                <a href="#projects" data-book="2"><div class="win"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>santos-karl.github.io/velora</span></div><div class="pane"><img src="images/sites/velora-home.jpg" alt="Velora home page"></div></div><b>Velora online store</b><small>Laravel · demo shop</small></a>
-                <a href="#projects" data-book="3"><div class="win"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>rooftop-gym-demo.vercel.app</span></div><div class="pane"><img src="images/sites/rooftop-home.jpg" alt="Rooftop Fitness Gym home page"></div></div><b>Rooftop Fitness Gym</b><small>Next.js · team project</small></a>
-                <a href="#projects" data-book="4"><div class="win"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>santos-karl.github.io/techsupport-lab</span></div><div class="pane"><img src="images/sites/tsl-desk.jpg" alt="TechSupport Lab desk"></div></div><b>TechSupport Lab</b><small>Next.js · in progress</small></a>
-                <a href="#projects" data-book="1"><div class="win"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>santos-karl.github.io</span></div><div class="pane"><img src="images/sites/portfolio-home.jpg" alt="This portfolio"></div></div><b>This portfolio</b><small>HTML, CSS, JavaScript</small></a>
-            </div>
-        </section>
+        </div>
 
         <!-- TAPE: a terminal line. The prompt on the left stays still and the folder names keep scrolling out of it.
              Edit the folder names here. script.js repeats them so the line never runs out.
@@ -143,30 +262,6 @@
                     <!-- TODO: name the courses or platforms you use, for example "freeCodeCamp" or "Cisco NetAcad" -->
                     <p>Learning through practice projects, hands-on troubleshooting and online tutorials.</p>
                 </article>
-            </div>
-        </section>
-
-        <!-- SKILLS: move a skill to a different level by cutting it from one line and pasting it into another -->
-        <section id="skills">
-            <div class="head">
-                <h2>Skills</h2>
-                <p class="note">Grouped by how confident I am with each skill today. These are self-assessed levels, not professional certifications.</p>
-            </div>
-            <div class="skill-groups">
-                <div class="group">
-                    <h3>Web development</h3>
-                    <dl>
-                        <div class="level"><dt>Comfortable</dt><dd>HTML, CSS, responsive web design</dd></div>
-                        <div class="level"><dt>Learning</dt><dd>JavaScript, Java, basic UI/UX</dd></div>
-                    </dl>
-                </div>
-                <div class="group">
-                    <h3>IT support</h3>
-                    <dl>
-                        <div class="level"><dt>Comfortable</dt><dd>Hardware troubleshooting, software troubleshooting, Windows installation, computer maintenance</dd></div>
-                        <div class="level"><dt>Basic</dt><dd>Basic networking, CCTV setup, basic system configuration</dd></div>
-                    </dl>
-                </div>
             </div>
         </section>
 
@@ -351,6 +446,25 @@
         </div>
     </footer>
 
-    <script src="script.js?v=11"></script>
+    <!-- the menu of the top block on phones and tablets -->
+    <div class="k-sheet" id="ksheet" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+        <div class="k-sheet-top">
+            <a class="k-logo" href="#home" data-close><i aria-hidden="true"></i>Karl D. Santos</a>
+            <button class="k-sheet-close" id="ksheetclose" type="button" aria-label="Close menu"><i></i><i></i></button>
+        </div>
+        <nav class="k-sheet-nav" aria-label="Menu">
+            <a href="#about" data-close>About</a>
+            <a href="#education" data-close>Education</a>
+            <a href="#skills" data-close>Skills</a>
+            <a href="#services" data-close>Services</a>
+            <a href="#projects" data-close>Projects</a>
+            <a href="#journey" data-close>Journey</a>
+            <a href="#achievements" data-close>Badges</a>
+            <a href="#contact" data-close>Contact</a>
+        </nav>
+    </div>
+
+    <script src="script.js?v=12"></script>
+    <script src="top.js?v=12"></script>
 </body>
 </html>
