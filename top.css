@@ -164,6 +164,8 @@ html.on-hero .nav { transform: translateY(-110%); }
 }
 /* (no fade at the foot: you are black all the way down, standing on the buttons) */
 @media (max-width: 1023px) { .hero-fig { top: 30%; } }
+/* on tablets you stand between the words and the buttons: keep room there for you, even on a short screen */
+@media (min-width: 640px) and (max-width: 1023px) { .hero-mid { margin-bottom: min(46vw, 420px); } }
 @media (max-width: 639px) {
     .hero-fig { top: 36%; }
     .hero-col { gap: 8px; }
